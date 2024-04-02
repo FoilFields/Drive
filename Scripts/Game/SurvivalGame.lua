@@ -596,7 +596,7 @@ function SurvivalGame.sv_recreateWorld(self, player)
 	local character = player:getCharacter()
 	if character:getWorld() == self.sv.saved.overworld then
 		self.sv.saved.overworld:destroy()
-		self.sv.saved.overworld = sm.world.createWorld("$SURVIVAL_DATA/Scripts/game/worlds/Overworld.lua", "Overworld",
+		self.sv.saved.overworld = sm.world.createWorld("$CONTENT_DATA/Scripts/Game/Worlds/Overworld.lua", "Overworld",
 			{ dev = g_survivalDev }, self.sv.saved.data.seed)
 		self.storage:save(self.sv.saved)
 
