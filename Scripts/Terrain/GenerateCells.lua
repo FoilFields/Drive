@@ -88,8 +88,8 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding)
     -- Elevation
     forEveryCorner( function( x, y )
         local elevation = 0.1 + clamp( ( g_cornerTemp.gradC[y][x] * 3 - 1 ) * 0.1, 0, 1 )
-        elevation = elevation + sm.noise.perlinNoise2d( x / 64, y / 64, seed + 12032 ) * 4 -- Super duper scrolling terrain
-        elevation = elevation + sm.noise.perlinNoise2d( x / 32, y / 32, seed + 10293 ) * 2
+        elevation = elevation + sm.noise.perlinNoise2d( x / 64, y / 64, seed + 12032 ) * clamp( ( g_cornerTemp.gradC[y][x] * 4 - 1 ), 0, 24 ) -- Super duper scrolling terrain
+        elevation = elevation + sm.noise.perlinNoise2d( x / 32, y / 32, seed + 10293 ) * clamp( ( g_cornerTemp.gradC[y][x] * 3 - 1 ), 0, 12 )
         elevation = elevation + sm.noise.perlinNoise2d( x / 16, y / 16, seed + 7907 ) * clamp( ( g_cornerTemp.gradC[y][x] * 3 - 1 ), 0, 1 )
         elevation = elevation + sm.noise.perlinNoise2d( x / 8, y / 8, seed + 5527 ) * 0.5
         elevation = elevation + sm.noise.perlinNoise2d( x / 4, y / 4, seed + 8733 ) * 0.25
