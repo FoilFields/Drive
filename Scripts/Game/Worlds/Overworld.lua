@@ -17,9 +17,9 @@ Overworld.enableCreations = true
 Overworld.enableHarvestables = true
 Overworld.enableKinematics = true
 Overworld.renderMode = "outdoor"
-Overworld.cellMinX = -1
-Overworld.cellMaxX = 1
-Overworld.cellMinY = -1
+Overworld.cellMinX = -2
+Overworld.cellMaxX = 2
+Overworld.cellMinY = -2
 Overworld.cellMaxY = 128
 
 function Overworld.server_onCreate(self)
