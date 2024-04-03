@@ -725,7 +725,7 @@ function SurvivalGame.server_onPlayerJoined(self, player, newPlayer)
 
 		sm.container.endTransaction()
 
-		local spawnPoint = g_survivalDev and SURVIVAL_DEV_SPAWN_POINT or START_AREA_SPAWN_POINT
+		local spawnPoint = START_AREA_SPAWN_POINT
 		if not sm.exists(self.sv.saved.overworld) then
 			sm.world.loadWorld(self.sv.saved.overworld)
 		end

@@ -58,7 +58,7 @@ end
 function Create( xMin, xMax, yMin, yMax, seed, data )
 
 	-- v0.5.0: graphicsCellPadding is no longer included in min/max
-	local graphicsCellPadding = 8
+	local graphicsCellPadding = 2
 	xMin = xMin - graphicsCellPadding
 	xMax = xMax + graphicsCellPadding
 	yMin = yMin - graphicsCellPadding
@@ -162,31 +162,31 @@ function UpdateLocationStorage()
 
 			storage = { version = LOCATION_STORAGE_VERSION }
 
-			function FindFirstPoiCell( poiType )
-				for cellY = g_cellData.bounds.yMin, g_cellData.bounds.yMax do
-					for cellX = g_cellData.bounds.xMin, g_cellData.bounds.xMax do
-						local uid = GetCellTileUid( cellX, cellY )
-						assert( type( uid ) == "Uuid", "Cell id not a UUID ("..cellX..", "..cellY..")" )
-						if poiType == GetPoiType( uid ) then
-							return cellX, cellY
-						end
-					end
-				end
-			end
+			-- function FindFirstPoiCell( poiType )
+			-- 	for cellY = g_cellData.bounds.yMin, g_cellData.bounds.yMax do
+			-- 		for cellX = g_cellData.bounds.xMin, g_cellData.bounds.xMax do
+			-- 			local uid = GetCellTileUid( cellX, cellY )
+			-- 			assert( type( uid ) == "Uuid", "Cell id not a UUID ("..cellX..", "..cellY..")" )
+			-- 			if poiType == GetPoiType( uid ) then
+			-- 				return cellX, cellY
+			-- 			end
+			-- 		end
+			-- 	end
+			-- end
 
-			function AddLocation( name, poiType, size, bx, by, bz )
-				local cellX, cellY = FindFirstPoiCell( poiType )
-				assert(cellX)
-				assert(cellY)
-				local rx, ry = RotateLocal( cellX, cellY, bx, by, size * CELL_SIZE )
-				local x = cellX * CELL_SIZE + rx
-				local y = cellY * CELL_SIZE + ry
-				local z = bz + getElevationHeightAt( x, y ) + getCliffHeightAt( x, y )
-				storage[name] = { pos = sm.vec3.new( x, y, z ), world = g_world }
-			end
+			-- function AddLocation( name, poiType, size, bx, by, bz )
+			-- 	local cellX, cellY = FindFirstPoiCell( poiType )
+			-- 	assert(cellX)
+			-- 	assert(cellY)
+			-- 	local rx, ry = RotateLocal( cellX, cellY, bx, by, size * CELL_SIZE )
+			-- 	local x = cellX * CELL_SIZE + rx
+			-- 	local y = cellY * CELL_SIZE + ry
+			-- 	local z = bz + getElevationHeightAt( x, y ) + getCliffHeightAt( x, y )
+			-- 	storage[name] = { pos = sm.vec3.new( x, y, z ), world = g_world }
+			-- end
 
-			AddLocation("mechanicStation", POI_MECHANICSTATION_MEDIUM, 2, 44.0, 85.0, 18.0)
-			storage["crashedShip"] = { pos = sm.vec3.new( -2372.0, -2623.0, 18.0 ), world = g_world }
+			-- AddLocation("mechanicStation", POI_MECHANICSTATION_MEDIUM, 2, 44.0, 85.0, 18.0)
+			-- storage["crashedShip"] = { pos = sm.vec3.new( -2372.0, -2623.0, 18.0 ), world = g_world }
 
 			sm.terrainGeneration.saveGameStorage( STORAGE_CHANNEL_LOCATIONS, storage )
 		end
@@ -336,6 +336,7 @@ end
 
 local function getElev( x, y )
 	local cellX, cellY = getCell( x, y )
+	
 	local xFract, yFract = getFraction( x, y ) -- Fraction in cell [0,1)
 
 	local x0, y0
