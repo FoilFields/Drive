@@ -60,6 +60,17 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding)
         end
     end
 
+    g_cellTemp = {
+		road = {}
+	}
+	for cellY = yMin, yMax do
+		g_cellTemp.road[cellY] = {}
+
+		for cellX = xMin, xMax do
+			g_cellTemp.road[cellY][cellX] = false
+		end
+	end
+
     -- local function setFence(x, y, direction)
     --     g_cellData.uid[y][x] = g_barrierTileList[direction][1 + sm.noise.intNoise2d( x, y, seed ) % #g_barrierTileList[direction]]
     --     g_cellData.rotation[y][x] = 0
@@ -70,6 +81,7 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding)
     for y = yMin + padding, yMax + 1 - padding do
         g_cornerTemp.type[y][xMin + padding] = TYPE_FIELD
         g_cornerTemp.type[y][xMax + 1 - padding] = TYPE_FIELD
+        g_cellTemp.road[y][0] = true
         -- setFence(xMin + padding, y, "E")
         -- setFence(xMax + 1 - padding, y, "W")
     end
@@ -98,9 +110,12 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding)
 	end )
 
     -- Generate all the cell data
+    evaluateRoadsAndCliffs()
+
 	evaluateType( TYPE_DESERT, getDesertTileIdAndRotation )
     evaluateType( TYPE_FIELD, getFieldTileIdAndRotation )
     evaluateType( TYPE_AUTUMNFOREST, getAutumnForestTileIdAndRotation )
+
 
     g_cornerTemp = nil
     g_cellTemp = nil

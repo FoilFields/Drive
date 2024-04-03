@@ -17,10 +17,10 @@ Overworld.enableCreations = true
 Overworld.enableHarvestables = true
 Overworld.enableKinematics = true
 Overworld.renderMode = "outdoor"
-Overworld.cellMinX = -2
-Overworld.cellMaxX = 2
-Overworld.cellMinY = -2
-Overworld.cellMaxY = 128
+Overworld.cellMinX = -16
+Overworld.cellMaxX = 16
+Overworld.cellMinY = -16
+Overworld.cellMaxY = 256
 
 function Overworld.server_onCreate(self)
 	BaseWorld.server_onCreate(self)
