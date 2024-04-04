@@ -66,10 +66,10 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding)
         end
     end
 
-    setFenceCorner(xMin + padding, yMin + padding, 1)
-    setFenceCorner(xMax - padding, yMax - padding, 3)
     setFenceCorner(xMin + padding, yMax - padding, 0)
+    setFenceCorner(xMin + padding, yMin + padding, 1)
     setFenceCorner(xMax - padding, yMin + padding, 2)
+    setFenceCorner(xMax - padding, yMax - padding, 3)
 
     -- Roads
     for y = yMin + padding + 1, yMax - padding - 1 do
@@ -85,13 +85,15 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding)
     -- Elevation
     forEveryCorner( function( x, y )
         local elevation = 0.1
-        elevation = elevation + sm.noise.perlinNoise2d( x / 64, y / 64, seed + 12032 ) * 4 -- Super duper scrolling terrain
-        elevation = elevation + sm.noise.perlinNoise2d( x / 32, y / 32, seed + 10293 ) * 2
-        elevation = elevation + sm.noise.perlinNoise2d( x / 16, y / 16, seed + 7907 )
-        elevation = elevation + sm.noise.perlinNoise2d( x / 8, y / 8, seed + 5527 ) * 0.5
-        elevation = elevation + sm.noise.perlinNoise2d( x / 4, y / 4, seed + 8733 ) * 0.25
-        elevation = elevation + sm.noise.perlinNoise2d( x / 2, y / 2, seed + 5442 ) * 0.125
+        elevation = elevation + (sm.noise.perlinNoise2d( x / 64, y / 64, seed + 12032 ) + 1) * 2 -- Super duper scrolling terrain
+        elevation = elevation + (sm.noise.perlinNoise2d( x / 32, y / 32, seed + 10293 ) + 1)
+        elevation = elevation + (sm.noise.perlinNoise2d( x / 16, y / 16, seed + 7907 ) + 1) * 0.75
+        elevation = elevation + (sm.noise.perlinNoise2d( x / 8, y / 8, seed + 5527 ) + 1) * 0.5
+        elevation = elevation + (sm.noise.perlinNoise2d( x / 4, y / 4, seed + 8733 ) + 1) * 0.25
+        elevation = elevation + (sm.noise.perlinNoise2d( x / 2, y / 2, seed + 5442 ) + 1) * 0.125
         g_cellData.elevation[y][x] = elevation * 250 / 3
+
+        print(sm.noise.perlinNoise2d( x / 2, y / 2, seed ))
 	end )
 
     -- evaluate deserts
