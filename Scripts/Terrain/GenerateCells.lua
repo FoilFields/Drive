@@ -96,8 +96,22 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding)
         print(sm.noise.perlinNoise2d( x / 2, y / 2, seed ))
 	end )
 
+    local poi = {
+        x = 0,
+        y = 0,
+        type = POI_ROAD,
+        size = 1,
+        road = false,
+        flat = false,
+        terrainType = TYPE_DESERT,
+        edges = {}
+    }
+
+    writePoi(poi)
+
     -- evaluate deserts
 	evaluateType( TYPE_DESERT, getDesertTileIdAndRotation )    
+
 
     -- clean up
     g_cornerTemp = nil

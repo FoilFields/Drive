@@ -64,6 +64,7 @@ function initCustomTiles()
 
   g_fences = {
 		AddTile( 5002500, "$CONTENT_DATA/Terrain/Tiles/Fence/fence_01.tile", 5 ),
+		AddTile( 5002501, "$CONTENT_DATA/Terrain/Tiles/Fence/fence_02.tile", 5 ),
 	}
 
   g_fence_corners = {
@@ -73,6 +74,8 @@ function initCustomTiles()
   g_scorched = {
 		AddTile( 1232500, "$CONTENT_DATA/Terrain/Tiles/Scorched/scorched_01.tile", 5 ),
 		AddTile( 1232501, "$CONTENT_DATA/Terrain/Tiles/Scorched/scorched_02.tile", 5 ),
+		AddTile( 1232502, "$CONTENT_DATA/Terrain/Tiles/Scorched/scorched_03.tile", 5 ),
+		AddTile( 1232503, "$CONTENT_DATA/Terrain/Tiles/Scorched/scorched_04.tile", 5 ),
 	}
 end
 
