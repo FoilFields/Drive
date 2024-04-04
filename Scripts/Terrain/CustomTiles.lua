@@ -57,9 +57,22 @@ function initCustomTiles()
 			AddTile( 1128013, "$CONTENT_DATA/Terrain/Tiles/Road/13.tile" ), 
 			AddTile( 1128014, "$CONTENT_DATA/Terrain/Tiles/Road/14.tile" ), 
 			AddTile( 1128015, "$CONTENT_DATA/Terrain/Tiles/Road/15.tile" ), 
-			AddTile( 1128016, "$CONTENT_DATA/Terrain/Tiles/Road/16.tile" )
+			AddTile( 1128016, "$CONTENT_DATA/Terrain/Tiles/Road/16.tile" ),
 		},
 		rotation = 3 
+	}
+
+  g_fences = {
+		AddTile( 5002500, "$CONTENT_DATA/Terrain/Tiles/Fence/fence_01.tile", 5 ),
+	}
+
+  g_fence_corners = {
+		AddTile( 5002600, "$CONTENT_DATA/Terrain/Tiles/Fence/fence_corner_01.tile", 5 ),
+	}
+
+  g_scorched = {
+		AddTile( 1232500, "$CONTENT_DATA/Terrain/Tiles/Scorched/scorched_01.tile", 5 ),
+		AddTile( 1232501, "$CONTENT_DATA/Terrain/Tiles/Scorched/scorched_02.tile", 5 ),
 	}
 end
 
@@ -98,3 +111,32 @@ function getRoadTileIdAndRotation( variationNoise )
 	return tiles[variationNoise % tileCount + 1], rotation
 end
 
+function getFenceTileId( variationNoise )
+	local tileCount = #g_fences
+
+	if tileCount == 0 then
+		return ERROR_TILE_UUID, 0
+	end
+
+	return g_fences[variationNoise % tileCount + 1]
+end
+
+function getFenceCornerTileId( variationNoise )
+	local tileCount = #g_fence_corners
+
+	if tileCount == 0 then
+		return ERROR_TILE_UUID, 0
+	end
+
+	return g_fence_corners[variationNoise % tileCount + 1]
+end
+
+function getScorchedTileId( variationNoise )
+	local tileCount = #g_scorched
+
+	if tileCount == 0 then
+		return ERROR_TILE_UUID, 0
+	end
+
+	return g_scorched[variationNoise % tileCount + 1]
+end
