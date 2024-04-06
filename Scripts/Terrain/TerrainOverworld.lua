@@ -75,7 +75,7 @@ function Create( xMin, xMax, yMin, yMax, seed, data )
 
 	print( "Total cells: " .. ( xMax - xMin + 1 ) * ( yMax - yMin + 1 ) )
 
-	generateOverworldCelldata( xMin, xMax, yMin, yMax, seed, data, graphicsCellPadding )
+	generateOverworldCelldata( xMin, xMax, yMin, yMax, seed, data, graphicsCellPadding, 0 )
 
 
 

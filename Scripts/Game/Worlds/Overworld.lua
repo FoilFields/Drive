@@ -314,7 +314,7 @@ end
 
 function Overworld.sv_spawnNewCharacter(self, params)
 	--local spawnPosition = g_survivalDev and SURVIVAL_DEV_SPAWN_POINT or START_AREA_SPAWN_POINT
-	local spawnPosition = sm.vec3.new(0, 0, 100)
+	local spawnPosition = START_AREA_SPAWN_POINT
 	local yaw = 0
 	local pitch = 0
 

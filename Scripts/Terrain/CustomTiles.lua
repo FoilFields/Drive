@@ -72,7 +72,7 @@ function initCustomTiles()
 	}
 
 	g_pois["StarterHouse"] = {
-		AddTile( 1232500, "$CONTENT_DATA/Terrain/Tiles/StarterHouse.tile" )
+		AddTile( 1232500, "$CONTENT_DATA/Terrain/Tiles/Starter House.tile" )
 	}
 	
 	g_desert_pois = {
