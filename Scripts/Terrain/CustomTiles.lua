@@ -14,9 +14,19 @@ end
 function initCustomTiles()
 
   -- Desert tiles
-
-
-	g_desert = {AddTile( 3001501, "$SURVIVAL_DATA/Terrain/Tiles/desert/Desert(1111)_01.tile", 3 ), AddTile( 3001502, "$SURVIVAL_DATA/Terrain/Tiles/desert/Desert(1111)_02.tile", 3 ), AddTile( 3001503, "$SURVIVAL_DATA/Terrain/Tiles/desert/Desert(1111)_03.tile", 3 ), AddTile( 3001504, "$SURVIVAL_DATA/Terrain/Tiles/desert/Desert(1111)_04.tile", 3 ), AddTile( 3001505, "$SURVIVAL_DATA/Terrain/Tiles/desert/Desert(1111)_05.tile", 3 ), AddTile( 3001506, "$SURVIVAL_DATA/Terrain/Tiles/desert/Desert(1111)_06.tile", 3 ) }
+	g_desert = {
+		AddTile( 3001501, "$SURVIVAL_DATA/Terrain/Tiles/desert/Desert(1111)_01.tile", 3 ), 
+		AddTile( 3001502, "$SURVIVAL_DATA/Terrain/Tiles/desert/Desert(1111)_02.tile", 3 ), 
+		AddTile( 3001503, "$SURVIVAL_DATA/Terrain/Tiles/desert/Desert(1111)_03.tile", 3 ), 
+		AddTile( 3001504, "$SURVIVAL_DATA/Terrain/Tiles/desert/Desert(1111)_04.tile", 3 ), 
+		AddTile( 3001505, "$SURVIVAL_DATA/Terrain/Tiles/desert/Desert(1111)_05.tile", 3 ), 
+		AddTile( 3001506, "$SURVIVAL_DATA/Terrain/Tiles/desert/Desert(1111)_06.tile", 3 ),
+		AddTile( 3001507, "$CONTENT_DATA/Terrain/Tiles/Desert/desert_01.tile", 3 ),
+		AddTile( 3001508, "$CONTENT_DATA/Terrain/Tiles/Desert/desert_02.tile", 3 ),
+		AddTile( 3001509, "$CONTENT_DATA/Terrain/Tiles/Desert/desert_03.tile", 3 ),
+		AddTile( 3001510, "$CONTENT_DATA/Terrain/Tiles/Desert/desert_04.tile", 3 ),
+		AddTile( 3001511, "$CONTENT_DATA/Terrain/Tiles/Desert/desert_05.tile", 3 ),
+	}
 
   -- Just north/south straight road tiles with no cliff data
   g_roads = { 
@@ -41,6 +51,10 @@ function initCustomTiles()
 		rotation = 3 
 	}
 
+  g_road_ends = { 
+		AddTile( 1293000, "$CONTENT_DATA/Terrain/Tiles/Road/road_end.tile" ), 
+	}
+
   g_fences = {
 		AddTile( 5002500, "$CONTENT_DATA/Terrain/Tiles/Fence/fence_01.tile", 5 ),
 		AddTile( 5002501, "$CONTENT_DATA/Terrain/Tiles/Fence/fence_02.tile", 5 ),
@@ -57,7 +71,14 @@ function initCustomTiles()
 		AddTile( 1232503, "$CONTENT_DATA/Terrain/Tiles/Scorched/scorched_04.tile", 5 ),
 	}
 
-	g_pois["StarterHouse"] = {AddTile( 1232500, "$CONTENT_DATA/Terrain/Tiles/StarterHouse.tile" )}
+	g_pois["StarterHouse"] = {
+		AddTile( 1232500, "$CONTENT_DATA/Terrain/Tiles/StarterHouse.tile" )
+	}
+	
+	g_desert_pois = {
+		AddTile( 3210300, "$CONTENT_DATA/Terrain/Tiles/DesertPois/poi_01.tile", 5 ),
+		AddTile( 3210301, "$CONTENT_DATA/Terrain/Tiles/DesertPois/poi_02.tile", 5 ),
+	}
 end
 
 ----------------------------------------------------------------------------------------------------
@@ -98,6 +119,16 @@ function getFenceTileId( variationNoise )
 	return g_fences[variationNoise % tileCount + 1]
 end
 
+function getDesertPoiTileId( variationNoise )
+	local tileCount = #g_desert_pois
+
+	if tileCount == 0 then
+		return ERROR_TILE_UUID, 0
+	end
+
+	return g_desert_pois[variationNoise % tileCount + 1]
+end
+
 function getFenceCornerTileId( variationNoise )
 	local tileCount = #g_fence_corners
 
@@ -116,6 +147,16 @@ function getScorchedTileId( variationNoise )
 	end
 
 	return g_scorched[variationNoise % tileCount + 1]
+end
+
+function getRoadEndTileId( variationNoise )
+	local tileCount = #g_road_ends
+
+	if tileCount == 0 then
+		return ERROR_TILE_UUID, 0
+	end
+
+	return g_road_ends[variationNoise % tileCount + 1]
 end
 
 function getPoi( variationNoise, name )

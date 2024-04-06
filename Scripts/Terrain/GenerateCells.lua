@@ -1,7 +1,34 @@
 dofile("$SURVIVAL_DATA/Scripts/util.lua")
 dofile("$CONTENT_DATA/Scripts/Terrain/Processing.lua")
 
-----------------------------------------------------------------------------------------------------
+function writeTile( tileId, xPos, yPos, size, rotation, terrainType )
+	assert( type( tileId ) == "Uuid" )
+	for y = 0, size - 1 do
+		for x = 0, size - 1 do
+			local cellX = x + xPos
+			local cellY = y + yPos
+			g_cellData.uid[cellY][cellX] = tileId
+			g_cellData.rotation[cellY][cellX] = rotation
+			if terrainType then
+				g_cellData.flags[cellY][cellX] = bit.bor( g_cellData.flags[cellY][cellX], bit.band( bit.lshift( terrainType, SHIFT_TERRAINTYPE ), MASK_TERRAINTYPE ) )
+			end
+
+			if rotation == 1 then
+				g_cellData.xOffset[cellY][cellX] = y
+				g_cellData.yOffset[cellY][cellX] = ( size - 1 ) - x
+			elseif rotation == 2 then
+				g_cellData.xOffset[cellY][cellX] = ( size - 1 ) - x
+				g_cellData.yOffset[cellY][cellX] = ( size - 1 ) - y
+			elseif rotation == 3 then
+				g_cellData.xOffset[cellY][cellX] = ( size - 1 ) - y
+				g_cellData.yOffset[cellY][cellX] = x
+			else
+				g_cellData.xOffset[cellY][cellX] = x
+				g_cellData.yOffset[cellY][cellX] = y
+			end
+		end
+	end
+end
 
 function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding)
     math.randomseed(seed)
