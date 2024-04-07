@@ -67,12 +67,12 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
     setFenceCorner(xMax - padding, yMax - padding, 3)
 
     -- Roads
-    local start = 0
-    if padding == 0 then
-        start = yMin + padding + 1
+    local start = yMin + padding + 1
+    if progress == 0 then
+        start = 0
     end
 
-    for y = start, yMax - padding - 1 do
+    for y = start, yMax - padding - 2 do
         local tileId, rotation = getRoadTileIdAndRotation(sm.noise.intNoise2d( 0, y, g_cellData.seed + 2854 ))
         if not tileId:isNil() then
             g_cellData.uid[y][0] = tileId
@@ -82,7 +82,7 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
         end
     end
     
-    -- Road start and end (fade tiles)
+    -- Road start fade tile
     local roadStart = yMin + padding + 1
     if progress == 0 then
         roadStart = -1
@@ -94,15 +94,8 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
     g_cellData.xOffset[roadStart][0] = 0
     g_cellData.yOffset[roadStart][0] = 0
 
-    local tileId = getRoadEndTileId(sm.noise.intNoise2d( 0, yMax - padding, g_cellData.seed + 8533 ))
-    g_cellData.uid[yMax - padding - 1][0] = tileId
-    g_cellData.rotation[yMax - padding - 1][0] = 3
-    g_cellData.xOffset[yMax - padding - 1][0] = 0
-    g_cellData.yOffset[yMax - padding - 1][0] = 0
-
     local function getElevation(x, y, seed) 
         local elevation = 0.1
-
 
         elevation = elevation + (sm.noise.perlinNoise2d( x / 128, y / 128, seed + 14123 ) + 0.25) * 2 -- Super duper scrolling terrain
         elevation = elevation + (sm.noise.perlinNoise2d( x / 64, y / 64, seed + 12032 ) + 0.25) * 1.25
@@ -145,6 +138,17 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
     end
 
     -- Elevator
+    g_cellData.uid[yMax - padding - 1][0] = getElevatorTileId(sm.noise.intNoise2d( 1, 0, g_cellData.seed + 80085 ))
+    g_cellData.rotation[yMax - padding - 1][0] = 3
+    g_cellData.xOffset[yMax - padding - 1][0] = 0
+    g_cellData.yOffset[yMax - padding - 1][0] = 0
+
+    -- Flattern elevator
+    for x = -1, 1, 1 do
+        for y = -1, 1, 1 do
+            g_cellData.elevation[yMax - padding - 1 + y][0 + x] = g_cellData.elevation[yMax - padding - 1][0]
+        end
+    end
 
     -- on-road pois
 

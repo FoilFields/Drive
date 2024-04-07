@@ -55,6 +55,10 @@ function initCustomTiles()
 		AddTile( 1293000, "$CONTENT_DATA/Terrain/Tiles/Road/road_end.tile" ), 
 	}
 
+  g_elevators = { 
+		AddTile( 9423000, "$CONTENT_DATA/Terrain/Tiles/Elevator/elevator.tile" ), 
+	}
+
   g_fences = {
 		AddTile( 5002500, "$CONTENT_DATA/Terrain/Tiles/Fence/fence_01.tile", 5 ),
 		AddTile( 5002501, "$CONTENT_DATA/Terrain/Tiles/Fence/fence_02.tile", 5 ),
@@ -157,6 +161,16 @@ function getRoadEndTileId( variationNoise )
 	end
 
 	return g_road_ends[variationNoise % tileCount + 1]
+end
+
+function getElevatorTileId( variationNoise )
+	local tileCount = #g_elevators
+
+	if tileCount == 0 then
+		return ERROR_TILE_UUID, 0
+	end
+
+	return g_elevators[variationNoise % tileCount + 1]
 end
 
 function getPoi( variationNoise, name )
