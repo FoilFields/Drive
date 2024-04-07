@@ -42,14 +42,6 @@ function Init( world, generatorIndex )
 	g_world = world
 	g_generatorIndex = generatorIndex
 
-	initMeadowTiles()
-	initForestTiles()
-	initFieldTiles()
-	initBurntForestTiles()
-	initAutumnForestTiles()
-	initLakeTiles()
-	initPoiTiles()
-
 	initCustomTiles()
 	--TODO: Ravine. A desert cliff type of thing.
 end

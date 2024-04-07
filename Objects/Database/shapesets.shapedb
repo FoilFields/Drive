@@ -1,3 +1,5 @@
 {
-   "shapeSetList" : [ "$CONTENT_DATA/Objects/Database/ShapeSets/example.shapeset" ]
+  "shapeSetList": [
+    "$CONTENT_DATA/Objects/Database/ShapeSets/survivalobject.shapeset"
+  ]
 }
