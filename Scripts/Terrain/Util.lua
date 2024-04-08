@@ -1,6 +1,6 @@
 CELL_MIN_X = -16
 CELL_MAX_X = 16
-CELL_MIN_Y = -16
+CELL_MIN_Y = -127
 CELL_MAX_Y = 127
 
 -- Dev
