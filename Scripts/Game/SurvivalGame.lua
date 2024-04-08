@@ -126,10 +126,6 @@ end
 function SurvivalGame:sv_try_progress()
 	print("Progressing")
 
-	self.sv.progress = self.sv.progress + 1
-
-	sm.storage.save("progress", self.sv.progress)
-
 	local players = sm.player.getAllPlayers();
 
 	-- Ensure everyone is in the exit
@@ -148,6 +144,15 @@ function SurvivalGame:sv_try_progress()
 		end
 	end
 
+	-- Must slap this here before progress updates
+	local progressionOffset = (CELL_MAX_Y - CELL_MIN_Y) * self.sv.progress -- (for calculating elevation)
+	local exitPosition = sm.vec3.new(32, (CELL_MAX_Y - 1) * 64 + 32, getElevation(0, CELL_MAX_Y - 1 + progressionOffset, self.sv.saved.data.seed) * 83.0)
+	-- Thankyou :)
+
+	self.sv.progress = self.sv.progress + 1
+
+	sm.storage.save("progress", self.sv.progress)
+
 	-- Re-create the world
 	self.sv.saved.overworld:destroy()
 	self.sv.saved.overworld = sm.world.createWorld("$CONTENT_DATA/Scripts/Game/Worlds/Overworld.lua", "Overworld",
@@ -155,27 +160,21 @@ function SurvivalGame:sv_try_progress()
 	self.storage:save(self.sv.saved)
 	
 	-- Teleport players
-	local progressionOffset = (CELL_MAX_Y - CELL_MIN_Y) * self.sv.progress
-	local spawnPos = sm.vec3.new(32, (CELL_MIN_Y + 2) * 64, getElevation(0, CELL_MIN_Y + 2 + progressionOffset, self.sv.saved.data.seed) * 83.0 + 3.0)
-	print("Respawn position: "..spawnPos.x.." "..spawnPos.y.." "..spawnPos.z)
-
+	progressionOffset = (CELL_MAX_Y - CELL_MIN_Y) * self.sv.progress
+	local entryPosition = sm.vec3.new(32, (CELL_MIN_Y + 2) * 64 + 32, getElevation(0, CELL_MIN_Y + 2 + progressionOffset, self.sv.saved.data.seed) * 83.0)
+	
 	for _, player in ipairs(players) do
 		local character = player:getCharacter()
-		character:setWorldPosition(spawnPos) -- TODO: Apply offset
+		local offset = character:getWorldPosition() - exitPosition -- how do i still need to add a more height i literally calculate the offset
+		
+		-- Load cell
+		local params = { pos = entryPosition + offset, dir = character:getDirection() }
+		
+		print("Offset: "..offset.x.." "..offset.y.." "..offset.z)
+		self.sv.saved.overworld:loadCell(math.floor(params.pos.x / 64), math.floor(params.pos.y / 64), player,
+		"sv_recreatePlayerCharacter", params)
 	end
 
-	-- local valid, result = sm.physics.raycast(spawnPos + sm.vec3.new(0, 100, 0), spawnPos + sm.vec3.new(0, -100, 0))
-	-- if valid then
-	-- 	spawnPos = result.pointWorld
-	-- 	print("Adjusted respawn position: "..spawnPos.x.." "..spawnPos.y.." "..spawnPos.z)
-	-- end
-
-	-- Load cell
-	local player = players[1]
-	local character = player:getCharacter()
-	local params = { pos = spawnPos, dir = character:getDirection() }
-	self.sv.saved.overworld:loadCell(math.floor(params.pos.x / 64), math.floor(params.pos.y / 64), player,
-	"sv_recreatePlayerCharacter", params)
 end
 
 function SurvivalGame.server_onRefresh(self)
@@ -274,6 +273,8 @@ function SurvivalGame.bindChatCommands(self)
 		sm.game.bindChatCommand("/setwater", { { "number", "water", false } }, "cl_onChatCommand",
 			"Set player water value")
 		sm.game.bindChatCommand("/setfood", { { "number", "food", false } }, "cl_onChatCommand", "Set player food value")
+		sm.game.bindChatCommand("/tp", { { "number", "x", true }, { "number", "y", true }, { "number", "z", true } }, "cl_onChatCommand", "Set player position")
+		sm.game.bindChatCommand("/end", {}, "cl_onChatCommand", "Go to the end")
 		sm.game.bindChatCommand("/aggroall", {}, "cl_onChatCommand",
 			"All hostile units will be made aware of the player's position")
 		sm.game.bindChatCommand("/goto", { { "string", "name", false } }, "cl_onChatCommand",
@@ -483,6 +484,10 @@ function SurvivalGame.cl_onChatCommand(self, params)
 		self.network:sendToServer("sv_setLimitedInventory", true)
 	elseif params[1] == "/ambush" then
 		self.network:sendToServer("sv_ambush", { magnitude = params[2] or 1, wave = params[3] })
+	elseif params[1] == "/tp" then
+		self.network:sendToServer("sv_teleportplayer", {player = sm.localPlayer.getPlayer(), x = params[2], y = params[3], z = params[4]})
+	elseif params[1] == "/end" then
+		self.network:sendToServer("sv_end", sm.localPlayer.getPlayer())
 	elseif params[1] == "/recreate" then
 		self.network:sendToServer("sv_recreateWorld", sm.localPlayer.getPlayer())
 	elseif params[1] == "/timeofday" then
@@ -658,6 +663,18 @@ function SurvivalGame.sv_ambush(self, params)
 	if sm.exists(self.sv.saved.overworld) then
 		sm.event.sendToWorld(self.sv.saved.overworld, "sv_ambush", params)
 	end
+end
+
+function SurvivalGame.sv_teleportplayer(self, data)
+	data.player:getCharacter():setWorldPosition(sm.vec3.new(data.x, data.y, data.z))
+end
+
+function SurvivalGame.sv_end(self, player)
+	local progressionOffset = (CELL_MAX_Y - CELL_MIN_Y) * self.sv.progress
+
+	local params = { pos = sm.vec3.new(32, (CELL_MAX_Y - 1) * 64 + 32, getElevation(0, CELL_MAX_Y - 1 + progressionOffset, self.sv.saved.data.seed) * 83.0 + 1), dir = player:getCharacter():getDirection() }
+	self.sv.saved.overworld:loadCell(math.floor(params.pos.x / 64), math.floor(params.pos.y / 64), player,
+		"sv_recreatePlayerCharacter", params)
 end
 
 function SurvivalGame.sv_recreateWorld(self, player)

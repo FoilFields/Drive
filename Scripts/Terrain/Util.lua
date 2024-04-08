@@ -1,13 +1,13 @@
--- CELL_MIN_X = -16
--- CELL_MAX_X = 16
--- CELL_MIN_Y = -16
--- CELL_MAX_Y = 127
+CELL_MIN_X = -16
+CELL_MAX_X = 16
+CELL_MIN_Y = -16
+CELL_MAX_Y = 127
 
 -- Dev
-CELL_MIN_X = -4
-CELL_MAX_X = 4
-CELL_MIN_Y = -4
-CELL_MAX_Y = 6
+-- CELL_MIN_X = -1
+-- CELL_MAX_X = 2
+-- CELL_MIN_Y = -2
+-- CELL_MAX_Y = 2
 
 -- This is here to expose stuff to other classes (as SurvivalGame handles respawning player and needs values)
 function getElevation(x, y, seed) 
