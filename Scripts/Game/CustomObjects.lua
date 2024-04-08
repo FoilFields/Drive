@@ -1,8 +1,1 @@
-obj_customobject_elevatorfloor = sm.uuid.new( "4c4aa944-3a28-4a9d-bfd9-7e116d422ce5" )
-obj_customobject_elevatorbutton = sm.uuid.new( "8bff34b4-beb9-4731-93cb-d3dd3e2573c7" )
 obj_customobject_elevatorcallbutton = sm.uuid.new( "c35f30e1-148d-43a8-9fb0-a9a4a763ed3f" )
-obj_customobject_elevatordoor_left = sm.uuid.new( "4a655c84-ee79-4a56-b137-9eec9f62c5ec" )
-obj_customobject_elevatorwallleft = sm.uuid.new( "225f89c3-585d-473e-b0a0-4650679e84ea" )
-obj_customobject_elevatorwallright = sm.uuid.new( "ae60640b-531d-4425-b9ba-d82705cb82b5" )
-obj_customobject_elevatorfan = sm.uuid.new( "f9df289f-949c-4650-8fbd-3ff96b4b6d5f" )
-obj_customobject_elevatorceiling = sm.uuid.new( "4f80b7bd-7a9f-4bb1-9029-ab6ddb33b29d" )

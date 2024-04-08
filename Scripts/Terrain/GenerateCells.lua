@@ -1,27 +1,30 @@
 dofile("$SURVIVAL_DATA/Scripts/util.lua")
 dofile("$CONTENT_DATA/Scripts/Terrain/Processing.lua")
+dofile("$CONTENT_DATA/Scripts/Terrain/Util.lua")
 
 function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, progress)
     math.randomseed(seed)
 
     initializeCellData(xMin, xMax, yMin, yMax, seed)
 
+    local offset = (yMax - yMin - (2 * padding)) * progress
+
     -- Set padding to scorched and everything else to desert
     for x = xMin, xMax do
         for y = yMin, yMax do
             if (x < xMin + padding or x > xMax - padding or y < yMin + padding or y > yMax - padding) then
-                local tileId = getScorchedTileId(sm.noise.intNoise2d( x, y, g_cellData.seed + 1234 ))
+                local tileId = getScorchedTileId(sm.noise.intNoise2d( x, y + offset, g_cellData.seed + 1234 ))
                 if not tileId:isNil() then
                     g_cellData.uid[y][x] = tileId
-                    g_cellData.rotation[y][x] = sm.noise.intNoise2d( x, y, g_cellData.seed ) % 4
+                    g_cellData.rotation[y][x] = sm.noise.intNoise2d( x, y + offset, g_cellData.seed ) % 4
                     g_cellData.xOffset[y][x] = 0
                     g_cellData.yOffset[y][x] = 0
                 end
             else
-                local tileId = getDesertTileId(sm.noise.intNoise2d( x, y, g_cellData.seed + 6004 ))
+                local tileId = getDesertTileId(sm.noise.intNoise2d( x, y + offset, g_cellData.seed + 6004 ))
                 if not tileId:isNil() then
                     g_cellData.uid[y][x] = tileId
-                    g_cellData.rotation[y][x] = sm.noise.intNoise2d( x, y, g_cellData.seed ) % 4
+                    g_cellData.rotation[y][x] = sm.noise.intNoise2d( x, y + offset, g_cellData.seed ) % 4
                     g_cellData.xOffset[y][x] = 0
                     g_cellData.yOffset[y][x] = 0
                 end
@@ -31,7 +34,7 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
 
     -- Fences
     local function setFence(x, y, rotation)
-        local tileId = getFenceTileId(sm.noise.intNoise2d( x, y, g_cellData.seed + 1234 ))
+        local tileId = getFenceTileId(sm.noise.intNoise2d( x, y + offset, g_cellData.seed + 1234 ))
         if not tileId:isNil() then
             g_cellData.uid[y][x] = tileId
             g_cellData.rotation[y][x] = rotation
@@ -52,7 +55,7 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
 
     -- Fence corners
     local function setFenceCorner(x, y, rotation)
-        local tileId = getFenceCornerTileId(sm.noise.intNoise2d( x, y, g_cellData.seed + 4123 ))
+        local tileId = getFenceCornerTileId(sm.noise.intNoise2d( x, y + offset, g_cellData.seed + 4123 ))
         if not tileId:isNil() then
             g_cellData.uid[y][x] = tileId
             g_cellData.rotation[y][x] = rotation
@@ -73,7 +76,7 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
     end
 
     for y = start, yMax - padding - 2 do
-        local tileId, rotation = getRoadTileIdAndRotation(sm.noise.intNoise2d( 0, y, g_cellData.seed + 2854 ))
+        local tileId, rotation = getRoadTileIdAndRotation(sm.noise.intNoise2d( 0, y + offset, g_cellData.seed + 2854 ))
         if not tileId:isNil() then
             g_cellData.uid[y][0] = tileId
             g_cellData.rotation[y][0] = rotation
@@ -88,29 +91,15 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
         roadStart = -1
     end
 
-    local tileId = getRoadEndTileId(sm.noise.intNoise2d( 0, 0, g_cellData.seed + 1452 ))
+    local tileId = getRoadEndTileId(sm.noise.intNoise2d( 0, roadStart + offset, g_cellData.seed + 1452 ))
     g_cellData.uid[roadStart][0] = tileId
     g_cellData.rotation[roadStart][0] = 1
     g_cellData.xOffset[roadStart][0] = 0
     g_cellData.yOffset[roadStart][0] = 0
 
-    local function getElevation(x, y, seed) 
-        local elevation = 0.1
-
-        elevation = elevation + (sm.noise.perlinNoise2d( x / 128, y / 128, seed + 14123 ) + 0.25) * 2 -- Super duper scrolling terrain
-        elevation = elevation + (sm.noise.perlinNoise2d( x / 64, y / 64, seed + 12032 ) + 0.25) * 1.25
-        elevation = elevation + (sm.noise.perlinNoise2d( x / 32, y / 32, seed + 10293 ) + 0.25)
-        elevation = elevation + (sm.noise.perlinNoise2d( x / 16, y / 16, seed + 7907 ) + 0.25) * 0.75
-        elevation = elevation + (sm.noise.perlinNoise2d( x / 8, y / 8, seed + 5527 ) + 0.25) * 0.5
-        elevation = elevation + (sm.noise.perlinNoise2d( x / 4, y / 4, seed + 8733 ) + 0.25) * 0.25
-        elevation = elevation + (sm.noise.perlinNoise2d( x / 2, y / 2, seed + 5442 ) + 0.25) * 0.125
-
-        return elevation
-    end
-
     -- Elevation
     forEveryCorner( function( x, y )
-        local elevation = getElevation(x, y, seed)
+        local elevation = getElevation(x, y + offset, seed)
         
         -- For reliable spawn positions, we must blend elevation with a fixed seed, getting stronger the closer we get to the house
         if progress == 0 then
@@ -119,8 +108,17 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
             elevation = (elevation * proportion) + (fixedElevation * (1 - proportion))
         end
 
-        g_cellData.elevation[y][x] = elevation * 250 / 3
+        g_cellData.elevation[y][x] = elevation * 83.0
 	end )
+
+    -- Flattern start of road
+    if (progress > 0) then
+        for x = -1, 2, 1 do
+            for y = -1, 2, 1 do
+                g_cellData.elevation[yMin + padding + 2 + y][0 + x] = g_cellData.elevation[yMin + padding + 2][0]
+            end
+        end
+    end
 
     -- Starter house
     if progress == 0 then
@@ -130,8 +128,8 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
         g_cellData.yOffset[0][1] = 0
 
         -- Flattern starter house
-        for x = -1, 1, 1 do
-            for y = -1, 1, 1 do
+        for x = -1, 2, 1 do
+            for y = -1, 2, 1 do
                 g_cellData.elevation[0 + y][1 + x] = g_cellData.elevation[0][1]
             end
         end
@@ -144,8 +142,8 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
     g_cellData.yOffset[yMax - padding - 1][0] = 0
 
     -- Flattern elevator
-    for x = -1, 1, 1 do
-        for y = -1, 1, 1 do
+    for x = -1, 2, 1 do
+        for y = -1, 2, 1 do
             g_cellData.elevation[yMax - padding - 1 + y][0 + x] = g_cellData.elevation[yMax - padding - 1][0]
         end
     end

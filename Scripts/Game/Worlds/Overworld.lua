@@ -4,6 +4,7 @@ dofile("$SURVIVAL_DATA/Scripts/game/worlds/BaseWorld.lua")
 
 dofile("$SURVIVAL_DATA/Scripts/game/managers/WaterManager.lua")
 dofile("$SURVIVAL_DATA/Scripts/game/managers/PackingStationManager.lua")
+dofile("$CONTENT_DATA/Scripts/Terrain/Util.lua")
 
 Overworld = class(BaseWorld)
 
@@ -17,10 +18,11 @@ Overworld.enableCreations = true
 Overworld.enableHarvestables = true
 Overworld.enableKinematics = true
 Overworld.renderMode = "outdoor"
-Overworld.cellMinX = -1 -- -16
-Overworld.cellMaxX = 2 -- 16
-Overworld.cellMinY = -2 -- -16
-Overworld.cellMaxY = 2 -- 256
+
+Overworld.cellMinX = CELL_MIN_X
+Overworld.cellMaxX = CELL_MAX_X
+Overworld.cellMinY = CELL_MIN_Y
+Overworld.cellMaxY = CELL_MAX_Y
 
 function Overworld.server_onCreate(self)
 	BaseWorld.server_onCreate(self)

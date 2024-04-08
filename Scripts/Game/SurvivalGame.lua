@@ -15,6 +15,7 @@ dofile("$SURVIVAL_DATA/Scripts/game/util/recipes.lua")
 dofile("$SURVIVAL_DATA/Scripts/game/util/Timer.lua")
 dofile("$SURVIVAL_DATA/Scripts/game/managers/QuestEntityManager.lua")
 dofile("$GAME_DATA/Scripts/game/managers/EventManager.lua")
+dofile("$CONTENT_DATA/Scripts/Terrain/Util.lua")
 
 ---@class SurvivalGame : GameClass
 ---@field sv table
@@ -35,16 +36,27 @@ local IntroFadeTimeout = 5.0
 START_AREA_SPAWN_POINT = sm.vec3.new(85.3132, 36.3444, 124.446)
 
 function SurvivalGame.server_onCreate(self)
-	print("SurvivalGame.server_onCreate")
+	
 	self.sv = {}
+	
+	-- We have to have this before world is created as progress effects world creation
+	self.sv.progress = sm.storage.load("progress")
+	if (self.sv.progress) then
+		print("Loaded progress:")
+		print(self.sv.progress)
+	else
+		self.sv.progress = 0
+		sm.storage.save("progress", self.sv.progress)
+	end
+
+	print("SurvivalGame.server_onCreate")
 	self.sv.saved = self.storage:load()
 	print("Saved:", self.sv.saved)
 	if self.sv.saved == nil then
 		self.sv.saved = {}
 		self.sv.saved.data = self.data
 		print("Seed: %.0f", self.sv.saved.data.seed)
-		self.sv.saved.overworld = sm.world.createWorld("$CONTENT_DATA/Scripts/Game/Worlds/Overworld.lua", "Overworld",
-			{ dev = self.sv.saved.data.dev }, self.sv.saved.data.seed)
+		self.sv.saved.overworld = sm.world.createWorld("$CONTENT_DATA/Scripts/Game/Worlds/Overworld.lua", "Overworld", { dev = self.sv.saved.data.dev, progress = self.sv.progress }, self.sv.saved.data.seed)
 		self.storage:save(self.sv.saved)
 	end
 	self.data = nil
@@ -109,6 +121,61 @@ function SurvivalGame.server_onCreate(self)
 
 	self.sv.syncTimer = Timer()
 	self.sv.syncTimer:start(0)
+end
+
+function SurvivalGame:sv_try_progress()
+	print("Progressing")
+
+	self.sv.progress = self.sv.progress + 1
+
+	sm.storage.save("progress", self.sv.progress)
+
+	local players = sm.player.getAllPlayers();
+
+	-- Ensure everyone is in the exit
+	for _, player in ipairs(players) do
+		local character = player:getCharacter();
+		local cellX = math.floor(character.worldPosition.x / 64)
+		local cellY = math.floor(character.worldPosition.y / 64)
+		
+		print("("..cellX.." | "..cellY..")")
+
+		print("CELL_MAX_Y: "..CELL_MAX_Y)
+
+		if (cellX ~= 0 or cellY ~= CELL_MAX_Y - 1) then
+			print("Can't progress, player outside exit area!")
+			return false
+		end
+	end
+
+	-- Re-create the world
+	self.sv.saved.overworld:destroy()
+	self.sv.saved.overworld = sm.world.createWorld("$CONTENT_DATA/Scripts/Game/Worlds/Overworld.lua", "Overworld",
+		{ dev = g_survivalDev, progress = self.sv.progress }, self.sv.saved.data.seed)
+	self.storage:save(self.sv.saved)
+	
+	-- Teleport players
+	local progressionOffset = (CELL_MAX_Y - CELL_MIN_Y) * self.sv.progress
+	local spawnPos = sm.vec3.new(32, (CELL_MIN_Y + 2) * 64, getElevation(0, CELL_MIN_Y + 2 + progressionOffset, self.sv.saved.data.seed) * 83.0 + 3.0)
+	print("Respawn position: "..spawnPos.x.." "..spawnPos.y.." "..spawnPos.z)
+
+	for _, player in ipairs(players) do
+		local character = player:getCharacter()
+		character:setWorldPosition(spawnPos) -- TODO: Apply offset
+	end
+
+	-- local valid, result = sm.physics.raycast(spawnPos + sm.vec3.new(0, 100, 0), spawnPos + sm.vec3.new(0, -100, 0))
+	-- if valid then
+	-- 	spawnPos = result.pointWorld
+	-- 	print("Adjusted respawn position: "..spawnPos.x.." "..spawnPos.y.." "..spawnPos.z)
+	-- end
+
+	-- Load cell
+	local player = players[1]
+	local character = player:getCharacter()
+	local params = { pos = spawnPos, dir = character:getDirection() }
+	self.sv.saved.overworld:loadCell(math.floor(params.pos.x / 64), math.floor(params.pos.y / 64), player,
+	"sv_recreatePlayerCharacter", params)
 end
 
 function SurvivalGame.server_onRefresh(self)
@@ -598,7 +665,7 @@ function SurvivalGame.sv_recreateWorld(self, player)
 	if character:getWorld() == self.sv.saved.overworld then
 		self.sv.saved.overworld:destroy()
 		self.sv.saved.overworld = sm.world.createWorld("$CONTENT_DATA/Scripts/Game/Worlds/Overworld.lua", "Overworld",
-			{ dev = g_survivalDev }, self.sv.saved.data.seed)
+			{ dev = g_survivalDev, progress = self.sv.progress }, self.sv.saved.data.seed)
 		self.storage:save(self.sv.saved)
 
 		local params = { pos = character:getWorldPosition(), dir = character:getDirection() }

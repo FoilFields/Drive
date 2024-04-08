@@ -50,24 +50,31 @@ end
 function Create( xMin, xMax, yMin, yMax, seed, data )
 
 	-- v0.5.0: graphicsCellPadding is no longer included in min/max
+
+	
 	local graphicsCellPadding = 8
 	xMin = xMin - graphicsCellPadding
 	xMax = xMax + graphicsCellPadding
 	yMin = yMin - graphicsCellPadding
 	yMax = yMax + graphicsCellPadding
+	
+	local progress = data.progress
 
 	--seed = 1337 --HACK: Constant seed for testing
 	--math.randomseed( os.time() )
 	--seed = math.random( 1073741823 )
 	--seed = 852772513
-
+	
 	print( "Creating overworld terrain" )
 	print( "Bounds X: ["..xMin..", "..xMax.."], Y: ["..yMin..", "..yMax.."]" )
 	print( "Seed: "..seed )
-
-	print( "Total cells: " .. ( xMax - xMin + 1 ) * ( yMax - yMin + 1 ) )
-
-	generateOverworldCelldata( xMin, xMax, yMin, yMax, seed, data, graphicsCellPadding, 0 )
+	
+	print("Total cells: " .. (xMax - xMin + 1) * (yMax - yMin + 1))
+	print("DATA DATA DATAD ATADATA DATA DATAD ATADATA DATA DATAD ATADATA DATA DATAD ATADATA DATA DATAD ATADATA DATA DATAD ATADATA DATA DATAD ATADATA DATA DATAD ATADATA DATA DATAD ATA")
+	print(data)
+	-- print("Progress: " .. progress)
+	
+	generateOverworldCelldata( xMin, xMax, yMin, yMax, seed, data, graphicsCellPadding, progress or 0 )
 
 
 
