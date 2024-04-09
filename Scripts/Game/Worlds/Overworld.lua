@@ -1,6 +1,4 @@
-dofile("$SURVIVAL_DATA/Scripts/game/worlds/BaseWorld.lua")
-
-
+dofile("$CONTENT_DATA/Scripts/Game/Worlds/BaseWorld.lua")
 
 dofile("$SURVIVAL_DATA/Scripts/game/managers/WaterManager.lua")
 dofile("$SURVIVAL_DATA/Scripts/game/managers/PackingStationManager.lua")

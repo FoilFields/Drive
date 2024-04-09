@@ -55,6 +55,14 @@ function initCustomTiles()
 		AddTile( 1293000, "$CONTENT_DATA/Terrain/Tiles/Road/road_end.tile" ), 
 	}
 
+  g_lake_edges = { 
+		AddTile( 9421000, "$CONTENT_DATA/Terrain/Tiles/Lake/Lake_01.tile" ), 
+	}
+	
+  g_lakes = { 
+		AddTile( 9451000, "$CONTENT_DATA/Terrain/Tiles/Lake/Lake_02.tile" ), 
+	}
+
   g_elevators = { 
 		AddTile( 9423000, "$CONTENT_DATA/Terrain/Tiles/Elevator/elevator.tile" ), 
 	}

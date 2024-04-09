@@ -67,48 +67,154 @@
       "uuid": "c35f30e1-148d-43a8-9fb0-a9a4a763ed3f"
     },
     {
-      "box": {
-        "x": 7,
-        "y": 14,
-        "z": 1
-      },
-      "color": "df7f01",
-      "flammable": false,
-      "name": "obj_customobject_elevatordoor_left",
-      "physicsMaterial": "Metal",
-      "ratings": {
-        "buoyancy": 5,
-        "density": 5,
-        "durability": 10,
-        "friction": 5
-      },
+      "uuid": "71139e38-4300-4253-9ab1-4ed343ce6b82",
+      "name": "obj_customobject_elevator_end",
       "renderable": {
         "lodList": [
           {
-            "mesh": "$SURVIVAL_DATA/Objects/Mesh/Building/obj_building_elevatordoor_left.fbx",
-            "subMeshList": [
-              {
-                "material": "DifAsgNor",
+            "subMeshMap": {
+              "hiss_atlas": {
                 "textureList": [
-                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevatordoor_dif.tga",
-                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevatordoor_asg.tga",
-                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevatordoor_nor.tga"
-                ]
+                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevator_dif.tga",
+                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevator_asg.tga",
+                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevator_nor.tga",
+                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevatorwall_ao.tga"
+                ],
+                "material": "DifAsgNorAo"
+              },
+              "door_frame": {
+                "textureList": [
+                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevatordoorframe_dif.tga",
+                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevatordoorframe_asg.tga",
+                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevatordoorframe_nor.tga",
+                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevatordoorframe_ao.tga"
+                ],
+                "material": "DifAsgNorAo"
+              },
+              "signs": {
+                "textureList": [
+                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_signsatlas_dif.tga",
+                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_signsatlas_asg.tga",
+                  ""
+                ],
+                "material": "DifAsg"
               }
+            },
+            "mesh": "$SURVIVAL_DATA/Objects/Mesh/building/obj_building_elevatorfloor.fbx",
+            "includes": [
+              "POSITION",
+              "UV0",
+              "UV1",
+              "NORMAL",
+              "TANGENTS"
             ]
           }
         ]
       },
-      "restrictions": {
-        "buildable": true,
-        "convertibleToDynamic": true,
-        "destructable": true,
-        "erasable": true,
-        "liftable": true,
-        "paintable": false
+      "color": "79859c",
+      "box": {
+        "x": 14,
+        "y": 1,
+        "z": 27
+      },
+      "scripted": {
+        "filename": "$CONTENT_DATA/Scripts/Game/Interactables/ElevatorEnd.lua",
+        "classname": "ElevatorEnd"
       },
       "rotationSet": "PropY",
-      "uuid": "4a655c84-ee79-4a56-b137-9eec9f62c5ec"
+      "physicsMaterial": "Metal",
+      "ratings": {
+        "density": 5,
+        "durability": 10,
+        "friction": 5,
+        "buoyancy": 5
+      },
+      "flammable": false,
+      "restrictions": {
+        "destructable": false,
+        "erasable": false,
+        "buildable": false,
+        "usable": false,
+        "connectable": false,
+        "liftable": false,
+        "convertibleToDynamic": false,
+        "paintable": false
+      }
+    },
+    {
+      "uuid": "12d1ae23-9abe-4a49-b793-dded34db39e2",
+      "name": "obj_customobject_elevator_start",
+      "renderable": {
+        "lodList": [
+          {
+            "subMeshMap": {
+              "hiss_atlas": {
+                "textureList": [
+                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevator_dif.tga",
+                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevator_asg.tga",
+                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevator_nor.tga",
+                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevatorwall_ao.tga"
+                ],
+                "material": "DifAsgNorAo"
+              },
+              "door_frame": {
+                "textureList": [
+                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevatordoorframe_dif.tga",
+                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevatordoorframe_asg.tga",
+                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevatordoorframe_nor.tga",
+                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevatordoorframe_ao.tga"
+                ],
+                "material": "DifAsgNorAo"
+              },
+              "signs": {
+                "textureList": [
+                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_signsatlas_dif.tga",
+                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_signsatlas_asg.tga",
+                  ""
+                ],
+                "material": "DifAsg"
+              }
+            },
+            "mesh": "$SURVIVAL_DATA/Objects/Mesh/building/obj_building_elevatorfloor.fbx",
+            "includes": [
+              "POSITION",
+              "UV0",
+              "UV1",
+              "NORMAL",
+              "TANGENTS"
+            ]
+          }
+        ]
+      },
+      "color": "79859c",
+      "box": {
+        "x": 14,
+        "y": 1,
+        "z": 27
+      },
+      "scripted": {
+        "filename": "$CONTENT_DATA/Scripts/Game/Interactables/ElevatorStart.lua",
+        "classname": "ElevatorStart"
+      },
+      "rotationSet": "PropY",
+      "physicsMaterial": "Metal",
+      "ratings": {
+        "density": 5,
+        "durability": 10,
+        "friction": 5,
+        "buoyancy": 5
+      },
+      "flammable": false,
+      "restrictions": {
+        "destructable": false,
+        "erasable": false,
+        "buildable": false,
+        "usable": false,
+        "connectable": false,
+        "liftable": false,
+        "convertibleToDynamic": false,
+        "paintable": false
+      }
     }
   ]
 }

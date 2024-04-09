@@ -15,6 +15,7 @@ dofile("$SURVIVAL_DATA/Scripts/game/util/recipes.lua")
 dofile("$SURVIVAL_DATA/Scripts/game/util/Timer.lua")
 dofile("$SURVIVAL_DATA/Scripts/game/managers/QuestEntityManager.lua")
 dofile("$GAME_DATA/Scripts/game/managers/EventManager.lua")
+dofile("$CONTENT_DATA/Scripts/Game/Managers/PortalManager.lua")
 dofile("$CONTENT_DATA/Scripts/Terrain/Util.lua")
 
 ---@class SurvivalGame : GameClass
@@ -74,8 +75,7 @@ function SurvivalGame.server_onCreate(self)
 	g_eventManager = EventManager()
 	g_eventManager:sv_onCreate()
 
-	g_elevatorManager = ElevatorManager()
-	g_elevatorManager:sv_onCreate()
+	g_portalManager = PortalManager()
 
 	g_respawnManager = RespawnManager()
 	g_respawnManager:sv_onCreate(self.sv.saved.overworld)
@@ -123,58 +123,58 @@ function SurvivalGame.server_onCreate(self)
 	self.sv.syncTimer:start(0)
 end
 
-function SurvivalGame:sv_try_progress()
-	print("Progressing")
+function SurvivalGame:sv_progressWorld(world)
+	print("Setting new world as main")
 
+	self.sv.saved.overworld:destroy()
+	self.sv.saved.overworld = world
+	self.storage:save(self.sv.saved)
+end
+
+function SurvivalGame:sv_loadDestination(portal)
+	print("Loading portal destination")
+	
 	local players = sm.player.getAllPlayers();
-
+	
 	-- Ensure everyone is in the exit
 	for _, player in ipairs(players) do
 		local character = player:getCharacter();
 		local cellX = math.floor(character.worldPosition.x / 64)
 		local cellY = math.floor(character.worldPosition.y / 64)
 		
-		print("("..cellX.." | "..cellY..")")
-
-		print("CELL_MAX_Y: "..CELL_MAX_Y)
+		print("Player at ("..cellX.." | "..cellY..")")
 
 		if (cellX ~= 0 or cellY ~= CELL_MAX_Y - 1) then
 			print("Can't progress, player outside exit area!")
 			return false
 		end
 	end
-
-	-- Must slap this here before progress updates
-	local progressionOffset = (CELL_MAX_Y - CELL_MIN_Y) * self.sv.progress -- (for calculating elevation)
-	local exitPosition = sm.vec3.new(32, (CELL_MAX_Y - 1) * 64 + 32, getElevation(0, CELL_MAX_Y - 1 + progressionOffset, self.sv.saved.data.seed) * 83.0)
-	-- Thankyou :)
+	
+	
+	print("All players inside exit area...")
 
 	self.sv.progress = self.sv.progress + 1
-
 	sm.storage.save("progress", self.sv.progress)
 
-	-- Re-create the world
-	self.sv.saved.overworld:destroy()
-	self.sv.saved.overworld = sm.world.createWorld("$CONTENT_DATA/Scripts/Game/Worlds/Overworld.lua", "Overworld",
-		{ dev = g_survivalDev, progress = self.sv.progress }, self.sv.saved.data.seed)
-	self.storage:save(self.sv.saved)
-	
-	-- Teleport players
-	progressionOffset = (CELL_MAX_Y - CELL_MIN_Y) * self.sv.progress
-	local entryPosition = sm.vec3.new(32, (CELL_MIN_Y + 2) * 64 + 32, getElevation(0, CELL_MIN_Y + 2 + progressionOffset, self.sv.saved.data.seed) * 83.0)
-	
-	for _, player in ipairs(players) do
-		local character = player:getCharacter()
-		local offset = character:getWorldPosition() - exitPosition -- how do i still need to add a more height i literally calculate the offset
-		
-		-- Load cell
-		local params = { pos = entryPosition + offset, dir = character:getDirection() }
-		
-		print("Offset: "..offset.x.." "..offset.y.." "..offset.z)
-		self.sv.saved.overworld:loadCell(math.floor(params.pos.x / 64), math.floor(params.pos.y / 64), player,
-		"sv_recreatePlayerCharacter", params)
-	end
+	local world = sm.world.createWorld("$CONTENT_DATA/Scripts/Game/Worlds/Overworld.lua", "Overworld", { dev = g_survivalDev, progress = self.sv.progress }, self.sv.saved.data.seed)
 
+	-- CREATE WORLD
+	print( "Created World "..world.id )
+	
+	sm.portal.addWorldPortalHook(world, "PORTAL", portal)
+
+	for _, player in ipairs(players) do
+
+		world:loadCell(0, CELL_MIN_Y + 1, player, "sv_cellLoaded", nil, self)
+	end
+	
+	print("Created new world and added portal hook")
+end
+
+function SurvivalGame.sv_cellLoaded(self, world, x, y, player)
+	print(x)
+	print(y)
+	print("Loaded portal cell for a player at "..x..", "..y)
 end
 
 function SurvivalGame.server_onRefresh(self)
@@ -360,13 +360,6 @@ function SurvivalGame.server_onFixedUpdate(self, timeStep)
 		sm.storage.save(STORAGE_CHANNEL_TIME, self.sv.time)
 		self:sv_updateClientData()
 	end
-
-	g_elevatorManager:sv_onFixedUpdate()
-
-
-
-
-
 
 	g_unitManager:sv_onFixedUpdate()
 	if g_eventManager then
@@ -861,7 +854,6 @@ function SurvivalGame.server_onPlayerLeft(self, player)
 	if player.id > 1 then
 		QuestManager.Sv_OnEvent(QuestEvent.PlayerLeft, { player = player })
 	end
-	g_elevatorManager:sv_onPlayerLeft(player)
 end
 
 function SurvivalGame.sv_e_requestWarehouseRestrictions(self, params)
@@ -904,99 +896,6 @@ function SurvivalGame.sv_e_setWarehouseRestrictions(self, params)
 			end
 		end
 	end
-end
-
-function SurvivalGame.sv_e_createElevatorDestination(self, params)
-	print("SurvivalGame.sv_e_createElevatorDestination")
-	print(params)
-
-	-- Warehouse get or create
-	local warehouse
-	if params.warehouseIndex then
-		warehouse = self.sv.warehouses[params.warehouseIndex]
-	else
-		assert(params.name == "ELEVATOR_ENTRANCE")
-		warehouse = {}
-		warehouse.test = params.test
-		warehouse.world = params.portal:getWorldA()
-		warehouse.worlds = {}
-		warehouse.exits = params.exits
-		warehouse.maxLevels = params.maxLevels
-		warehouse.index = #self.sv.warehouses + 1
-		warehouse.restrictions = { erasable = { name = "erasable", state = false }, connectable = { name = "connectable", state = false } }
-		self.sv.warehouses[#self.sv.warehouses + 1] = warehouse
-		sm.storage.save(STORAGE_CHANNEL_WAREHOUSES, self.sv.warehouses)
-	end
-
-	-- Level up
-	local level
-	if params.level then
-		if params.name == "ELEVATOR_UP" then
-			level = params.level + 1
-		elseif params.name == "ELEVATOR_DOWN" then
-			level = params.level - 1
-		elseif params.name == "ELEVATOR_EXIT" then
-			if #warehouse.exits > 0 then
-				for _, cell in ipairs(warehouse.exits) do
-					if not sm.exists(warehouse.world) then
-						sm.world.loadWorld(warehouse.world)
-					end
-					local name = params.name .. " " .. cell.x .. "," .. cell.y
-					sm.portal.addWorldPortalHook(warehouse.world, name, params.portal)
-					print("Added portal hook '" .. name .. "' in world " .. warehouse.world.id)
-
-					g_elevatorManager:sv_loadBForPlayersInElevator(params.portal, warehouse.world, cell.x, cell.y)
-				end
-			else
-				sm.log.error("No exit hint found, this elevator is going nowhere!")
-			end
-			return
-		else
-			assert(false)
-		end
-	else
-		if params.name == "ELEVATOR_EXIT" then
-			level = warehouse.maxLevels
-		elseif params.name == "ELEVATOR_ENTRANCE" then
-			level = 1
-		else
-		end
-	end
-
-	-- Create warehouse world
-	local worldData = {}
-	worldData.level = level
-	worldData.warehouseIndex = warehouse.index
-	worldData.maxLevels = warehouse.maxLevels
-
-	local world = sm.world.createWorld("$SURVIVAL_DATA/Scripts/game/worlds/WarehouseWorld.lua", "WarehouseWorld",
-		worldData)
-	print("Created WarehouseWorld " .. world.id)
-
-	-- Use the same restrictions for the new floor as the other floors
-	warehouse.worlds[#warehouse.worlds + 1] = world
-	if warehouse.restrictions then
-		sm.event.sendToWorld(world, "server_updateRestrictions", warehouse.restrictions)
-	end
-	-- Elevator portal hook
-	local name
-	if params.name == "ELEVATOR_UP" then
-		name = "ELEVATOR_DOWN"
-	elseif params.name == "ELEVATOR_DOWN" then
-		name = "ELEVATOR_UP"
-	else
-		name = params.name
-	end
-	sm.portal.addWorldPortalHook(world, name, params.portal)
-	print("Added portal hook '" .. name .. "' in world " .. world.id)
-
-	g_elevatorManager:sv_loadBForPlayersInElevator(params.portal, world, 0, 0)
-end
-
-function SurvivalGame.sv_e_elevatorEvent(self, params)
-	print("SurvivalGame.sv_e_elevatorEvent")
-	print(params)
-	g_elevatorManager[params.fn](g_elevatorManager, params)
 end
 
 function SurvivalGame.sv_createNewPlayer(self, world, x, y, player)

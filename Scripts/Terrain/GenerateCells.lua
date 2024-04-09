@@ -85,7 +85,7 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
         end
     end
     
-    -- Road start fade tile
+    -- Road start tile
     local roadStart = yMin + padding + 1
     if progress == 0 then
         roadStart = -1
@@ -140,11 +140,13 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
     g_cellData.rotation[yMax - padding - 1][0] = 3
     g_cellData.xOffset[yMax - padding - 1][0] = 0
     g_cellData.yOffset[yMax - padding - 1][0] = 0
-
+    
+    local elevatorHeight = g_cellData.elevation[yMax - padding - 1][0]
+    
     -- Flattern elevator
     for x = -1, 2, 1 do
         for y = -1, 2, 1 do
-            g_cellData.elevation[yMax - padding - 1 + y][0 + x] = g_cellData.elevation[yMax - padding - 1][0]
+            g_cellData.elevation[yMax - padding - 1 + y][0 + x] = elevatorHeight
         end
     end
 

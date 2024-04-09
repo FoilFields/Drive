@@ -9,23 +9,9 @@ function ElevatorCallButton.server_onCreate( self )
 end
 
 function ElevatorCallButton.sv_push( self )
-	self.interactable:setActive( true )
-
-	sm.event.sendToGame("sv_try_progress")
-
-	-- local progress = sm.storage.load("progress") + 1
-	-- sm.storage.save("progress", progress)
-
-	-- world:destroy()
-	-- world = sm.world.createWorld("$CONTENT_DATA/Scripts/Game/Worlds/Overworld.lua", "Overworld", { dev = g_survivalDev }, self.sv.saved.data.seed)
+	self.interactable:setActive(true)
 	
-	-- self.storage:save(self.sv.saved)
-
-	-- local params = { pos = character:getWorldPosition(), dir = character:getDirection() }
-	-- self.sv.saved.overworld:loadCell(math.floor(params.pos.x / 64), math.floor(params.pos.y / 64), player,
-	-- 	"sv_recreatePlayerCharacter", params)
-
-	-- self.network:sendToClients("client_showMessage", "Recreating world")
+	g_portalManager:sv_loadDestination()
 end
 
 function ElevatorCallButton.client_onCreate( self )
@@ -33,6 +19,8 @@ function ElevatorCallButton.client_onCreate( self )
 	self.cl.held = false
 	self.cl.pressed = false
 	self.cl.loopingIndex = 8
+	self.cl.ambianceEffect = sm.effect.createEffect( "ElevatorAmbiance", self.interactable )
+	self.cl.ambianceEffect:start()
 end
 
 function ElevatorCallButton.client_onInteract( self, character, state )
