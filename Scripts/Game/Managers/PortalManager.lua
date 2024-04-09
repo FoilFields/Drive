@@ -1,5 +1,7 @@
 PortalManager = class( nil )
 
+local g_loading = false
+
 function PortalManager:sv_remove()
   if self.portal then
     sm.portal.destroy(self.portal)
@@ -12,9 +14,10 @@ function PortalManager:sv_setPortal(portal)
 end
 
 function PortalManager:sv_transfer()
+  g_loading = true
   local newWorld = self.portal:getWorldB()
   self.portal:transferAToB()
-  sm.event.sendToGame("sv_progressWorld", newWorld)
+  g_loading = not sm.event.sendToGame("sv_progressWorld", newWorld)
 end
 
 function PortalManager:sv_loadDestination()
@@ -22,7 +25,7 @@ function PortalManager:sv_loadDestination()
 end
 
 function PortalManager:sv_onFixedUpdate()
-  if (self.portal) then
+  if (self.portal and not g_loading) then
     if self.portal:hasOpeningA() and self.portal:hasOpeningB() then
       for _, player in ipairs(sm.player.getAllPlayers()) do
         if player:getCharacter():getWorld() == self.portal:getWorldB() then

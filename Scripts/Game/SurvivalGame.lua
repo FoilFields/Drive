@@ -126,7 +126,7 @@ end
 function SurvivalGame:sv_progressWorld(world)
 	print("Setting new world as main")
 
-	self.sv.saved.overworld:destroy()
+	-- self.sv.saved.overworld:destroy()
 	self.sv.saved.overworld = world
 	self.storage:save(self.sv.saved)
 end
