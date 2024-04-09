@@ -365,6 +365,8 @@ function SurvivalGame.server_onFixedUpdate(self, timeStep)
 	if g_eventManager then
 		g_eventManager:sv_onFixedUpdate()
 	end
+
+	g_portalManager:sv_onFixedUpdate()
 end
 
 function SurvivalGame.sv_updateClientData(self)
