@@ -152,7 +152,7 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
     end
 
     -- Road pois
-    local roadPoiCount = math.random(1, 5)
+    local roadPoiCount = math.random(2, 5)
     print("Generating "..roadPoiCount.." road POIs")
     
     for i = 1, roadPoiCount, 1 do
@@ -181,8 +181,8 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
     for i = 1, desertPoiCount, 1 do
         local poi = getDesertPoi(math.random(0, 100))
 
-        local x = math.random() < 0.5 and math.random(xMin + padding, -2 - (poi.size - 1)) or math.random(2, xMax - padding - (poi.size - 1)) -- Avoid le road
-        local y = math.random(yMin + padding + 3, yMax - padding - 3 - (poi.size - 1))
+        local x = math.random() < 0.5 and math.random(xMin + padding, -5 - (poi.size - 1)) or math.random(5, xMax - padding - (poi.size - 1)) -- Avoid le road
+        local y = math.random(yMin + padding + 5, yMax - padding - 5 - (poi.size - 1))
 
         print("Generating desert POI at "..x..", "..y)
         for offsetX = 0, poi.size, 1 do
