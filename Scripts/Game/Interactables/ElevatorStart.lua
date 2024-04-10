@@ -20,7 +20,6 @@ function ElevatorStart.server_onFixedUpdate( self )
 end
 
 function ElevatorStart:sv_findPortal()
-	print("Finding start portal")
 	local portal = sm.portal.popWorldPortalHook("PORTAL")
 		if portal then
 			print( "Found Portal "..portal.id.."!" )

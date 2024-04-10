@@ -1,3 +1,29 @@
 {
-	"nodeList": []
+  "nodeList": [
+    {
+      "name": "Crap",
+      "tags": [
+        "CRAP"
+      ],
+      "params": [
+        {
+          "name": "level",
+          "type": "string",
+          "default": "crap"
+        }
+      ],
+      "color": [
+        0.4,
+        0.5,
+        0.7,
+        0.6
+      ],
+      "billboardColor": [
+        0.5,
+        1,
+        0,
+        1
+      ]
+    }
+  ]
 }

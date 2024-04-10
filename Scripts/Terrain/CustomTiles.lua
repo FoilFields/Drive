@@ -1,11 +1,4 @@
 local g_desert = {} --Flags lookup table
-local g_pois = {} --Flags lookup table
-
--------------------------------
--- Bits desert               --
--- dir | SE | SW | NW | NE | --
--- bit |  3 |  2 |  1 |  0 | --
--------------------------------
 
 local function toDesertIndex( se, sw, nw, ne )
 	return bit.bor( bit.lshift( se, 3 ), bit.lshift( sw, 2 ), bit.lshift( nw, 1 ), bit.tobit( ne ) )
@@ -55,14 +48,6 @@ function initCustomTiles()
 		AddTile( 1293000, "$CONTENT_DATA/Terrain/Tiles/Road/road_end.tile" ), 
 	}
 
-  g_lake_edges = { 
-		AddTile( 9421000, "$CONTENT_DATA/Terrain/Tiles/Lake/Lake_01.tile" ), 
-	}
-	
-  g_lakes = { 
-		AddTile( 9451000, "$CONTENT_DATA/Terrain/Tiles/Lake/Lake_02.tile" ), 
-	}
-
   g_elevators = { 
 		AddTile( 9423000, "$CONTENT_DATA/Terrain/Tiles/Elevator/elevator.tile" ), 
 	}
@@ -83,13 +68,17 @@ function initCustomTiles()
 		AddTile( 1232503, "$CONTENT_DATA/Terrain/Tiles/Scorched/scorched_04.tile", 5 ),
 	}
 
-	g_pois["StarterHouse"] = {
-		AddTile( 1232500, "$CONTENT_DATA/Terrain/Tiles/Starter House.tile" )
+	g_starter_houses = {
+		AddTile( 1222500, "$CONTENT_DATA/Terrain/Tiles/Starter House.tile" )
 	}
 	
 	g_desert_pois = {
-		AddTile( 3210300, "$CONTENT_DATA/Terrain/Tiles/DesertPois/poi_01.tile", 5 ),
-		AddTile( 3210301, "$CONTENT_DATA/Terrain/Tiles/DesertPois/poi_02.tile", 5 ),
+		{tile = AddTile( 3210300, "$CONTENT_DATA/Terrain/Tiles/DesertPois/poi_01.tile", 5 ), size = 3},
+		{tile = AddTile( 3210301, "$CONTENT_DATA/Terrain/Tiles/DesertPois/poi_02.tile", 5 ), size = 1}
+	}
+
+	g_road_pois = { -- Flippable lets the tile be on the other side of the road, rotates by 180 as well
+		{tile = AddTile( 4201000, "$CONTENT_DATA/Terrain/Tiles/RoadPois/bunker_01.tile", 5 ), size = 1, offset = 1, rotation = 3, flippable = true},
 	}
 end
 
@@ -131,7 +120,7 @@ function getFenceTileId( variationNoise )
 	return g_fences[variationNoise % tileCount + 1]
 end
 
-function getDesertPoiTileId( variationNoise )
+function getDesertPoi( variationNoise )
 	local tileCount = #g_desert_pois
 
 	if tileCount == 0 then
@@ -139,6 +128,16 @@ function getDesertPoiTileId( variationNoise )
 	end
 
 	return g_desert_pois[variationNoise % tileCount + 1]
+end
+
+function getRoadPoi( variationNoise )
+	local tileCount = #g_road_pois
+
+	if tileCount == 0 then
+		return ERROR_TILE_UUID, 0
+	end
+
+	return g_road_pois[variationNoise % tileCount + 1]
 end
 
 function getFenceCornerTileId( variationNoise )
@@ -181,14 +180,12 @@ function getElevatorTileId( variationNoise )
 	return g_elevators[variationNoise % tileCount + 1]
 end
 
-function getPoi( variationNoise, name )
-	local poi = g_pois[name]
-
-	local tileCount = #poi
+function getHouseTileID( variationNoise )
+	local tileCount = #g_starter_houses
 
 	if tileCount == 0 then
 		return ERROR_TILE_UUID, 0
 	end
 
-	return poi[variationNoise % tileCount + 1]
+	return g_starter_houses[variationNoise % tileCount + 1]
 end

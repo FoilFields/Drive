@@ -12,28 +12,6 @@ local SCALE = 8
 local ADD_LOD = 1
 local DEBUG_COLORS = false
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ----------------------------------------------------------------------------------------------------
 -- Initialization
 ----------------------------------------------------------------------------------------------------
@@ -76,30 +54,6 @@ function Create( xMin, xMax, yMin, yMax, seed, data )
 	
 	generateOverworldCelldata( xMin, xMax, yMin, yMax, seed, data, graphicsCellPadding, progress or 0 )
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	sm.terrainData.save( g_cellData )
 
 	CreateControlPoints()
@@ -107,16 +61,8 @@ function Create( xMin, xMax, yMin, yMax, seed, data )
 	CreateCellTileStorageKeys()
 end
 
-
 function Load()
 	print( "Loading overworld terrain" )
-
-
-
-
-
-
-
 
 	if sm.terrainData.exists() then
 		g_cellData = sm.terrainData.load()
@@ -160,32 +106,6 @@ function UpdateLocationStorage()
 		if storage.version ~= LOCATION_STORAGE_VERSION then
 
 			storage = { version = LOCATION_STORAGE_VERSION }
-
-			-- function FindFirstPoiCell( poiType )
-			-- 	for cellY = g_cellData.bounds.yMin, g_cellData.bounds.yMax do
-			-- 		for cellX = g_cellData.bounds.xMin, g_cellData.bounds.xMax do
-			-- 			local uid = GetCellTileUid( cellX, cellY )
-			-- 			assert( type( uid ) == "Uuid", "Cell id not a UUID ("..cellX..", "..cellY..")" )
-			-- 			if poiType == GetPoiType( uid ) then
-			-- 				return cellX, cellY
-			-- 			end
-			-- 		end
-			-- 	end
-			-- end
-
-			-- function AddLocation( name, poiType, size, bx, by, bz )
-			-- 	local cellX, cellY = FindFirstPoiCell( poiType )
-			-- 	assert(cellX)
-			-- 	assert(cellY)
-			-- 	local rx, ry = RotateLocal( cellX, cellY, bx, by, size * CELL_SIZE )
-			-- 	local x = cellX * CELL_SIZE + rx
-			-- 	local y = cellY * CELL_SIZE + ry
-			-- 	local z = bz + getElevationHeightAt( x, y ) + getCliffHeightAt( x, y )
-			-- 	storage[name] = { pos = sm.vec3.new( x, y, z ), world = g_world }
-			-- end
-
-			-- AddLocation("mechanicStation", POI_MECHANICSTATION_MEDIUM, 2, 44.0, 85.0, 18.0)
-			-- storage["crashedShip"] = { pos = sm.vec3.new( -2372.0, -2623.0, 18.0 ), world = g_world }
 
 			sm.terrainGeneration.saveGameStorage( STORAGE_CHANNEL_LOCATIONS, storage )
 		end
@@ -643,24 +563,6 @@ function GetMaterialAt( x, y, lod )
 
 	local cellX, cellY = getCell( x, y )
 	if insideCellBounds( cellX, cellY ) == true then
-
---		if cellX == 0 then
---			return 1, 0, 0, 0, 0, 0, 0, 0
---		elseif cellX == 1 then
---			return 0, 1, 0, 0, 0, 0, 0, 0
---		elseif cellX == 2 then
---			return 0, 0, 1, 0, 0, 0, 0, 0
---		elseif cellX == 3 then
---			return 0, 0, 0, 1, 0, 0, 0, 0
---		elseif cellX == 4 then
---			return 0, 0, 0, 0, 1, 0, 0, 0
---		elseif cellX == 5 then
---			return 0, 0, 0, 0, 0, 1, 0, 0
---		elseif cellX == 6 then
---			return 0, 0, 0, 0, 0, 0, 1, 0
---		elseif cellX == 7 then
---			return 0, 0, 0, 0, 0, 0, 0, 1
---		end
 		local uid, tileCellOffsetX, tileCellOffsetY = GetCellTileUidAndOffset( cellX, cellY )
 
 		local rx, ry = InverseRotateLocal( cellX, cellY, x - cellX * CELL_SIZE, y - cellY * CELL_SIZE )
@@ -870,15 +772,6 @@ function GetKinematicsForCell( cellX, cellY, size )
 				kinematic.params = {}
 			end
 			kinematic.params.tileStorageKey = tileStorageKey
-
-			--local string = tostring( kinematic.uuid ).."%"..(kinematic.params.name or "").."%"..(kinematic.params.event or "").."%"..g_world.id.."%"..cellX.."%"..cellY
-			--kinematic.params.stateUuid = sm.uuid.generateNamed( UUID5_NAMESPACE_KINEMATIC_STATE, string )
-
-			--local storage = sm.terrainGeneration.loadGameStorage( { STORAGE_CHANNEL_KINEMATIC_STATE, kinematic.params.stateUuid } )
-			--if storage then
-				--TODO: Evaluate animated position from stored data
-				--TODO: Use cellX, cellY in HarvestableManager cell map
-			--end
 
 			print( "Added kinematic:", kinematic.params )
 		end

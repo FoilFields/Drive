@@ -16,10 +16,6 @@ function ElevatorEnd.server_onCreate( self )
 	print("Portal recreated")
 end
 
-function ElevatorEnd.server_onDestroy( self )
-	
-end
-
 function ElevatorEnd.server_onRefresh( self )
 	print( "Refresh Portal")
 end

@@ -3,11 +3,12 @@ dofile("$CONTENT_DATA/Scripts/Terrain/Processing.lua")
 dofile("$CONTENT_DATA/Scripts/Terrain/Util.lua")
 
 function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, progress)
-    math.randomseed(seed)
+    math.randomseed(seed, progress)
 
     initializeCellData(xMin, xMax, yMin, yMax, seed)
 
-    local offset = (yMax - yMin - (2 * padding)) * progress
+    local worldSize = yMax - yMin - (2 * padding)
+    local offset = worldSize * progress
 
     -- Set padding to scorched and everything else to desert
     for x = xMin, xMax do
@@ -122,7 +123,7 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
 
     -- Starter house
     if progress == 0 then
-        g_cellData.uid[0][1] = getPoi(sm.noise.intNoise2d( 1, 0, g_cellData.seed + 1032 ), "StarterHouse")
+        g_cellData.uid[0][1] = getHouseTileID(sm.noise.intNoise2d( 1, 0, g_cellData.seed + 1032 ))
         g_cellData.rotation[0][1] = 0
         g_cellData.xOffset[0][1] = 0
         g_cellData.yOffset[0][1] = 0
@@ -136,23 +137,61 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
     end
 
     -- Elevator
-    g_cellData.uid[yMax - padding - 1][0] = getElevatorTileId(sm.noise.intNoise2d( 1, 0, g_cellData.seed + 80085 ))
+    g_cellData.uid[yMax - padding - 1][0] = getElevatorTileId(sm.noise.intNoise2d( 0, yMax - padding - 1 + offset, g_cellData.seed + 80085 ))
     g_cellData.rotation[yMax - padding - 1][0] = 3
     g_cellData.xOffset[yMax - padding - 1][0] = 0
     g_cellData.yOffset[yMax - padding - 1][0] = 0
     
-    local elevatorHeight = g_cellData.elevation[yMax - padding - 1][0]
-    
     -- Flattern elevator
+    local elevatorHeight = g_cellData.elevation[yMax - padding - 1][0]
+
     for x = -1, 2, 1 do
         for y = -1, 2, 1 do
             g_cellData.elevation[yMax - padding - 1 + y][0 + x] = elevatorHeight
         end
     end
 
-    -- on-road pois
+    -- Road pois
+    local roadPoiCount = math.random(1, 5)
+    print("Generating "..roadPoiCount.." road POIs")
+    
+    for i = 1, roadPoiCount, 1 do
+        local y = math.random(progress == 0 and (yMin + padding + 2) or 3, yMax - padding - 2)
+        
+        local poi = getRoadPoi(math.random(0, 100))
+        
+        local flipped = poi.flippable and math.random() < 0.5
 
-    -- road-side pois
+        print("Generating road POI at "..y)
+        if flipped then
+            print("Flipped road POI")
+        end
+        
+        local poiOffset = poi.offset * (flipped and -1 or 1)
+        g_cellData.uid[y][poiOffset] = poi.tile
+        g_cellData.rotation[y][poiOffset] = (poi.rotation + (flipped and 2 or 0)) % 4
+        g_cellData.xOffset[y][poiOffset] = 0 -- (Ignore, for larger tiles)
+        g_cellData.yOffset[y][poiOffset] = 0
+    end
+    
+    -- Desert pois
+    local desertPoiCount = math.random(0, 10)
+    print("Generating "..desertPoiCount.." desert POIs")
 
-    -- far-off pois
+    for i = 1, desertPoiCount, 1 do
+        local poi = getDesertPoi(math.random(0, 100))
+
+        local x = math.random() < 0.5 and math.random(xMin + padding, -2 - (poi.size - 1)) or math.random(2, xMax - padding - (poi.size - 1)) -- Avoid le road
+        local y = math.random(yMin + padding + 3, yMax - padding - 3 - (poi.size - 1))
+
+        print("Generating desert POI at "..x..", "..y)
+        for offsetX = 0, poi.size, 1 do
+            for offsetY = 0, poi.size, 1 do
+                g_cellData.uid[y + offsetY][x + offsetX] = poi.tile
+                g_cellData.rotation[y + offsetY][x + offsetX] = 0
+                g_cellData.xOffset[y + offsetY][x + offsetX] = offsetX
+                g_cellData.yOffset[y + offsetY][x + offsetX] = offsetY
+            end
+        end
+    end
 end

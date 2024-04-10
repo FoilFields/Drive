@@ -3,6 +3,7 @@ dofile("$CONTENT_DATA/Scripts/Game/Worlds/BaseWorld.lua")
 dofile("$SURVIVAL_DATA/Scripts/game/managers/WaterManager.lua")
 dofile("$SURVIVAL_DATA/Scripts/game/managers/PackingStationManager.lua")
 dofile("$CONTENT_DATA/Scripts/Terrain/Util.lua")
+dofile("$CONTENT_DATA/Scripts/Game/CrapShapes.lua")
 
 Overworld = class(BaseWorld)
 
@@ -363,6 +364,8 @@ function Overworld.server_onCellCreated(self, x, y)
 
 	self:sv_loadSpawnersOnCell(x, y)
 
+	self:sv_loadCrapOnCell(x, y)
+
 	g_unitManager:sv_onWorldCellLoaded(self, x, y)
 	self.packingStationManager:sv_onCellLoaded(x, y)
 
@@ -392,11 +395,6 @@ function Overworld.server_onCellLoaded(self, x, y)
 		isPoi =
 			valueExists(tags, "POI")
 	}
-
-
-
-
-
 
 	g_unitManager:sv_onWorldCellReloaded(self, x, y)
 
@@ -637,6 +635,33 @@ function Overworld.sv_e_spawnTempUnitsOnCell(self, params)
 					break
 				end
 			end
+		end
+	end
+end
+
+function Overworld:sv_loadCrapOnCell(x, y)
+	-- local cellKey = CellKey(x, y)
+	
+	local nodes = sm.cell.getNodesByTag(x, y, "CRAP")
+	assert(nodes)
+
+	for _, node in ipairs( nodes ) do
+		local pool = g_crap_pools[node.params.level]
+
+		for i = 1, pool.count, 1 do
+			local part = pool.draws[math.random(0, 10000) % #pool.draws + 1]
+			local offset = sm.vec3.new(
+				(math.random() * 2 - 1) * node.scale.x / 2, 
+				(math.random() * 2 - 1) * node.scale.y / 2, 
+				(math.random() * 2 - 1) * node.scale.z / 2
+			)
+
+			sm.shape.createPart(
+				part.uid, 
+				node.position + offset,
+				node.rotation, true, true
+			)
+
 		end
 	end
 end
