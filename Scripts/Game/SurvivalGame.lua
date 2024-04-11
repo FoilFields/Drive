@@ -155,16 +155,17 @@ function SurvivalGame:sv_loadDestination(portal)
 	self.sv.progress = self.sv.progress + 1
 	sm.storage.save("progress", self.sv.progress)
 
-	local world = sm.world.createWorld("$CONTENT_DATA/Scripts/Game/Worlds/Overworld.lua", "Overworld", { dev = g_survivalDev, progress = self.sv.progress }, self.sv.saved.data.seed)
+	self.sv.saved.overworld = sm.world.createWorld("$CONTENT_DATA/Scripts/Game/Worlds/Overworld.lua", "Overworld", { dev = g_survivalDev, progress = self.sv.progress }, self.sv.saved.data.seed)
+	
+	self.storage:save(self.sv.saved)
 
 	-- CREATE WORLD
-	print( "Created World "..world.id )
+	print( "Created World "..self.sv.saved.overworld.id )
 	
-	sm.portal.addWorldPortalHook(world, "PORTAL", portal)
+	sm.portal.addWorldPortalHook(self.sv.saved.overworld, "PORTAL", portal)
 
 	for _, player in ipairs(players) do
-
-		world:loadCell(0, CELL_MIN_Y + 1, player, "sv_cellLoaded", nil, self)
+		self.sv.saved.overworld:loadCell(0, CELL_MIN_Y + 1, player, "sv_cellLoaded", nil, self)
 	end
 	
 	print("Created new world and added portal hook")

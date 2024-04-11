@@ -24,10 +24,9 @@ function PortalManager:sv_transfer()
   oldWorld = self.portal:getWorldA()
   self.portal:transferAToB()
   loading = not sm.event.sendToGame("sv_progressWorld", self.portal:getWorldB())
-
   -- Cleanup
 
-  nextDestroy = os.time() + 30
+  nextDestroy = os.time() + 10
 end
 
 function PortalManager:sv_loadDestination()
@@ -43,6 +42,7 @@ function PortalManager:sv_onFixedUpdate()
     end
   end
 
+  -- Make sure all players are in worldA before destroying the old world
   if (self.portal and not loading) then
     if self.portal:hasOpeningA() and self.portal:hasOpeningB() then
       for _, player in ipairs(sm.player.getAllPlayers()) do

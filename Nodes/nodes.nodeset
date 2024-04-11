@@ -10,6 +10,11 @@
           "name": "level",
           "type": "string",
           "default": "crap"
+        },
+        {
+          "name": "count",
+          "type": "float",
+          "default": 1
         }
       ],
       "color": [
