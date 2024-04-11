@@ -152,30 +152,50 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
     end
 
     -- Road pois
-    local roadPoiCount = math.random(2, 5)
+    local roadPoiCount = math.random(2, 6)
+    local roadPois = {}
     print("Generating "..roadPoiCount.." road POIs")
     
-    for i = 1, roadPoiCount, 1 do
-        local y = math.random(progress == 0 and (yMin + padding + 2) or 3, yMax - padding - 2)
-        
-        local poi = getRoadPoi(math.random(0, 100))
-        
-        local flipped = poi.flippable and math.random() < 0.5
-
-        print("Generating road POI at "..y)
-        if flipped then
-            print("Flipped road POI")
+    local function inArray(value, array)
+        for _, pos in ipairs(array) do
+            if pos == value then
+                return true
+            end
         end
-        
-        local poiOffset = poi.offset * (flipped and -1 or 1)
-        g_cellData.uid[y][poiOffset] = poi.tile
-        g_cellData.rotation[y][poiOffset] = (poi.rotation + (flipped and 2 or 0)) % 4
-        g_cellData.xOffset[y][poiOffset] = 0 -- (Ignore, for larger tiles)
-        g_cellData.yOffset[y][poiOffset] = 0
+
+        return false
     end
+
+    for i = 1, roadPoiCount, 1 do
+        local y = math.random(progress == 0 and 2 or (yMin + padding + 2), yMax - padding - 2)
+        
+        if inArray(y, roadPois) then
+            print("Not generating road POI at "..y)
+        else
+            local poi = getRoadPoi(math.random(0, 100))
+            
+            local flipped = poi.flippable and math.random() < 0.5
+    
+            print("Generating road POI at "..y)
+            if flipped then
+                print("Flipped road POI")
+            end
+            
+            local poiOffset = poi.offset * (flipped and -1 or 1)
+            g_cellData.uid[y][poiOffset] = poi.tile
+            g_cellData.rotation[y][poiOffset] = (poi.rotation + (flipped and 2 or 0)) % 4
+            g_cellData.xOffset[y][poiOffset] = 0 -- (Ignore, for larger tiles)
+            g_cellData.yOffset[y][poiOffset] = 0
+    
+            roadPois[#roadPois + 1] = y
+        end
+    end
+
+    roadPois = nil
     
     -- Desert pois
-    local desertPoiCount = math.random(0, 10)
+    local desertPoiCount = math.random(3, 10)
+    local desertPois = {}
     print("Generating "..desertPoiCount.." desert POIs")
 
     for i = 1, desertPoiCount, 1 do
@@ -184,14 +204,32 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
         local x = math.random() < 0.5 and math.random(xMin + padding, -5 - (poi.size - 1)) or math.random(5, xMax - padding - (poi.size - 1)) -- Avoid le road
         local y = math.random(yMin + padding + 5, yMax - padding - 5 - (poi.size - 1))
 
-        print("Generating desert POI at "..x..", "..y)
+        local validPlacement = true
+
         for offsetX = 0, poi.size, 1 do
             for offsetY = 0, poi.size, 1 do
-                g_cellData.uid[y + offsetY][x + offsetX] = poi.tile
-                g_cellData.rotation[y + offsetY][x + offsetX] = 0
-                g_cellData.xOffset[y + offsetY][x + offsetX] = offsetX
-                g_cellData.yOffset[y + offsetY][x + offsetX] = offsetY
+                if inArray(sm.vec3.new(x + offsetX, y + offsetY, 0), desertPois) then
+                    validPlacement = false
+                end
+            end
+        end
+
+        if not validPlacement then
+            print("Not generating desert POI at "..x..", "..y)
+        else
+            print("Generating desert POI at "..x..", "..y)
+            for offsetX = 0, poi.size, 1 do
+                for offsetY = 0, poi.size, 1 do
+                    g_cellData.uid[y + offsetY][x + offsetX] = poi.tile
+                    g_cellData.rotation[y + offsetY][x + offsetX] = 0
+                    g_cellData.xOffset[y + offsetY][x + offsetX] = offsetX
+                    g_cellData.yOffset[y + offsetY][x + offsetX] = offsetY
+
+                    desertPois[#desertPois + 1] = sm.vec3.new(x + offsetX, y + offsetY, 0)
+                end
             end
         end
     end
+
+    desertPois = nil
 end

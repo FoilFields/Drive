@@ -660,6 +660,8 @@ function Overworld:sv_loadCrapOnCell(x, y)
 						(math.random() * 2 - 1) * node.scale.y / 2, 
 						(math.random() * 2 - 1) * node.scale.z / 2
 					)
+
+					offset = node.rotation * offset
 		
 					sm.shape.createPart(
 						crap.uid, 
