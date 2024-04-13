@@ -273,7 +273,7 @@ function SurvivalGame.bindChatCommands(self)
 		sm.game.bindChatCommand("/setwater", { { "number", "water", false } }, "cl_onChatCommand",
 			"Set player water value")
 		sm.game.bindChatCommand("/setfood", { { "number", "food", false } }, "cl_onChatCommand", "Set player food value")
-		sm.game.bindChatCommand("/tp", { { "number", "x", true }, { "number", "y", true }, { "number", "z", true } }, "cl_onChatCommand", "Set player position")
+		sm.game.bindChatCommand("/tp", { { "number", "x", true }, { "number", "y", true } }, "cl_onChatCommand", "Set player position")
 		sm.game.bindChatCommand("/end", {}, "cl_onChatCommand", "Go to the end")
 		sm.game.bindChatCommand("/aggroall", {}, "cl_onChatCommand",
 			"All hostile units will be made aware of the player's position")
@@ -480,7 +480,7 @@ function SurvivalGame.cl_onChatCommand(self, params)
 	elseif params[1] == "/ambush" then
 		self.network:sendToServer("sv_ambush", { magnitude = params[2] or 1, wave = params[3] })
 	elseif params[1] == "/tp" then
-		self.network:sendToServer("sv_teleportplayer", {player = sm.localPlayer.getPlayer(), x = params[2], y = params[3], z = params[4]})
+		self.network:sendToServer("sv_teleportplayer", {player = sm.localPlayer.getPlayer(), x = params[2], y = params[3]})
 	elseif params[1] == "/end" then
 		self.network:sendToServer("sv_end", sm.localPlayer.getPlayer())
 	elseif params[1] == "/recreate" then
@@ -661,7 +661,14 @@ function SurvivalGame.sv_ambush(self, params)
 end
 
 function SurvivalGame.sv_teleportplayer(self, data)
-	data.player:getCharacter():setWorldPosition(sm.vec3.new(data.x, data.y, data.z))
+	local progressionOffset = (CELL_MAX_Y - CELL_MIN_Y) * self.sv.progress
+
+	local elevation = getElevation(data.x, data.y + progressionOffset, self.sv.saved.data.seed) * 83.0 + 1
+
+	print(elevation)
+
+	local params = { pos = sm.vec3.new(data.x * 64, data.y * 64, elevation), dir = data.player:getCharacter():getDirection() }
+	self.sv.saved.overworld:loadCell(data.x, data.y, data.player, "sv_recreatePlayerCharacter", params)
 end
 
 function SurvivalGame.sv_end(self, player)
