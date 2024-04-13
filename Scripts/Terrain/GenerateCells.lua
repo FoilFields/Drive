@@ -13,7 +13,9 @@ local function writePoi(tile, x, y, size, rotation, collisionArray)
             g_cellData.xOffset[y + offsetY][x + offsetX] = offsetX
             g_cellData.yOffset[y + offsetY][x + offsetX] = offsetY
 
-            collisionArray[#collisionArray + 1] = sm.vec3.new(x + offsetX, y + offsetY, 0)
+            if collisionArray then
+                collisionArray[#collisionArray + 1] = sm.vec3.new(x + offsetX, y + offsetY, 0)                
+            end
         end
     end
 end
@@ -44,7 +46,7 @@ end
 
 -- Fills g_cellData with world data
 function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, progress)
-    math.randomseed(seed, progress)
+    math.randomseed(seed + progress * 10)
 
     initializeCellData(xMin, xMax, yMin, yMax, seed)
 
@@ -54,37 +56,28 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
     -- Set padding to scorched and everything else to desert
     for x = xMin, xMax do
         for y = yMin, yMax do
-            if (x < xMin + padding or x > xMax - padding or y < yMin + padding or y > yMax - padding) then
-                local tileId = getScorchedTileId(sm.noise.intNoise2d( x, y + offset, g_cellData.seed + 1234 ))
-                if not tileId:isNil() then
-                    g_cellData.uid[y][x] = tileId
-                    g_cellData.rotation[y][x] = sm.noise.intNoise2d( x, y + offset, g_cellData.seed ) % 4
-                    g_cellData.xOffset[y][x] = 0
-                    g_cellData.yOffset[y][x] = 0
-                end
+            local tileId
+
+            if (x < xMin + padding or 
+                x > xMax - padding or 
+                y < yMin + padding or 
+                y > yMax - padding
+            ) then
+                tileId = getScorchedTileId(sm.noise.intNoise2d( x, y + offset, g_cellData.seed + 1234 ))
             else
-                local tileId = getDesertTileId(sm.noise.intNoise2d( x, y + offset, g_cellData.seed + 6004 ))
-                if not tileId:isNil() then
-                    g_cellData.uid[y][x] = tileId
-                    g_cellData.rotation[y][x] = sm.noise.intNoise2d( x, y + offset, g_cellData.seed ) % 4
-                    g_cellData.xOffset[y][x] = 0
-                    g_cellData.yOffset[y][x] = 0
-                end
+                tileId = getDesertTileId(sm.noise.intNoise2d( x, y + offset, g_cellData.seed + 6004 ))
             end
+            
+            writePoi(tileId, x, y, 1, sm.noise.intNoise2d( x, y + offset, g_cellData.seed ) % 4)
         end
     end
 
     -- Fences
     local function setFence(x, y, rotation)
         local tileId = getFenceTileId(sm.noise.intNoise2d( x, y + offset, g_cellData.seed + 1234 ))
-        if not tileId:isNil() then
-            g_cellData.uid[y][x] = tileId
-            g_cellData.rotation[y][x] = rotation
-            g_cellData.xOffset[y][x] = 0
-            g_cellData.yOffset[y][x] = 0
-        end
+        writePoi(tileId, x, y, 1, rotation)
     end
-
+    
     for y = yMin + padding, yMax - padding do
         setFence(xMin + padding, y, 1)
         setFence(xMax - padding, y, 3)
@@ -94,16 +87,11 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
         setFence(x, yMin + padding, 2)
         setFence(x, yMax - padding, 0)
     end
-
+    
     -- Fence corners
     local function setFenceCorner(x, y, rotation)
         local tileId = getFenceCornerTileId(sm.noise.intNoise2d( x, y + offset, g_cellData.seed + 4123 ))
-        if not tileId:isNil() then
-            g_cellData.uid[y][x] = tileId
-            g_cellData.rotation[y][x] = rotation
-            g_cellData.xOffset[y][x] = 0
-            g_cellData.yOffset[y][x] = 0
-        end
+        writePoi(tileId, x, y, 1, rotation)
     end
 
     setFenceCorner(xMin + padding, yMax - padding, 0)
@@ -119,12 +107,7 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
 
     for y = start, yMax - padding - 2 do
         local tileId, rotation = getRoadTileIdAndRotation(sm.noise.intNoise2d( 0, y + offset, g_cellData.seed + 2854 ))
-        if not tileId:isNil() then
-            g_cellData.uid[y][0] = tileId
-            g_cellData.rotation[y][0] = rotation
-            g_cellData.xOffset[y][0] = 0
-            g_cellData.yOffset[y][0] = 0
-        end
+        writePoi(tileId, 0, y, 1, rotation)
     end
     
     -- Road start tile
@@ -134,10 +117,7 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
     end
 
     local tileId = getRoadEndTileId(sm.noise.intNoise2d( 0, roadStart + offset, g_cellData.seed + 1452 ))
-    g_cellData.uid[roadStart][0] = tileId
-    g_cellData.rotation[roadStart][0] = 1
-    g_cellData.xOffset[roadStart][0] = 0
-    g_cellData.yOffset[roadStart][0] = 0
+    writePoi(tileId, 0, roadStart, 1, 1)
 
     -- Elevation
     forEveryCorner( function( x, y )
@@ -155,10 +135,7 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
 
     -- Starter house
     if progress == 0 then
-        g_cellData.uid[0][1] = getHouseTileID(sm.noise.intNoise2d( 1, 0, g_cellData.seed + 1032 ))
-        g_cellData.rotation[0][1] = 0
-        g_cellData.xOffset[0][1] = 0
-        g_cellData.yOffset[0][1] = 0
+        writePoi(getHouseTileID(sm.noise.intNoise2d( 1, 0, g_cellData.seed + 1032 )), 1, 0, 1, 0)
 
         -- Flattern starter house
         for x = -1, 2, 1 do
@@ -169,10 +146,7 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
     end
 
     -- Elevator
-    g_cellData.uid[yMax - padding - 1][0] = getElevatorTileId(sm.noise.intNoise2d( 0, yMax - padding - 1 + offset, g_cellData.seed + 80085 ))
-    g_cellData.rotation[yMax - padding - 1][0] = 3
-    g_cellData.xOffset[yMax - padding - 1][0] = 0
-    g_cellData.yOffset[yMax - padding - 1][0] = 0
+    writePoi(getElevatorTileId(sm.noise.intNoise2d( 0, yMax - padding - 1 + offset, g_cellData.seed + 80085 )), 0, yMax - padding - 1, 1, 3)
     
     -- Flattern elevator
     local elevatorHeight = g_cellData.elevation[yMax - padding - 1][0]
