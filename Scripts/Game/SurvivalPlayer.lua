@@ -34,8 +34,10 @@ local RespawnEndDelay = 1.0 * 40
 local BaguetteSteps = 9
 
 function SurvivalPlayer.server_onCreate(self)
+	print("SurvivalPlayer.server_onCreate")
 	self.sv = {}
 	self.sv.saved = self.storage:load()
+	print(self.sv.saved)
 	self.sv.saved = self.sv.saved or {}
 	self.sv.saved.stats = self.sv.saved.stats or {
 		hp = 100,
@@ -61,6 +63,7 @@ function SurvivalPlayer.server_onRefresh(self)
 end
 
 function SurvivalPlayer.sv_init(self)
+	print("SurvivalPlayer.sv_init")
 	BasePlayer.sv_init(self)
 	self.sv.staminaSpend = 0
 
@@ -385,6 +388,7 @@ function SurvivalPlayer.sv_n_revive(self)
 end
 
 function SurvivalPlayer.sv_e_respawn(self)
+	print("SurvivalPlayer.sv_e_respawn")
 	if self.sv.spawnparams.respawn then
 		if not self.sv.respawnTimeoutTimer then
 			self.sv.respawnTimeoutTimer = Timer()
@@ -415,6 +419,7 @@ function SurvivalPlayer.sv_n_tryRespawn(self)
 end
 
 function SurvivalPlayer.sv_e_onSpawnCharacter(self)
+	print("SurvivalPlayer.sv_e_onSpawnCharacter")
 	if not self.sv.saved.isNewPlayer and self.sv.spawnparams.respawn then
 		local playerBed = g_respawnManager:sv_getPlayerBed(self.player)
 		if playerBed and playerBed.shape and sm.exists(playerBed.shape) and playerBed.shape.body:getWorld() == self.player.character:getWorld() then

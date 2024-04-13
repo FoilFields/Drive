@@ -310,6 +310,7 @@ function SurvivalGame.bindChatCommands(self)
 end
 
 function SurvivalGame.client_onClientDataUpdate(self, clientData, channel)
+	print("SurvivalGame.client_onClientDataUpdate")
 	if channel == 2 then
 		self.cl.time = clientData.time
 	elseif channel == 1 then
@@ -370,6 +371,7 @@ function SurvivalGame.server_onFixedUpdate(self, timeStep)
 end
 
 function SurvivalGame.sv_updateClientData(self)
+	print("SurvivalGame.sv_updateClientData")
 	self.network:setClientData({ time = self.sv.time }, 2)
 end
 
@@ -906,6 +908,7 @@ function SurvivalGame.sv_e_setWarehouseRestrictions(self, params)
 end
 
 function SurvivalGame.sv_createNewPlayer(self, world, x, y, player)
+	print("SurvivalGame.sv_createNewPlayer")
 	local params = { player = player, x = x, y = y }
 	sm.event.sendToWorld(self.sv.saved.overworld, "sv_spawnNewCharacter", params)
 end
@@ -920,6 +923,7 @@ function SurvivalGame.sv_recreatePlayerCharacter(self, world, x, y, player, para
 end
 
 function SurvivalGame.sv_e_respawn(self, params)
+	print("SurvivalGame.sv_e_respawn")
 	if params.player.character and sm.exists(params.player.character) then
 		g_respawnManager:sv_requestRespawnCharacter(params.player)
 	else
@@ -933,10 +937,12 @@ function SurvivalGame.sv_e_respawn(self, params)
 end
 
 function SurvivalGame.sv_loadedRespawnCell(self, world, x, y, player)
+	print("SurvivalGame.sv_loadedRespawnCell")
 	g_respawnManager:sv_respawnCharacter(player, world)
 end
 
 function SurvivalGame.sv_e_onSpawnPlayerCharacter(self, player)
+	print("SurvivalGame.sv_e_onSpawnPlayerCharacter")
 	if player.character and sm.exists(player.character) then
 		g_respawnManager:sv_onSpawnCharacter(player)
 		g_beaconManager:sv_onSpawnCharacter(player)
