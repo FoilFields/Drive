@@ -73,8 +73,8 @@ function initCustomTiles()
 	}
 	
 	g_desert_pois = {
-		{tile = AddTile( 3210300, "$CONTENT_DATA/Terrain/Tiles/DesertPois/poi_01.tile", 5 ), size = 3},
-		{tile = AddTile( 3210301, "$CONTENT_DATA/Terrain/Tiles/DesertPois/poi_02.tile", 5 ), size = 1}
+		{tile = AddTile( 3210300, "$CONTENT_DATA/Terrain/Tiles/DesertPois/poi_01.tile", 5 ), size = 4},
+		{tile = AddTile( 3210301, "$CONTENT_DATA/Terrain/Tiles/DesertPois/poi_02.tile", 5 ), size = 2}
 	}
 
 	g_road_pois = { -- Flippable lets the tile be on the other side of the road, rotates by 180 as well

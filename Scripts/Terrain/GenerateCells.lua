@@ -2,6 +2,47 @@ dofile("$SURVIVAL_DATA/Scripts/util.lua")
 dofile("$CONTENT_DATA/Scripts/Terrain/Processing.lua")
 dofile("$CONTENT_DATA/Scripts/Terrain/Util.lua")
 
+-- Some helper FUNctions
+
+-- Writes a tile to the g_cellData and adds the location of a set tile to the provided array (intended for collision prevention)
+local function writePoi(tile, x, y, size, rotation, collisionArray)
+    for offsetX = 0, size - 1, 1 do
+        for offsetY = 0, size - 1, 1 do
+            g_cellData.uid[y + offsetY][x + offsetX] = tile
+            g_cellData.rotation[y + offsetY][x + offsetX] = rotation
+            g_cellData.xOffset[y + offsetY][x + offsetX] = offsetX
+            g_cellData.yOffset[y + offsetY][x + offsetX] = offsetY
+
+            collisionArray[#collisionArray + 1] = sm.vec3.new(x + offsetX, y + offsetY, 0)
+        end
+    end
+end
+
+-- Returns true if a value is in an array
+local function inArray(value, array)
+    for _, pos in ipairs(array) do
+        if pos == value then
+            return true
+        end
+    end
+
+    return false
+end
+
+-- Checks if a POI can be placed at the x and y position provided given a collision array
+local function validPlacement(x, y, size, collisionArray)
+    for offsetX = 0, size, 1 do
+        for offsetY = 0, size, 1 do
+            if inArray(sm.vec3.new(x + offsetX, y + offsetY, 0), collisionArray) then
+                return false
+            end
+        end
+    end
+
+    return true
+end
+
+-- Fills g_cellData with world data
 function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, progress)
     math.randomseed(seed, progress)
 
@@ -155,46 +196,30 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
     local roadPoiCount = math.random(2, 6)
     local roadPois = {}
     print("Generating "..roadPoiCount.." road POIs")
-    
-    local function inArray(value, array)
-        for _, pos in ipairs(array) do
-            if pos == value then
-                return true
-            end
-        end
-
-        return false
-    end
 
     for i = 1, roadPoiCount, 1 do
         local y = math.random(progress == 0 and 2 or (yMin + padding + 2), yMax - padding - 2)
         
-        if inArray(y, roadPois) then
-            print("Not generating road POI at "..y)
-        else
-            local poi = getRoadPoi(math.random(0, 100))
-            
-            local flipped = poi.flippable and math.random() < 0.5
-    
+        local poi = getRoadPoi(math.random(0, 100))
+        local flipped = poi.flippable and math.random() < 0.5
+        local poiOffset = poi.offset * (flipped and -1 or 1)
+
+        if validPlacement(poiOffset, y, poi.size, roadPois) then
             print("Generating road POI at "..y)
             if flipped then
                 print("Flipped road POI")
             end
             
-            local poiOffset = poi.offset * (flipped and -1 or 1)
-            g_cellData.uid[y][poiOffset] = poi.tile
-            g_cellData.rotation[y][poiOffset] = (poi.rotation + (flipped and 2 or 0)) % 4
-            g_cellData.xOffset[y][poiOffset] = 0 -- (Ignore, for larger tiles)
-            g_cellData.yOffset[y][poiOffset] = 0
-    
-            roadPois[#roadPois + 1] = y
+            writePoi(poi.tile, poiOffset, y, poi.size, (poi.rotation + (flipped and 2 or 0)) % 4, roadPois)
+        else 
+            print("Not generating road POI at "..y)
         end
     end
 
     roadPois = nil
     
     -- Desert pois
-    local desertPoiCount = math.random(3, 10)
+    local desertPoiCount = math.random(3, 8)
     local desertPois = {}
     print("Generating "..desertPoiCount.." desert POIs")
 
@@ -204,30 +229,12 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
         local x = math.random() < 0.5 and math.random(xMin + padding, -5 - (poi.size - 1)) or math.random(5, xMax - padding - (poi.size - 1)) -- Avoid le road
         local y = math.random(yMin + padding + 5, yMax - padding - 5 - (poi.size - 1))
 
-        local validPlacement = true
-
-        for offsetX = 0, poi.size, 1 do
-            for offsetY = 0, poi.size, 1 do
-                if inArray(sm.vec3.new(x + offsetX, y + offsetY, 0), desertPois) then
-                    validPlacement = false
-                end
-            end
-        end
-
-        if not validPlacement then
-            print("Not generating desert POI at "..x..", "..y)
-        else
+        if validPlacement(x, y, poi.size, desertPois) then
             print("Generating desert POI at "..x..", "..y)
-            for offsetX = 0, poi.size, 1 do
-                for offsetY = 0, poi.size, 1 do
-                    g_cellData.uid[y + offsetY][x + offsetX] = poi.tile
-                    g_cellData.rotation[y + offsetY][x + offsetX] = 0
-                    g_cellData.xOffset[y + offsetY][x + offsetX] = offsetX
-                    g_cellData.yOffset[y + offsetY][x + offsetX] = offsetY
-
-                    desertPois[#desertPois + 1] = sm.vec3.new(x + offsetX, y + offsetY, 0)
-                end
-            end
+            print(math.random(3))
+            writePoi(poi.tile, x, y, poi.size, math.random(3), desertPois)
+        else
+            print("Not generating desert POI at "..x..", "..y)
         end
     end
 

@@ -10,7 +10,7 @@ CELL_MAX_Y = 127
 -- CELL_MAX_Y = 2
 
 -- This is here to expose stuff to other classes (as SurvivalGame handles respawning player and needs values)
-function getElevation(x, y, seed) 
+function getElevation(x, y, seed)
   local elevation = 0.1
 
   elevation = elevation + (sm.noise.perlinNoise2d( x / 128, y / 128, seed + 14123 ) + 0.25) * 2 -- Super duper scrolling terrain
