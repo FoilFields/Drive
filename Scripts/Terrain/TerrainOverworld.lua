@@ -30,7 +30,7 @@ function Create( xMin, xMax, yMin, yMax, seed, data )
 	-- v0.5.0: graphicsCellPadding is no longer included in min/max
 
 	
-	local graphicsCellPadding = 8
+	local graphicsCellPadding = PADDING
 	xMin = xMin - graphicsCellPadding
 	xMax = xMax + graphicsCellPadding
 	yMin = yMin - graphicsCellPadding

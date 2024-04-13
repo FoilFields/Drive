@@ -141,16 +141,7 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
 
     -- Elevation
     forEveryCorner( function( x, y )
-        local elevation = getElevation(x, y + offset, seed)
-        
-        -- For reliable spawn positions, we must blend elevation with a fixed seed, getting stronger the closer we get to the house
-        if progress == 0 then
-            local fixedElevation = getElevation(x, y, 852772513)
-            local proportion = math.min(math.max(y / (yMax - padding - 1), 0), 1)
-            elevation = (elevation * proportion) + (fixedElevation * (1 - proportion))
-        end
-
-        g_cellData.elevation[y][x] = elevation * 83.0
+        g_cellData.elevation[y][x] = getElevation(x, y + offset, seed, progress == 0) * 83.0
 	end )
 
     -- Flattern start of road
@@ -231,8 +222,7 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
 
         if validPlacement(x, y, poi.size, desertPois) then
             print("Generating desert POI at "..x..", "..y)
-            print(math.random(3))
-            writePoi(poi.tile, x, y, poi.size, math.random(3), desertPois)
+            writePoi(poi.tile, x, y, poi.size, 0, desertPois)
         else
             print("Not generating desert POI at "..x..", "..y)
         end

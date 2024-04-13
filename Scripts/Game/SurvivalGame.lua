@@ -663,9 +663,7 @@ end
 function SurvivalGame.sv_teleportplayer(self, data)
 	local progressionOffset = (CELL_MAX_Y - CELL_MIN_Y) * self.sv.progress
 
-	local elevation = getElevation(data.x, data.y + progressionOffset, self.sv.saved.data.seed) * 83.0 + 1
-
-	print(elevation)
+	local elevation = getElevation(data.x, data.y + progressionOffset, self.sv.saved.data.seed, self.sv.progress == 0) * 83.0 + 1
 
 	local params = { pos = sm.vec3.new(data.x * 64, data.y * 64, elevation), dir = data.player:getCharacter():getDirection() }
 	self.sv.saved.overworld:loadCell(data.x, data.y, data.player, "sv_recreatePlayerCharacter", params)
@@ -674,7 +672,7 @@ end
 function SurvivalGame.sv_end(self, player)
 	local progressionOffset = (CELL_MAX_Y - CELL_MIN_Y) * self.sv.progress
 
-	local params = { pos = sm.vec3.new(32, (CELL_MAX_Y - 1) * 64 + 32, getElevation(0, CELL_MAX_Y - 1 + progressionOffset, self.sv.saved.data.seed) * 83.0 + 1), dir = player:getCharacter():getDirection() }
+	local params = { pos = sm.vec3.new(32, (CELL_MAX_Y - 1) * 64 + 32, getElevation(0, CELL_MAX_Y - 1 + progressionOffset, self.sv.saved.data.seed, self.sv.progress == 0) * 83.0 + 1), dir = player:getCharacter():getDirection() }
 	self.sv.saved.overworld:loadCell(math.floor(params.pos.x / 64), math.floor(params.pos.y / 64), player,
 		"sv_recreatePlayerCharacter", params)
 end
