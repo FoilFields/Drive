@@ -52,6 +52,8 @@ function SurvivalPlayer.server_onCreate(self)
 	if self.sv.saved.inOil == nil then self.sv.saved.inOil = false end
 	if self.sv.saved.tutorialsWatched == nil then self.sv.saved.tutorialsWatched = {} end
 	self.storage:save(self.sv.saved)
+	print("Saved 'self.sv.saved' (player) (creation): ")
+	print(self.sv.saved)
 
 	self:sv_init()
 	self.network:setClientData(self.sv.saved)
@@ -180,6 +182,9 @@ function SurvivalPlayer.sv_e_watchedTutorial(self, params, player)
 	self.sv.saved.tutorialsWatched[params.tutorialKey] = true
 	self.storage:save(self.sv.saved)
 	self.network:setClientData(self.sv.saved)
+
+	print("Saved 'self.sv.saved' (player) (watched tutorial): ")
+	print(self.sv.saved)
 end
 
 function SurvivalPlayer.cl_localPlayerUpdate(self, dt)
@@ -309,6 +314,9 @@ function SurvivalPlayer.server_onFixedUpdate(self, dt)
 
 			self.storage:save(self.sv.saved)
 			self.network:setClientData(self.sv.saved)
+
+			print("Saved 'self.sv.saved' (player) (healing): ")
+			print(self.sv.saved)
 		end
 	end
 end
@@ -360,6 +368,9 @@ function SurvivalPlayer.sv_takeDamage(self, damage, source)
 
 				self.storage:save(self.sv.saved)
 				self.network:setClientData(self.sv.saved)
+
+				print("Saved 'self.sv.saved' (player) (take damage): ")
+				print(self.sv.saved)
 			end
 		else
 			print("'SurvivalPlayer' resisted", damage, "damage")
@@ -384,6 +395,9 @@ function SurvivalPlayer.sv_n_revive(self)
 		end
 		self.sv.damageCooldown:start(40)
 		self.player:sendCharacterEvent("revive")
+
+		print("Saved 'self.sv.saved' (player) (revive): ")
+		print(self.sv.saved)
 	end
 end
 
@@ -444,9 +458,13 @@ function SurvivalPlayer.sv_e_onSpawnCharacter(self)
 		self.storage:save(self.sv.saved)
 		self.network:setClientData(self.sv.saved)
 
+		print("Saved 'self.sv.saved' (player) (respawn): ")
+		print(self.sv.saved)
+
 		self.player.character:setTumbling(false)
 		self.player.character:setDowned(false)
 		self.sv.damageCooldown:start(40)
+
 	else
 		-- SurvivalPlayer rejoined the game
 		if self.sv.saved.stats.hp <= 0 or not self.sv.saved.isConscious then
@@ -487,6 +505,9 @@ function SurvivalPlayer.sv_e_debug(self, params)
 	end
 	self.storage:save(self.sv.saved)
 	self.network:setClientData(self.sv.saved)
+
+	print("Saved 'self.sv.saved' (player) (debug): ")
+	print(self.sv.saved)
 end
 
 function SurvivalPlayer.sv_e_eat(self, edibleParams)
@@ -499,6 +520,9 @@ function SurvivalPlayer.sv_e_eat(self, edibleParams)
 	end
 	self.storage:save(self.sv.saved)
 	self.network:setClientData(self.sv.saved)
+
+	print("Saved 'self.sv.saved' (player) (eated food): ")
+	print(self.sv.saved)
 end
 
 function SurvivalPlayer.sv_e_feed(self, params)
