@@ -83,6 +83,7 @@ function initCustomTiles()
 		{tile = AddTile( 4201001, "$CONTENT_DATA/Terrain/Tiles/RoadPois/kiosk_64_01.tile", 5 ), size = 1, offset = 0, rotation = 3, flippable = true},
 		{tile = AddTile( 4201002, "$CONTENT_DATA/Terrain/Tiles/RoadPois/kiosk_64_02.tile", 5 ), size = 1, offset = 0, rotation = 3, flippable = true},
 		{tile = AddTile( 4201003, "$CONTENT_DATA/Terrain/Tiles/RoadPois/kiosk_64_03.tile", 5 ), size = 1, offset = 0, rotation = 3, flippable = true},
+		{tile = AddTile( 4201003, "$CONTENT_DATA/Terrain/Tiles/RoadPois/Shop_01.tile", 5 ), size = 1, offset = 0, rotation = 3, flippable = true},
 	}
 end
 

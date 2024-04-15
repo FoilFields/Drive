@@ -57,13 +57,15 @@ g_crap_pools["ship"] = {
   }
 }
 
-g_crap_pools["head"] = {
+g_crap_pools["robot_bits"] = {
   weight = 0,
   draws = {
-    {uid = obj_interactive_robotbasshead, weight = 10}, 
-    {uid = obj_interactive_robotdrumhead, weight = 10}, 
-    {uid = obj_interactive_robotsynthhead, weight = 10}, 
-    {uid = obj_interactive_robotbliphead01, weight = 10}
+    {uid = obj_interactive_robotbasshead, weight = 10},
+    {uid = obj_interactive_robotdrumhead, weight = 10},
+    {uid = obj_interactive_robotsynthhead, weight = 10},
+    {uid = obj_interactive_robotbliphead01, weight = 10},
+    {uid = obj_decor_screw01, weight = 5},
+    {uid = obj_decor_screw02, weight = 5}
   }
 }
 

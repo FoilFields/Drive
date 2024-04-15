@@ -310,7 +310,6 @@ function SurvivalGame.bindChatCommands(self)
 end
 
 function SurvivalGame.client_onClientDataUpdate(self, clientData, channel)
-	print("SurvivalGame.client_onClientDataUpdate")
 	if channel == 2 then
 		self.cl.time = clientData.time
 	elseif channel == 1 then
@@ -371,7 +370,6 @@ function SurvivalGame.server_onFixedUpdate(self, timeStep)
 end
 
 function SurvivalGame.sv_updateClientData(self)
-	print("SurvivalGame.sv_updateClientData")
 	self.network:setClientData({ time = self.sv.time }, 2)
 end
 
