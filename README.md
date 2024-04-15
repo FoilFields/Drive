@@ -1,18 +1,38 @@
 # Drive
-The premmise of the game is to drive.
-That's it. It sounds so boring, only people with holes in their brain would play this.
+The purpose of the game is to drive.
+That's it. I know.
 
-We literally made because we got fustrated at The Long Drives crappy multiplayer.
+It sounds so boring that only people with holes in their brains would play this.
 
-Also I wanna keep updaing this and if you wanna get involved and have something to contribute shoot me a message.
+We made it because we got frustrated at The Long Drives crappy multiplayer.
+
+Also I wanna keep updating this. If you wanna get involved and have something to contribute, shoot me a message.
 
 Here are some images:
 (put some images here bozo)
 
-To do
-- Get rid of log book
+Things you can do
+- Tiles!
+  - Boring tiles:
+    - 1x1 desert tiles matching mods style
+    - 1x1 straight road tiles matching mods style
+    - These can have small obstacles but no loot, enemies or other POI-type stuff
+  - POIs:
+    - Any-size desert tiles with buildings or other cool things that spawn far away from the road
+- Blueprints! If you have a cool blueprint that you want to feature (and it matches the style or we really like it) we'll add it to the game. Just send over your '_.blueprint_' file found in **AppData\Roaming\Axolot Games\Scrap Mechanic\User\[user]\Blueprints\[sort by date modified :D]**
+- Enemies, if you have any modelling skills and can make things in the Scrap Mechanic
+- **If you are a modder** you could lend us a helping hand by documenting, fixing or even refactoring our code
+- Anything in the TODO list, I accept github changes
+- You could also work on a wiki I guess but I'm pulling at straws here
+
+TODO
+- Get rid of log book (literally remove the icon)
+- Custom respawning code (use seat as bed, respawn somewhere nearby, fall-back to last touched creation if needed, and fall-back to start of road if royally screwed)
+- Custom joining code (players to join around host)
+- Drop items on leave
+- Fix bug where players joing having left on a previous world can't re-connect
 - Add some enemies
-- Make the bed actually work
+- Make the bed actually work (speed up night while sleeping)
 - Update food to actually heal the player
 - Limit inventory size to just hotbar
 - Custom tunable radio with different stations at different frequencies
@@ -22,7 +42,7 @@ Larger scope/experimental stuff (some pretty insane ideas here, don't take them 
 - Remove the ability to destroy things, players can still pick up/place blocks but everything else has to be welded, separate shapes by hitting them with a hammer
 - Speedometer (shows speed of body in actual model)
 - Distance meter (same as speedometer but shows how many worlds it has been through or something)
-- Give engines a fuel meter that can be checked with a fuel gague (connected with connector tool), and add a system where fuel canisters can be filled/emptied (will probably have to just use stack size as fill amount)
+- Give engines a fuel meter that can be checked with a fuel gauge (connected with connector tool), and add a system where fuel canisters can be filled/emptied (will probably have to just use stack size as fill amount)
 - Show players body and lock the game to first person (as god intended)
 - Separate steering wheel from seat (connected to seat with connector tool) to put more focus on making visually interesting and usable cars
 - Disable lift for more punishing experience
