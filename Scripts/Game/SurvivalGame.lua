@@ -130,8 +130,8 @@ function SurvivalGame:sv_progressWorld(world)
 
 	self.sv.saved.overworld = world
 	self.storage:save(self.sv.saved)
-	print("Saved 'self.sv.saved'")
 	print(self.sv.saved)
+	print("Saved and switched current world to overworld")
 end
 
 function SurvivalGame:sv_loadDestination(portal)
@@ -153,7 +153,6 @@ function SurvivalGame:sv_loadDestination(portal)
 		end
 	end
 	
-	
 	print("All players inside exit area...")
 
 	self.sv.progress = self.sv.progress + 1
@@ -162,8 +161,7 @@ function SurvivalGame:sv_loadDestination(portal)
 	print(self.sv.progress)
 
 	self.sv.saved.overworld = sm.world.createWorld("$CONTENT_DATA/Scripts/Game/Worlds/Overworld.lua", "Overworld", { dev = g_survivalDev, progress = self.sv.progress }, self.sv.saved.data.seed)
-	
-	self.storage:save(self.sv.saved)
+	self.storage:save(self.sv.saved) -- We save both here and after players are teleported
 
 	-- CREATE WORLD
 	print( "Created World "..self.sv.saved.overworld.id )
@@ -190,6 +188,7 @@ function SurvivalGame.server_onRefresh(self)
 end
 
 function SurvivalGame.client_onCreate(self)
+	print("SurvivalGame.client_onCreate")
 	self.cl = {}
 	self.cl.time = {}
 	self.cl.time.timeOfDay = 0.0
@@ -605,6 +604,8 @@ function SurvivalGame.sv_giveItem(self, params)
 end
 
 function SurvivalGame.cl_n_onJoined(self, params)
+	print("SurvivalGame.cl_n_onJoined(self, params)")
+	print(params)
 	--self.cl.playIntroCinematic = params.newPlayer
 end
 
