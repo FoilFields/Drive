@@ -48,6 +48,8 @@ function SurvivalGame.server_onCreate(self)
 	else
 		self.sv.progress = 0
 		sm.storage.save("progress", self.sv.progress)
+		print("Saved progress: ")
+		print(self.sv.progress)
 	end
 
 	print("SurvivalGame.server_onCreate")
@@ -128,6 +130,8 @@ function SurvivalGame:sv_progressWorld(world)
 
 	self.sv.saved.overworld = world
 	self.storage:save(self.sv.saved)
+	print("Saved 'self.sv.saved'")
+	print(self.sv.saved)
 end
 
 function SurvivalGame:sv_loadDestination(portal)
@@ -154,6 +158,8 @@ function SurvivalGame:sv_loadDestination(portal)
 
 	self.sv.progress = self.sv.progress + 1
 	sm.storage.save("progress", self.sv.progress)
+	print("Saved progress: ")
+	print(self.sv.progress)
 
 	self.sv.saved.overworld = sm.world.createWorld("$CONTENT_DATA/Scripts/Game/Worlds/Overworld.lua", "Overworld", { dev = g_survivalDev, progress = self.sv.progress }, self.sv.saved.data.seed)
 	
