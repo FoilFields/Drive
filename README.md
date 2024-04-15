@@ -20,11 +20,11 @@ Tiles!
   - These can have small obstacles but no loot, enemies or other POI-type stuff
 - POIs:
    - Any-size desert tiles with buildings or other cool things that spawn far away from the road
-   - Road tiles that spawn relative to the road. If they are 1x1, they can also be flipped. E.g: a giant pit in the road, shops by the road, or something another tile away from the road like a watch tower
+   - Any-size tiles that spawn relative to the road. If they are 1x1, they can also be flipped. Could be like a giant pit in the road, shops by the road, or something another tile away from the road like a watch tower
 
-Blueprints! If you have a cool blueprint that you want to feature (and it matches the style or we really like it) we'll add it to the game. Just send over your '_.blueprint_' file found in **AppData\Roaming\Axolot Games\Scrap Mechanic\User\[user]\Blueprints\[sort by date modified :D]**
+Blueprints! If you have a cool blueprint that you want to feature (and it matches the style or we really like it) we'll add it to the game. Just send over your '_.blueprint_' file found in **AppData\Roaming\Axolot Games\Scrap Mechanic\User\[user]\Blueprints\[sort by date modified :D]**. Players will dismantle your buld for parts though so be mindfull.
 
-Enemies, if you have any modelling skills and can make things in the Scrap Mechanic
+Enemies, if you have any modelling skills and can add them to Scrap Mechanic, we can take them
 
 **If you are a modder** you could lend us a helping hand by documenting, fixing or even refactoring our code
 
