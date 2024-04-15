@@ -16,7 +16,7 @@ To do
 - Update food to actually heal the player
 - Limit inventory size to just hotbar
 - Custom tunable radio with different stations at different frequencies
-- Better player movement may not be possible now, but as soon as we modders can change it, it's changing
+- Better player movement (no floaty movement)
 
 Larger scope/experimental stuff (some pretty insane ideas here, don't take them too seriously)
 - Remove the ability to destroy things, players can still pick up/place blocks but everything else has to be welded, separate shapes by hitting them with a hammer
