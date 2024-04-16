@@ -41,7 +41,7 @@ You could also work on a wiki I guess but I'm pulling at straws here
 - Add some enemies
 - Make the bed actually work (speed up night while sleeping)
 - Update food to actually heal the player
-- Limit inventory size to just hotbar
+- ~Limit inventory size to just hotbar~ still need to hide ui, check line 100 of SurvivalPlayer for ideas
 - Custom tunable radio with different stations at different frequencies
 - ~Better player movement (no floaty movement)~ No way to do this on client yet :(
 
