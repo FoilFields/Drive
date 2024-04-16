@@ -774,20 +774,9 @@ function SurvivalGame.server_onPlayerJoined(self, player, newPlayer)
 
 		sm.container.beginTransaction()
 
-		if g_survivalDev then
-			--Hotbar
-			sm.container.setItem(inventory, 0, tool_sledgehammer, 1)
-			sm.container.setItem(inventory, 1, tool_spudgun, 1)
-			sm.container.setItem(inventory, 7, obj_plantables_potato, 50)
-			sm.container.setItem(inventory, 8, tool_lift, 1)
-			sm.container.setItem(inventory, 9, tool_connect, 1)
-			--Actual inventory
-			sm.container.setItem(inventory, 10, tool_paint, 1)
-			sm.container.setItem(inventory, 11, tool_weld, 1)
-		else
-			sm.container.setItem(inventory, 0, tool_sledgehammer, 1)
-			sm.container.setItem(inventory, 1, tool_lift, 1)
-		end
+		sm.container.setItem(inventory, 0, tool_lift, 1)
+		sm.container.setItem(inventory, 1, tool_sledgehammer, 1)
+		sm.container.setItem(inventory, 2, tool_connect, 1)
 
 		sm.container.endTransaction()
 
