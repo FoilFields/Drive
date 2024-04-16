@@ -33,7 +33,7 @@ Anything in the TODO list, I accept github changes
 You could also work on a wiki I guess but I'm pulling at straws here
 
 ## TODO (code-wise)
-- Get rid of log book (literally just remove the icon and hotkey)
+- ~Get rid of log book~
 - Custom respawning code (use seat as bed, respawn somewhere nearby, fall-back to last touched creation if needed, and fall-back to start of road if royally screwed)
 - Custom joining code (players to join around host)
 - Drop items on leave
