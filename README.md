@@ -43,7 +43,7 @@ You could also work on a wiki I guess but I'm pulling at straws here
 - Update food to actually heal the player
 - Limit inventory size to just hotbar
 - Custom tunable radio with different stations at different frequencies
-- Better player movement (no floaty movement)
+- ~Better player movement (no floaty movement)~ No way to do this on client yet :(
 
 ## Larger scope/experimental stuff
 (some pretty insane ideas here, don't take them too seriously)
