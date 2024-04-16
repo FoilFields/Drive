@@ -1,10 +1,8 @@
 dofile("$GAME_DATA/Scripts/game/BasePlayer.lua")
-dofile("$SURVIVAL_DATA/Scripts/game/managers/QuestManager.lua")
 dofile("$SURVIVAL_DATA/Scripts/game/survival_camera.lua")
 dofile("$SURVIVAL_DATA/Scripts/game/survival_constants.lua")
 dofile("$SURVIVAL_DATA/Scripts/game/util/Timer.lua")
 dofile("$SURVIVAL_DATA/Scripts/util.lua")
-dofile("$SURVIVAL_DATA/scripts/game/quest_util.lua")
 
 SurvivalPlayer = class(BasePlayer)
 
@@ -47,7 +45,8 @@ function SurvivalPlayer.server_onCreate(self)
 	}
 	if self.sv.saved.isConscious == nil then self.sv.saved.isConscious = true end
 	if self.sv.saved.hasRevivalItem == nil then self.sv.saved.hasRevivalItem = false end
-	if self.sv.saved.isNewPlayer == nil then self.sv.saved.isNewPlayer = true end
+	self.sv.saved.isNewPlayer = true -- I know this sucks but we can't set a joining players world otherwise
+	-- if self.sv.saved.isNewPlayer == nil then self.sv.saved.isNewPlayer = true end
 	if self.sv.saved.inChemical == nil then self.sv.saved.inChemical = false end
 	if self.sv.saved.inOil == nil then self.sv.saved.inOil = false end
 	if self.sv.saved.tutorialsWatched == nil then self.sv.saved.tutorialsWatched = {} end
@@ -83,7 +82,11 @@ function SurvivalPlayer.client_onCreate(self)
 	self.cl = self.cl or {}
 	if self.player == sm.localPlayer.getPlayer() then
 		if g_survivalHud then
+			-- GUI stuff can be found in GAME_DATA/Gui/Layouts/Hud
 			g_survivalHud:setVisible("FoodBar", false)
+			g_survivalHud:setVisible("LogbookBinding", false)
+			g_survivalHud:setVisible("LogbookIconBackground", false)
+			g_survivalHud:setVisible("LogbookNotification", false)
 			g_survivalHud:setVisible("WaterBar", false)
 			g_survivalHud:open()
 		end
@@ -322,8 +325,6 @@ function SurvivalPlayer.server_onFixedUpdate(self, dt)
 end
 
 function SurvivalPlayer.server_onInventoryChanges(self, container, changes)
-	QuestManager.Sv_OnEvent(QuestEvent.InventoryChanges, { container = container, changes = changes })
-
 	self.network:sendToClient(self.player, "cl_n_onInventoryChanges", { container = container, changes = changes })
 end
 

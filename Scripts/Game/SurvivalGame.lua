@@ -1,7 +1,6 @@
 dofile("$SURVIVAL_DATA/Scripts/game/managers/BeaconManager.lua")
 dofile("$SURVIVAL_DATA/Scripts/game/managers/EffectManager.lua")
 dofile("$SURVIVAL_DATA/Scripts/game/managers/ElevatorManager.lua")
-dofile("$SURVIVAL_DATA/Scripts/game/managers/QuestManager.lua")
 dofile("$SURVIVAL_DATA/Scripts/game/managers/RespawnManager.lua")
 dofile("$SURVIVAL_DATA/Scripts/game/managers/UnitManager.lua")
 dofile("$SURVIVAL_DATA/Scripts/game/survival_constants.lua")
@@ -13,7 +12,6 @@ dofile("$SURVIVAL_DATA/Scripts/game/survival_projectiles.lua")
 dofile("$SURVIVAL_DATA/Scripts/game/survival_meleeattacks.lua")
 dofile("$SURVIVAL_DATA/Scripts/game/util/recipes.lua")
 dofile("$SURVIVAL_DATA/Scripts/game/util/Timer.lua")
-dofile("$SURVIVAL_DATA/Scripts/game/managers/QuestEntityManager.lua")
 dofile("$GAME_DATA/Scripts/game/managers/EventManager.lua")
 dofile("$CONTENT_DATA/Scripts/Game/Managers/PortalManager.lua")
 dofile("$CONTENT_DATA/Scripts/Terrain/Util.lua")
@@ -87,16 +85,6 @@ function SurvivalGame.server_onCreate(self)
 
 	g_unitManager = UnitManager()
 	g_unitManager:sv_onCreate(self.sv.saved.overworld)
-
-	self.sv.questEntityManager = sm.scriptableObject.createScriptableObject(sm.uuid.new(
-	"c6988ecb-0fc1-4d45-afde-dc583b8b75ee"))
-
-	self.sv.questManager = sm.storage.load(STORAGE_CHANNEL_QUESTMANAGER)
-	if not self.sv.questManager then
-		self.sv.questManager = sm.scriptableObject.createScriptableObject(sm.uuid.new(
-		"83b0cc7e-b164-47b8-a83c-0d33ba5f72ec"))
-		sm.storage.save(STORAGE_CHANNEL_QUESTMANAGER, self.sv.questManager)
-	end
 
 	-- Game script managed global warehouse table
 	self.sv.warehouses = sm.storage.load(STORAGE_CHANNEL_WAREHOUSES)
@@ -298,8 +286,6 @@ function SurvivalGame.bindChatCommands(self)
 		sm.game.bindChatCommand("/clearpathnodes", {}, "cl_onChatCommand", "Clear all path nodes in overworld")
 		sm.game.bindChatCommand("/enablepathpotatoes", { { "bool", "enable", true } }, "cl_onChatCommand",
 			"Creates path nodes at potato hits in overworld and links to previous node")
-		sm.game.bindChatCommand("/activatequest", { { "string", "name", true } }, "cl_onChatCommand", "Activate quest")
-		sm.game.bindChatCommand("/completequest", { { "string", "name", true } }, "cl_onChatCommand", "Complete quest")
 		sm.game.bindChatCommand("/settilebool", { { "string", "name", false }, { "bool", "value", false } },
 			"cl_onChatCommand", "Set named tile value at player position as a bool")
 		sm.game.bindChatCommand("/settilefloat", { { "string", "name", false }, { "number", "value", false } },
@@ -621,9 +607,7 @@ function SurvivalGame.client_onLoadingScreenLifted(self)
 end
 
 function SurvivalGame.sv_n_loadingScreenLifted(self, _, player)
-	if not g_survivalDev then
-		QuestManager.Sv_TryActivateQuest("quest_tutorial")
-	end
+	-- Ignore (used to activate tutorial quest)
 end
 
 function SurvivalGame.cl_onCinematicEvent(self, eventName, params)
@@ -774,16 +758,6 @@ function SurvivalGame.sv_onChatCommand(self, params, player)
 		end
 	elseif params[1] == "/respawn" then
 		sm.event.sendToPlayer(player, "sv_e_respawn")
-	elseif params[1] == "/activatequest" then
-		local questName = params[2]
-		if questName then
-			QuestManager.Sv_ActivateQuest(questName)
-		end
-	elseif params[1] == "/completequest" then
-		local questName = params[2]
-		if questName then
-			QuestManager.Sv_CompleteQuest(questName)
-		end
 	else
 		params.player = player
 		if sm.exists(player.character) then
@@ -857,17 +831,11 @@ function SurvivalGame.server_onPlayerJoined(self, player, newPlayer)
 			sm.container.endTransaction()
 		end
 	end
-	if player.id > 1 then --Too early for self. Questmanager is not created yet...
-		QuestManager.Sv_OnEvent(QuestEvent.PlayerJoined, { player = player })
-	end
 	g_unitManager:sv_onPlayerJoined(player)
 end
 
 function SurvivalGame.server_onPlayerLeft(self, player)
 	print(player.name, "left the game")
-	if player.id > 1 then
-		QuestManager.Sv_OnEvent(QuestEvent.PlayerLeft, { player = player })
-	end
 end
 
 function SurvivalGame.sv_e_requestWarehouseRestrictions(self, params)

@@ -1,0 +1,16 @@
+{
+   "toolList" : [
+      {
+         "name" : "",
+         "previewRenderable" : "$GAME_DATA/Character/Char_Tools/char_connecttool_preview.rend",
+         "previewRotation" : [ 1, 0, 0, 0, 0, -1, 0, 1, 0 ],
+         "script" : {
+            "class" : "LogBook",
+            "data" : {},
+            "file" : "$CONTENT_DATA/Scripts/Game/Tools/LogBook.lua"
+         },
+         "showInInventory" : false,
+         "uuid" : "a6113860-f4d4-42df-b8f9-129efdbaf777"
+      }
+   ]
+}
