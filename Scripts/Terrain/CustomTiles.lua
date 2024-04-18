@@ -80,10 +80,11 @@ function initCustomTiles()
 
 	g_road_pois = { -- Flippable lets the tile be on the other side of the road, rotates by 180 as well
 		{tile = AddTile( 4201000, "$CONTENT_DATA/Terrain/Tiles/RoadPois/bunker_01.tile", 5 ), size = 1, offset = 1, rotation = 3, flippable = true},
-		{tile = AddTile( 4201001, "$CONTENT_DATA/Terrain/Tiles/RoadPois/kiosk_64_01.tile", 5 ), size = 1, offset = 0, rotation = 3, flippable = true},
-		{tile = AddTile( 4201002, "$CONTENT_DATA/Terrain/Tiles/RoadPois/kiosk_64_02.tile", 5 ), size = 1, offset = 0, rotation = 3, flippable = true},
-		{tile = AddTile( 4201003, "$CONTENT_DATA/Terrain/Tiles/RoadPois/kiosk_64_03.tile", 5 ), size = 1, offset = 0, rotation = 3, flippable = true},
-		{tile = AddTile( 4201003, "$CONTENT_DATA/Terrain/Tiles/RoadPois/Shop_01.tile", 5 ), size = 1, offset = 0, rotation = 3, flippable = true},
+		-- {tile = AddTile( 4201001, "$CONTENT_DATA/Terrain/Tiles/RoadPois/kiosk_64_01.tile", 5 ), size = 1, offset = 0, rotation = 3, flippable = true},s
+		-- {tile = AddTile( 4201002, "$CONTENT_DATA/Terrain/Tiles/RoadPois/kiosk_64_02.tile", 5 ), size = 1, offset = 0, rotation = 3, flippable = true},
+		-- {tile = AddTile( 4201003, "$CONTENT_DATA/Terrain/Tiles/RoadPois/kiosk_64_03.tile", 5 ), size = 1, offset = 0, rotation = 3, flippable = true},
+		{tile = AddTile( 4201004, "$CONTENT_DATA/Terrain/Tiles/RoadPois/Shop_01.tile", 5 ), size = 1, offset = 0, rotation = 3, flippable = true},
+		{tile = AddTile( 4201005, "$CONTENT_DATA/Terrain/Tiles/RoadPois/PetrolStation01.tile", 5 ), size = 1, offset = 1, rotation = 0, flippable = false},
 	}
 end
 
