@@ -69,32 +69,70 @@ g_crap_pools["robot_bits"] = {
   }
 }
 
-g_crap_pools["tools"] = {
+g_crap_pools["bus_roof"] = {
   weight = 0,
   draws = {
-    {uid = tool_sledgehammer, weight = 10}, 
-    {uid = tool_connect, weight = 10}, 
-    {uid = tool_paint, weight = 10}, 
-    {uid = tool_weld, weight = 10}, 
-    {uid = tool_spudgun, weight = 10}, 
-    {uid = tool_shotgun, weight = 10}, 
-    {uid = tool_gatling, weight = 10}, 
+    {uid = obj_consumable_component, weight = 6},
+    {uid = obj_decor_screw01, weight = 2},
+    {uid = obj_decor_screw02, weight = 2}
   }
 }
 
-g_crap_pools["lights"] = {
+g_crap_pools["observation_top"] = {
   weight = 0,
   draws = {
-    {uid = obj_light_headlight, weight = 10}, 
-    {uid = obj_light_beamframelight, weight = 10}, 
-    {uid = obj_light_factorylamp, weight = 10}, 
-    {uid = obj_light_packingtablelamp, weight = 10}, 
-    {uid = obj_light_fluorescentlamp, weight = 10}, 
-    {uid = obj_light_arealight, weight = 10}, 
-    {uid = obj_light_posterspotlight, weight = 10}, 
-    {uid = obj_light_posterspotlight2, weight = 10}, 
+    {uid = obj_decor_babyduck, weight = 1},
   }
 }
+
+g_crap_pools["petrol_station"] = {
+  weight = 0,
+  draws = {
+    {uid = obj_decor_babyduck, weight = 1},
+  }
+}
+
+g_crap_pools["petrol_station_roof"] = {
+  weight = 0,
+  draws = {
+    {uid = obj_decor_babyduck, weight = 1},
+  }
+}
+
+g_crap_pools["bus_seat"] = {
+  weight = 0,
+  draws = {
+    {uid = obj_decor_babyduck, weight = 10},
+    {uid = obj_decor_pillow, weight = 10}
+  }
+}
+
+-- g_crap_pools["tools"] = {
+--   weight = 0,
+--   draws = {
+--     {uid = tool_sledgehammer, weight = 10}, 
+--     {uid = tool_connect, weight = 10}, 
+--     {uid = tool_paint, weight = 10}, 
+--     {uid = tool_weld, weight = 10}, 
+--     {uid = tool_spudgun, weight = 10}, 
+--     {uid = tool_shotgun, weight = 10}, 
+--     {uid = tool_gatling, weight = 10}, 
+--   }
+-- }
+
+-- g_crap_pools["lights"] = {
+--   weight = 0,
+--   draws = {
+--     {uid = obj_light_headlight, weight = 10}, 
+--     {uid = obj_light_beamframelight, weight = 10}, 
+--     {uid = obj_light_factorylamp, weight = 10}, 
+--     {uid = obj_light_packingtablelamp, weight = 10}, 
+--     {uid = obj_light_fluorescentlamp, weight = 10}, 
+--     {uid = obj_light_arealight, weight = 10}, 
+--     {uid = obj_light_posterspotlight, weight = 10}, 
+--     {uid = obj_light_posterspotlight2, weight = 10}, 
+--   }
+-- }
 
 function calculatePoolWeight(pool)
   local totalWeight = 0
