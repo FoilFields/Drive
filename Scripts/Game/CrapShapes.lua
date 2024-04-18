@@ -40,10 +40,10 @@ g_crap_pools["crap"] = {
 g_crap_pools["ship"] = {
   weight = 0,
   draws = {
-    {uid = obj_interactive_timer, weight = 20}, 
-    {uid = obj_interactive_logicgate, weight = 20}, 
-    {uid = obj_interactive_button, weight = 20}, 
-    {uid = obj_interactive_switch, weight = 20}, 
+    {uid = obj_interactive_timer, weight = 15}, 
+    {uid = obj_interactive_logicgate, weight = 15}, 
+    {uid = obj_interactive_button, weight = 15}, 
+    {uid = obj_interactive_switch, weight = 15}, 
     {uid = obj_interactive_gasengine_01, weight = 9},
     {uid = obj_interactive_gasengine_04, weight = 3},
     {uid = obj_interactive_gasengine_05, weight = 1},
@@ -52,7 +52,7 @@ g_crap_pools["ship"] = {
     {uid = obj_interactive_controller_02, weight = 1},
     {uid = obj_interactive_controller_05, weight = 1},
     {uid = obj_interactive_mountablespudgun, weight = 1},
-    {uid = obj_plantables_potato, weight = 40},
+    {uid = obj_consumable_gas, weight = 60},
     {uid = obj_consumable_component, weight = 40},
   }
 }
