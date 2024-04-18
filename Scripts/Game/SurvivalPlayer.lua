@@ -350,6 +350,10 @@ function SurvivalPlayer.server_onInventoryChanges(self, container, changes)
 end
 
 function SurvivalPlayer:sv_crapItems(container)
+	if not sm.game.getLimitedInventory() then
+		return
+	end
+
 	for i = 10, container:getSize() - 1, 1 do
 		local item = container:getItem(i)
 			
