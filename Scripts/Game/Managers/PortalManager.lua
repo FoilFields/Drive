@@ -20,7 +20,7 @@ PortalManager = class( nil )
 -- Some edge cases i haven't really considered:
 -- Someone (somehow) is out of the portal zone but still in the tile
 -- Both portals on the SAME WORLD are loaded (would need a player on either side of the world)
--- I had another one but I forgit it (it was game-breaking)
+-- If a player leaves on an eariler world they cannot rejoin (Devastatingly game-breaking D:)
 
 local loading = false
 
