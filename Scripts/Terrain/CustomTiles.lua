@@ -75,7 +75,8 @@ function initCustomTiles()
 	g_desert_pois = {
 		{tile = AddTile( 3210300, "$CONTENT_DATA/Terrain/Tiles/DesertPois/poi_01.tile", 5 ), size = 4},
 		{tile = AddTile( 3210301, "$CONTENT_DATA/Terrain/Tiles/DesertPois/poi_02.tile", 5 ), size = 2},
-		{tile = AddTile( 3210302, "$CONTENT_DATA/Terrain/Tiles/DesertPois/ship_01.tile", 5 ), size = 1}
+		{tile = AddTile( 3210302, "$CONTENT_DATA/Terrain/Tiles/DesertPois/ship_01.tile", 5 ), size = 1},
+		{tile = AddTile( 3210303, "$CONTENT_DATA/Terrain/Tiles/DesertPois/RadioTower01.tile", 5 ), size = 1}
 	}
 
 	-- Commented tiles are desert-ified kiosk tiles from survival
@@ -89,7 +90,7 @@ function initCustomTiles()
 		{tile = AddTile( 4201005, "$CONTENT_DATA/Terrain/Tiles/RoadPois/PetrolStation01.tile", 5 ), size = 1, offset = 1, rotation = 0, flippable = true},
 		{tile = AddTile( 4201006, "$CONTENT_DATA/Terrain/Tiles/RoadPois/Garage01.tile", 5 ), size = 1, offset = 0, rotation = 1, flippable = true},
 		{tile = AddTile( 4201007, "$CONTENT_DATA/Terrain/Tiles/RoadPois/ObservationTower01.tile", 5 ), size = 1, offset = 2, rotation = 0, flippable = true},
-		{tile = AddTile( 4201007, "$CONTENT_DATA/Terrain/Tiles/RoadPois/BusStop01.tile", 5 ), size = 1, offset = 0, rotation = 3, flippable = true},
+		{tile = AddTile( 4201008, "$CONTENT_DATA/Terrain/Tiles/RoadPois/BusStop01.tile", 5 ), size = 1, offset = 0, rotation = 3, flippable = true},
 	}
 end
 

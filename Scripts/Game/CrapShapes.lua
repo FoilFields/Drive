@@ -92,6 +92,14 @@ g_crap_pools["petrol_station"] = {
   }
 }
 
+-- Spawns 5 of these
+g_crap_pools["radio_tower"] = {
+  weight = 0,
+  draws = {
+    {uid = obj_decor_babyduck, weight = 1},
+  }
+}
+
 g_crap_pools["petrol_station_roof"] = {
   weight = 0,
   draws = {
@@ -99,6 +107,7 @@ g_crap_pools["petrol_station_roof"] = {
   }
 }
 
+-- spawns 1 on the bus-stop bench
 g_crap_pools["bus_seat"] = {
   weight = 0,
   draws = {
