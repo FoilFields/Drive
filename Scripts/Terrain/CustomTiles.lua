@@ -82,10 +82,10 @@ function initCustomTiles()
 	-- Commented tiles are desert-ified kiosk tiles from survival
 	-- Flippable lets the tile be on the other side of the road, rotates by 180 as well
 	g_road_pois = {
+		{tile = AddTile( 4201000, "$CONTENT_DATA/Terrain/Tiles/RoadPois/bunker_01.tile", 5 ), size = 1, offset = 1, rotation = 3, flippable = true},
 	-- {tile = AddTile( 4201001, "$CONTENT_DATA/Terrain/Tiles/RoadPois/kiosk_64_01.tile", 5 ), size = 1, offset = 0, rotation = 3, flippable = true},
 	-- {tile = AddTile( 4201002, "$CONTENT_DATA/Terrain/Tiles/RoadPois/kiosk_64_02.tile", 5 ), size = 1, offset = 0, rotation = 3, flippable = true},
 	-- {tile = AddTile( 4201003, "$CONTENT_DATA/Terrain/Tiles/RoadPois/kiosk_64_03.tile", 5 ), size = 1, offset = 0, rotation = 3, flippable = true},
-		{tile = AddTile( 4201000, "$CONTENT_DATA/Terrain/Tiles/RoadPois/bunker_01.tile", 5 ), size = 1, offset = 1, rotation = 3, flippable = true},
 		{tile = AddTile( 4201004, "$CONTENT_DATA/Terrain/Tiles/RoadPois/Shop_01.tile", 5 ), size = 1, offset = 0, rotation = 3, flippable = true},
 		{tile = AddTile( 4201005, "$CONTENT_DATA/Terrain/Tiles/RoadPois/PetrolStation01.tile", 5 ), size = 1, offset = 1, rotation = 0, flippable = true},
 		{tile = AddTile( 4201006, "$CONTENT_DATA/Terrain/Tiles/RoadPois/Garage01.tile", 5 ), size = 1, offset = 0, rotation = 1, flippable = true},

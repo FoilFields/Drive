@@ -5,34 +5,29 @@ g_crap_pools = {}
 g_crap_pools["crap"] = {
   weight = 0,
   draws = {
-    -- {uid = jnt_bearing, weight = 10}, 
-    {uid = obj_scrap_gasengine, weight = 1}, 
-    {uid = obj_scrap_driverseat, weight = 2}, 
+    {uid = obj_scrap_gasengine, weight = 10}, 
+    {uid = obj_scrap_driverseat, weight = 8}, 
     {uid = obj_scrap_seat, weight = 10}, 
-    {uid = obj_scrap_smallwheel, weight = 4}, 
+    {uid = obj_scrap_smallwheel, weight = 10}, 
     {uid = obj_interactive_timer, weight = 10}, 
     {uid = obj_interactive_logicgate, weight = 10}, 
     {uid = obj_interactive_horn, weight = 10}, 
-    {uid = obj_interactive_radio, weight = 32}, 
+    {uid = obj_interactive_radio, weight = 2}, 
     {uid = obj_interactive_button, weight = 10}, 
     {uid = obj_interactive_switch, weight = 10}, 
-    -- {uid = jnt_suspensionsport_01, weight = 10}, 
-    -- {uid = jnt_suspensionoffroad_01, weight = 10}, 
-    {uid = obj_interactive_bathtub, weight = 10}, 
-    {uid = obj_interactive_toilet, weight = 100}, 
     {uid = obj_interactive_seat_01, weight = 10}, 
-    {uid = obj_interactive_driversaddle_01, weight = 2},
+    {uid = obj_interactive_driversaddle_01, weight = 8},
     {uid = obj_interactive_saddle_01, weight = 10},
-    {uid = obj_interactive_gasengine_01, weight = 10},
-    {uid = obj_interactive_thruster_01, weight = 10},
-    {uid = obj_interactive_controller_01, weight = 10},
-    {uid = obj_interactive_sensor_01, weight = 4},
-    -- {uid = jnt_interactive_piston_01, weight = 10},
-    {uid = obj_interactive_comfybed, weight = 1},
+    {uid = obj_interactive_gasengine_01, weight = 5},
+    {uid = obj_interactive_thruster_01, weight = 1},
+    {uid = obj_interactive_controller_01, weight = 3},
+    {uid = obj_interactive_sensor_01, weight = 10},
     {uid = obj_interactive_mountablespudgun, weight = 10},
-    {uid = obj_vehicle_smallwheel, weight = 7},
-    {uid = obj_vehicle_bigwheel, weight = 5},
-    {uid = obj_powertools_drill, weight = 4}
+    {uid = obj_vehicle_smallwheel, weight = 10},
+    {uid = obj_vehicle_bigwheel, weight = 8},
+    {uid = obj_container_gas, weight = 5},
+    {uid = obj_powertools_drill, weight = 4},
+    {uid = obj_vehicle_license_plate, weight = 10}
   }
 }
 
@@ -72,6 +67,8 @@ g_crap_pools["robot_bits"] = {
 g_crap_pools["bus_roof"] = {
   weight = 0,
   draws = {
+    {uid = obj_interactive_bathtub, weight = 10},
+    {uid = obj_interactive_toilet, weight = 10},
     {uid = obj_consumable_component, weight = 6},
     {uid = obj_decor_screw01, weight = 2},
     {uid = obj_decor_screw02, weight = 2}
@@ -81,14 +78,16 @@ g_crap_pools["bus_roof"] = {
 g_crap_pools["observation_top"] = {
   weight = 0,
   draws = {
-    {uid = obj_decor_babyduck, weight = 1},
+    {uid = obj_consumable_water, weight = 10},
+    {uid = obj_consumable_longsandwich, weight = 10},
   }
 }
 
 g_crap_pools["petrol_station"] = {
   weight = 0,
   draws = {
-    {uid = obj_decor_babyduck, weight = 1},
+    {uid = obj_consumable_sunshake, weight = 10},
+    {uid = obj_consumable_gas, weight = 10},
   }
 }
 
@@ -96,14 +95,23 @@ g_crap_pools["petrol_station"] = {
 g_crap_pools["radio_tower"] = {
   weight = 0,
   draws = {
-    {uid = obj_decor_babyduck, weight = 1},
+    {uid = obj_consumable_component, weight = 5},
+    {uid = obj_tool_frier, weight = 1},
+    {uid = obj_tool_spudling, weight = 1},
+    {uid = obj_tool_paint, weight = 1},
+    {uid = obj_tool_connect, weight = 1},
+    {uid = obj_tool_weld, weight = 1},
+    {uid = obj_tool_spudgun, weight = 1},
   }
 }
 
 g_crap_pools["petrol_station_roof"] = {
   weight = 0,
   draws = {
-    {uid = obj_decor_babyduck, weight = 1},
+    {uid = obj_containers_cowcrate, weight = 2},
+    {uid = obj_decor_cone, weight = 8},
+    {uid = obj_container_chest, weight = 3},
+    {uid = obj_consumable_component, weight = 10},
   }
 }
 
@@ -112,7 +120,7 @@ g_crap_pools["bus_seat"] = {
   weight = 0,
   draws = {
     {uid = obj_decor_babyduck, weight = 10},
-    {uid = obj_decor_pillow, weight = 10}
+    {uid = obj_decor_pillow, weight = 7}
   }
 }
 
