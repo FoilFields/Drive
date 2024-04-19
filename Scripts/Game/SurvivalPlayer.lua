@@ -356,13 +356,14 @@ function SurvivalPlayer:sv_crapItems(container)
 
 	for i = 10, container:getSize() - 1, 1 do
 		local item = container:getItem(i)
-			
+		
 		if item.quantity > 0 then
 			sm.container.beginTransaction()
 
 			if item.uuid == tool_lift or item.uuid == tool_sledgehammer then
 				print("WE HATE CRAP MECHANIC, moving essential item back to hotbar")
-				-- move to the first empty slot. if there isnt then i dont like the player so ill fukcing drop it how about htat haha get fucked nerd
+
+				-- move to the first empty slot. if there isnt then i dont like the player so ill fukcing do nothing how about htat haha get fucked nerd
 				for j = 0, 9, 1 do
 					local hotbarSlot = container:getItem(j)
 
@@ -373,6 +374,7 @@ function SurvivalPlayer:sv_crapItems(container)
 						goto balls -- I hate this stupid idiot coding language it is a rediculous fake language for primitive minds
 					end
 				end
+
 				::balls::
 			else
 				print("Crapping items...")
@@ -383,7 +385,6 @@ function SurvivalPlayer:sv_crapItems(container)
 				local vel = sm.vec3.new(0, 0, 1) + character.direction * 3
 				sm.projectile.customProjectileAttack( params, projectile_loot, 0, worldPosition, vel, self.player, worldPosition, worldPosition, 0 )
 				container:setItem(i, sm.uuid.getNil(), 0, -1)
-				
 			end
 
 			sm.container.endTransaction()
