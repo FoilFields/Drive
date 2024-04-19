@@ -191,7 +191,11 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
     for i = 1, desertPoiCount, 1 do
         local poi = getDesertPoi(math.random(0, 100))
 
-        local x = math.random() < 0.5 and math.random(xMin + padding, -5 - (poi.size - 1)) or math.random(5, xMax - padding - (poi.size - 1)) -- Avoid le road
+        local left = math.random() < 0.5 -- Avoid le road
+        local minX = xMin + padding + 1
+        local maxX = xMax - padding - (poi.size - 1) - 1
+
+        local x = left and math.random(minX, -5 - (poi.size - 2)) or math.random(5, maxX) 
         local y = math.random(yMin + padding + 5, yMax - padding - 5 - (poi.size - 1))
 
         if validPlacement(x, y, poi.size, desertPois) then
