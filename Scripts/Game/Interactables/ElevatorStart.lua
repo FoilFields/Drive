@@ -17,7 +17,7 @@ end
 
 -- Tries to connect with the portal from the previous world
 function ElevatorStart:sv_findPortal()
-	local portal = g_portalManager.sv_getPortal()
+	local portal = g_portalManager:sv_getPortal()
 	if not portal or sm.world.getCurrentWorld() == portal:getWorldA() then -- Ensure this is the destination portal before connecting
 		return
 	end

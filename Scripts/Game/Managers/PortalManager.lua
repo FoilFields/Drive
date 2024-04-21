@@ -19,7 +19,6 @@ PortalManager = class( nil )
 
 -- Some edge cases i haven't really considered:
 -- Someone (somehow) is out of the portal zone but still in the tile
--- Both portals on the SAME WORLD are loaded (would need a player on either side of the world)
 -- If a player leaves on an eariler world they cannot rejoin (Devastatingly game-breaking D:)
 
 local loading = false
@@ -38,20 +37,23 @@ function PortalManager:sv_setPortal(portal)
   self.portal = portal
 end
 
-function PortalManager:sv_getPortal(portal)
-  return portal
+function PortalManager:sv_getPortal()
+  return self.portal
 end
 
 function PortalManager:sv_transfer()
+  print("Teleporting players from world "..self.portal:getWorldA().id.." to world "..self.portal:getWorldB().id)
+
   loading = true
   oldWorld = self.portal:getWorldA()
   self.portal:transferAToB()
+  sm.event.sendToGame("sv_save") -- Sometimes a crash can happen so we do another save now that the players are in the correct world
   -- Cleanup
 
   -- yeah we have to wait otherwise it'll teleport like half the players and kill itself, crashing everyones games lmao. I cba to write good code so its kind of arbitrarily 30 seconds
   -- TODO: delete old world when we have confirmed that all players AND CREATIONS have been teleported
   print("Staging old world for deletion")
-  nextDestroy = os.time() + 30
+  nextDestroy = os.time() + 25
 end
 
 function PortalManager:sv_onFixedUpdate()
@@ -59,17 +61,19 @@ function PortalManager:sv_onFixedUpdate()
     print("Destroying old world!!!!1!!")
     nextDestroy = nil
     if (oldWorld) then
-      oldWorld:destroy()
-      oldWorld = nil
+      self:sv_remove()
       g_switchingWorld = false -- We can finally safely do it all again :)
       loading = false
-      print("Portal process complete :D")
+      oldWorld:destroy()
+      oldWorld = nil
+      print("Portal process complete :D") -- This prints before the old world has actually been deleted which can look a bit missleading
     end
   end
 
   if (self.portal and not loading) then
     if self.portal:hasOpeningA() and self.portal:hasOpeningB() then
       print("Two openings detected! Activating portal...")
+      sm.event.sendToGame("sv_save") -- this is a jank way of having a create world callback that runs AS SOON AS the world data has been generated
       self:sv_transfer()
     end
   end

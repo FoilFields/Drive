@@ -115,6 +115,11 @@ function SurvivalGame.server_onCreate(self)
 	self.sv.syncTimer:start(0)
 end
 
+-- IDK what data this stores but we save it anyway in case its data effected by the createWorld process. Also better to save this data asap, rather than when we destroy the old world
+function SurvivalGame:sv_save()
+	self.storage:save(self.sv.saved)
+end
+
 function SurvivalGame:sv_loadDestination()
 	if g_switchingWorld then
 		print("Cannot load new destination as we're already switching worlds")
@@ -155,7 +160,7 @@ function SurvivalGame:sv_loadDestination()
 
 	print("Creating new world")
 	self.sv.saved.overworld = sm.world.createWorld("$CONTENT_DATA/Scripts/Game/Worlds/Overworld.lua", "Overworld", { dev = g_survivalDev, progress = self.sv.progress }, self.sv.saved.data.seed)
-	sm.storage.save(self.sv.saved)
+	sm.storage:save(self.sv.saved)
 	print("Created and saved world " .. self.sv.saved.overworld.id)
 	
 	sm.portal.addWorldPortalHook(self.sv.saved.overworld, "PORTAL", g_portalManager:sv_getPortal())
@@ -169,9 +174,7 @@ function SurvivalGame:sv_loadDestination()
 end
 
 function SurvivalGame.sv_cellLoaded(self, world, x, y, player)
-	print(x)
-	print(y)
-	print("Loaded portal cell for a player at "..x..", "..y)
+	print("Confirmed loading portal cell for a player at "..x..", "..y)
 end
 
 function SurvivalGame.server_onRefresh(self)
