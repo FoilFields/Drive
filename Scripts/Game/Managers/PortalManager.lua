@@ -9,7 +9,7 @@ PortalManager = class( nil )
 -- This loads the interactable there (It's called "ElevatorEnd", it was originally stolen from the elevator im sorry for the name)
 -- This interactable creates a portal with a huge openingA (64x64x64) positioned to cover the entire tile
 -- It gives the PortalManager the portal it made
--- On pressing the button, it fires sv_loadDestination() which in turn fires "sv_loadDestination" in SurvivalGame
+-- On pressing the button, it fires sv_loadDestination in SurvivalGame
 -- This creates a new world and loads (by exact coordinate, and for every player) the tile with the interactable "ElevatorStart" in it (I KNOW THE NAME STILL HAS ELEVATOR IN IT)
 -- Oh yeah we also add a portal world hook so that we can connect the portals
 -- The "ElevatorStart" interactable (now having been loaded by like every player in the server) will have loaded and will now pop this hook, set openingB similar to how the first opening is set, then update the PortalManager with the modified portal
@@ -38,6 +38,10 @@ function PortalManager:sv_setPortal(portal)
   self.portal = portal
 end
 
+function PortalManager:sv_getPortal(portal)
+  return portal
+end
+
 function PortalManager:sv_transfer()
   loading = true
   oldWorld = self.portal:getWorldA()
@@ -50,30 +54,22 @@ function PortalManager:sv_transfer()
   nextDestroy = os.time() + 30
 end
 
--- We need the reference to the portal so we should go through the portal manager
-function PortalManager:sv_loadDestination()
-  sm.event.sendToGame("sv_loadDestination", self.portal)
-end
-
 function PortalManager:sv_onFixedUpdate()
   if (nextDestroy and nextDestroy < os.time()) then
+    print("Destroying old world!!!!1!!")
     nextDestroy = nil
     if (oldWorld) then
-      loading = not sm.event.sendToGame("sv_progressWorld", self.portal:getWorldB())
       oldWorld:destroy()
       oldWorld = nil
+      g_switchingWorld = false -- We can finally safely do it all again :)
+      loading = false
+      print("Portal process complete :D")
     end
   end
 
-  -- Make sure all players are in worldA before doing anything (also we have loading because spam (we could just check if an oldWorld exists but thats not readable dumbass))
   if (self.portal and not loading) then
     if self.portal:hasOpeningA() and self.portal:hasOpeningB() then
-      for _, player in ipairs(sm.player.getAllPlayers()) do
-        if player:getCharacter() and player:getCharacter():getWorld() ~= self.portal:getWorldA() then
-          return
-        end
-      end
-
+      print("Two openings detected! Activating portal...")
       self:sv_transfer()
     end
   end

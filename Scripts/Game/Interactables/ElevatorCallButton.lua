@@ -11,7 +11,7 @@ end
 function ElevatorCallButton.sv_push( self )
 	self.interactable:setActive(true)
 	
-	g_portalManager:sv_loadDestination()
+	sm.event.sendToGame("sv_loadDestination")
 end
 
 function ElevatorCallButton.client_onCreate( self )

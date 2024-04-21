@@ -86,6 +86,8 @@ function SurvivalGame.server_onCreate(self)
 	g_unitManager = UnitManager()
 	g_unitManager:sv_onCreate(self.sv.saved.overworld)
 
+	g_switchingWorld = false
+
 	-- Game script managed global warehouse table
 	self.sv.warehouses = sm.storage.load(STORAGE_CHANNEL_WAREHOUSES)
 	if self.sv.warehouses then
@@ -113,16 +115,12 @@ function SurvivalGame.server_onCreate(self)
 	self.sv.syncTimer:start(0)
 end
 
-function SurvivalGame:sv_progressWorld(world)
-	print("Setting new world as main")
+function SurvivalGame:sv_loadDestination()
+	if g_switchingWorld then
+		print("Cannot load new destination as we're already switching worlds")
+		return
+	end
 
-	self.sv.saved.overworld = world
-	self.storage:save(self.sv.saved)
-	print(self.sv.saved)
-	print("Saved and switched current world to overworld")
-end
-
-function SurvivalGame:sv_loadDestination(portal)
 	print("Loading portal destination")
 	
 	local players = sm.player.getAllPlayers();
@@ -143,24 +141,31 @@ function SurvivalGame:sv_loadDestination(portal)
 	
 	print("All players inside exit area...")
 
+	g_switchingWorld = true
+
+	-- Creations on a lift won't teleport so we gotta do this
+	for _, player in ipairs(players) do
+		player:removeLift()
+	end
+	print("Removed all lifts")
+
+	print("Incrementing progress")
 	self.sv.progress = self.sv.progress + 1
 	sm.storage.save("progress", self.sv.progress)
-	print("Saved progress: ")
-	print(self.sv.progress)
 
+	print("Creating new world")
 	self.sv.saved.overworld = sm.world.createWorld("$CONTENT_DATA/Scripts/Game/Worlds/Overworld.lua", "Overworld", { dev = g_survivalDev, progress = self.sv.progress }, self.sv.saved.data.seed)
-	self.storage:save(self.sv.saved) -- We save both here and after players are teleported
-
-	-- CREATE WORLD
-	print( "Created World "..self.sv.saved.overworld.id )
+	sm.storage.save(self.sv.saved)
+	print("Created and saved world " .. self.sv.saved.overworld.id)
 	
-	sm.portal.addWorldPortalHook(self.sv.saved.overworld, "PORTAL", portal)
+	sm.portal.addWorldPortalHook(self.sv.saved.overworld, "PORTAL", g_portalManager:sv_getPortal())
 
 	for _, player in ipairs(players) do
+		print("Loading entrance cell for "..player.name)
 		self.sv.saved.overworld:loadCell(0, CELL_MIN_Y + 1, player, "sv_cellLoaded", nil, self)
 	end
 	
-	print("Created new world and added portal hook")
+	print("Created new world with portal hook and loaded entrance portal for all players")
 end
 
 function SurvivalGame.sv_cellLoaded(self, world, x, y, player)

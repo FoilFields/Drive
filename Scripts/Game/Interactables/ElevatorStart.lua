@@ -15,7 +15,12 @@ function ElevatorStart.server_onFixedUpdate( self )
 	self:sv_findPortal()
 end
 
+-- Tries to connect with the portal from the previous world
 function ElevatorStart:sv_findPortal()
+	if sm.world.getCurrentWorld() == g_portalManager.sv_getPortal():getWorldA() then -- Ensure this is the destination portal before connecting
+		return
+	end
+
 	local portal = sm.portal.popWorldPortalHook("PORTAL")
 	if portal then
 		print( "Found Portal "..portal.id.."!" )
