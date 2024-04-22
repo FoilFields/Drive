@@ -164,6 +164,22 @@ g_crap_pools["radio_tower"] = {
   }
 }
 
+-- Spawns 3 of these
+g_crap_pools["parking_lot"] = {
+  weight = 0,
+  draws = {
+    {uid = obj_consumable_component, weight = 5},
+  }
+}
+
+-- Spawns 2 of these
+g_crap_pools["shop_roof"] = {
+  weight = 0,
+  draws = {
+    {uid = obj_consumable_component, weight = 5},
+  }
+}
+
 g_crap_pools["petrol_station_roof"] = {
   weight = 0,
   draws = {
