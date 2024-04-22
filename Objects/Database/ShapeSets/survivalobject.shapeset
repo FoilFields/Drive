@@ -1,4 +1,23 @@
 {
+  "blockList": [
+    {
+      "uuid": "f5ceb7e3-5576-41d2-82d2-29860cf6e20e",
+      "name": "blk_crackedconcrete",
+      "dif": "$SURVIVAL_DATA/Objects/Textures/Blocks/blk_crackedconcrete01_dif.tga",
+      "asg": "$SURVIVAL_DATA/Objects/Textures/Blocks/blk_crackedconcrete01_asg.tga",
+      "nor": "$SURVIVAL_DATA/Objects/Textures/Blocks/blk_crackedconcrete01_nor.tga",
+      "tiling": 8,
+      "color": "8d8f89",
+      "physicsMaterial": "Rock",
+      "ratings": {
+        "density": 6,
+        "durability": 3,
+        "friction": 6,
+        "buoyancy": 4
+      },
+      "flammable": false
+    }
+  ],
   "partList": [
     {
       "box": {
@@ -71,51 +90,14 @@
       "name": "obj_customobject_elevator_end",
       "renderable": {
         "lodList": [
-          {
-            "subMeshMap": {
-              "hiss_atlas": {
-                "textureList": [
-                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevator_dif.tga",
-                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevator_asg.tga",
-                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevator_nor.tga",
-                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevatorwall_ao.tga"
-                ],
-                "material": "DifAsgNorAo"
-              },
-              "door_frame": {
-                "textureList": [
-                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevatordoorframe_dif.tga",
-                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevatordoorframe_asg.tga",
-                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevatordoorframe_nor.tga",
-                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevatordoorframe_ao.tga"
-                ],
-                "material": "DifAsgNorAo"
-              },
-              "signs": {
-                "textureList": [
-                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_signsatlas_dif.tga",
-                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_signsatlas_asg.tga",
-                  ""
-                ],
-                "material": "DifAsg"
-              }
-            },
-            "mesh": "$SURVIVAL_DATA/Objects/Mesh/building/obj_building_elevatorfloor.fbx",
-            "includes": [
-              "POSITION",
-              "UV0",
-              "UV1",
-              "NORMAL",
-              "TANGENTS"
-            ]
-          }
+          {}
         ]
       },
       "color": "79859c",
       "box": {
-        "x": 14,
+        "x": 1,
         "y": 1,
-        "z": 27
+        "z": 1
       },
       "scripted": {
         "filename": "$CONTENT_DATA/Scripts/Game/Interactables/ElevatorEnd.lua",
@@ -146,51 +128,14 @@
       "name": "obj_customobject_elevator_start",
       "renderable": {
         "lodList": [
-          {
-            "subMeshMap": {
-              "hiss_atlas": {
-                "textureList": [
-                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevator_dif.tga",
-                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevator_asg.tga",
-                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevator_nor.tga",
-                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevatorwall_ao.tga"
-                ],
-                "material": "DifAsgNorAo"
-              },
-              "door_frame": {
-                "textureList": [
-                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevatordoorframe_dif.tga",
-                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevatordoorframe_asg.tga",
-                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevatordoorframe_nor.tga",
-                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_elevatordoorframe_ao.tga"
-                ],
-                "material": "DifAsgNorAo"
-              },
-              "signs": {
-                "textureList": [
-                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_signsatlas_dif.tga",
-                  "$SURVIVAL_DATA/Objects/Textures/building/obj_building_signsatlas_asg.tga",
-                  ""
-                ],
-                "material": "DifAsg"
-              }
-            },
-            "mesh": "$SURVIVAL_DATA/Objects/Mesh/building/obj_building_elevatorfloor.fbx",
-            "includes": [
-              "POSITION",
-              "UV0",
-              "UV1",
-              "NORMAL",
-              "TANGENTS"
-            ]
-          }
+          {}
         ]
       },
       "color": "79859c",
       "box": {
-        "x": 14,
+        "x": 1,
         "y": 1,
-        "z": 27
+        "z": 1
       },
       "scripted": {
         "filename": "$CONTENT_DATA/Scripts/Game/Interactables/ElevatorStart.lua",
