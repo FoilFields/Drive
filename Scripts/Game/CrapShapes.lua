@@ -6,7 +6,7 @@ g_crap_pools["crap"] = {
   weight = 0,
   draws = {
     {uid = obj_scrap_gasengine, weight = 10}, 
-    {uid = obj_scrap_driverseat, weight = 8}, 
+    {uid = obj_scrap_driverseat, weight = 10}, 
     {uid = obj_scrap_seat, weight = 10}, 
     {uid = obj_scrap_smallwheel, weight = 10}, 
     {uid = obj_interactive_timer, weight = 10}, 
@@ -16,33 +16,28 @@ g_crap_pools["crap"] = {
     {uid = obj_interactive_button, weight = 10}, 
     {uid = obj_interactive_switch, weight = 10}, 
     {uid = obj_interactive_seat_01, weight = 10}, 
-    {uid = obj_interactive_driversaddle_01, weight = 8},
+    {uid = obj_interactive_driversaddle_01, weight = 10},
     {uid = obj_interactive_saddle_01, weight = 10},
-    {uid = obj_interactive_gasengine_01, weight = 5},
-    {uid = obj_interactive_thruster_01, weight = 1},
-    {uid = obj_interactive_controller_01, weight = 3},
+    {uid = obj_interactive_gasengine_01, weight = 10},
+    {uid = obj_interactive_thruster_01, weight = 2},
+    {uid = obj_interactive_controller_01, weight = 10},
     {uid = obj_interactive_sensor_01, weight = 10},
     {uid = obj_interactive_mountablespudgun, weight = 10},
     {uid = obj_vehicle_smallwheel, weight = 10},
-    {uid = obj_vehicle_bigwheel, weight = 8},
-    {uid = obj_container_gas, weight = 5},
-    {uid = obj_powertools_drill, weight = 4},
+    {uid = obj_vehicle_bigwheel, weight = 10},
+    {uid = obj_container_gas, weight = 10},
+    {uid = obj_powertools_drill, weight = 10},
     {uid = obj_vehicle_license_plate, weight = 10}
   }
 }
 
 -- The ship currently spawns 9 items
+-- Can get really good loot but kind of rare
 g_crap_pools["ship"] = {
   weight = 0,
   draws = {
-    {uid = obj_interactive_timer, weight = 15}, 
-    {uid = obj_interactive_logicgate, weight = 15}, 
-    {uid = obj_interactive_button, weight = 15}, 
-    {uid = obj_interactive_switch, weight = 15}, 
-    {uid = obj_interactive_gasengine_01, weight = 9},
     {uid = obj_interactive_gasengine_04, weight = 3},
     {uid = obj_interactive_gasengine_05, weight = 1},
-    {uid = obj_interactive_thruster_01, weight = 1},
     {uid = obj_interactive_thruster_02, weight = 1},
     {uid = obj_interactive_controller_02, weight = 1},
     {uid = obj_interactive_controller_05, weight = 1},
@@ -52,6 +47,7 @@ g_crap_pools["ship"] = {
   }
 }
 
+-- Spawns in the freezer in the shop
 g_crap_pools["robot_bits"] = {
   weight = 0,
   draws = {
@@ -67,22 +63,29 @@ g_crap_pools["robot_bits"] = {
 g_crap_pools["garage"] = {
   weight = 0,
   draws = {
-    {uid = obj_interactive_robotbasshead, weight = 10},
-    {uid = obj_interactive_robotdrumhead, weight = 10},
-    {uid = obj_interactive_robotsynthhead, weight = 10},
-    {uid = obj_interactive_robotbliphead01, weight = 10},
-    {uid = obj_decor_screw01, weight = 5},
-    {uid = obj_decor_screw02, weight = 5}
+    {uid = obj_scrap_gasengine, weight = 10}, 
+    {uid = obj_scrap_driverseat, weight = 10}, 
+    {uid = obj_scrap_seat, weight = 10}, 
+    {uid = obj_scrap_smallwheel, weight = 10}, 
+    {uid = obj_interactive_horn, weight = 10}, 
+    {uid = obj_interactive_seat_02, weight = 10}, 
+    {uid = obj_interactive_driversaddle_02, weight = 10},
+    {uid = obj_interactive_saddle_02, weight = 10},
+    {uid = obj_interactive_gasengine_02, weight = 10},
+    {uid = obj_interactive_thruster_02, weight = 2},
+    {uid = obj_interactive_mountablespudgun, weight = 10},
+    {uid = obj_vehicle_smallwheel, weight = 10},
+    {uid = obj_vehicle_bigwheel, weight = 10},
+    {uid = obj_container_gas, weight = 10},
+    {uid = obj_powertools_drill, weight = 10},
+    {uid = obj_vehicle_license_plate, weight = 10}
   }
 }
 
 g_crap_pools["garage_back"] = {
   weight = 0,
   draws = {
-    {uid = obj_interactive_robotbasshead, weight = 10},
-    {uid = obj_interactive_robotdrumhead, weight = 10},
-    {uid = obj_interactive_robotsynthhead, weight = 10},
-    {uid = obj_interactive_robotbliphead01, weight = 10},
+    {uid = obj_consumable_gas, weight = 10},
     {uid = obj_decor_screw01, weight = 5},
     {uid = obj_decor_screw02, weight = 5}
   }
@@ -91,6 +94,7 @@ g_crap_pools["garage_back"] = {
 g_crap_pools["bus_roof"] = {
   weight = 0,
   draws = {
+    {uid = obj_consumable_gas, weight = 15},
     {uid = obj_interactive_bathtub, weight = 10},
     {uid = obj_interactive_toilet, weight = 10},
     {uid = obj_consumable_component, weight = 6},
@@ -110,16 +114,57 @@ g_crap_pools["radio_station_secret"] = {
 g_crap_pools["radio_station_roof"] = {
   weight = 0,
   draws = {
-    {uid = obj_consumable_gas, weight = 10},
-    {uid = obj_consumable_component, weight = 10},
+    {uid = obj_scrap_gasengine, weight = 10}, 
+    {uid = obj_scrap_driverseat, weight = 10}, 
+    {uid = obj_scrap_seat, weight = 10}, 
+    {uid = obj_scrap_smallwheel, weight = 10}, 
+    {uid = obj_interactive_logicgate, weight = 10}, 
+    {uid = obj_interactive_horn, weight = 10}, 
+    {uid = obj_interactive_radio, weight = 2}, 
+    {uid = obj_interactive_button, weight = 10}, 
+    {uid = obj_interactive_switch, weight = 10}, 
+    {uid = obj_interactive_seat_01, weight = 10}, 
+    {uid = obj_interactive_driversaddle_01, weight = 10},
+    {uid = obj_interactive_saddle_01, weight = 10},
+    {uid = obj_interactive_gasengine_01, weight = 10},
+    {uid = obj_interactive_thruster_01, weight = 2},
+    {uid = obj_interactive_controller_01, weight = 10},
+    {uid = obj_interactive_sensor_01, weight = 10},
+    {uid = obj_vehicle_smallwheel, weight = 10},
+    {uid = obj_vehicle_bigwheel, weight = 10},
+    {uid = obj_powertools_drill, weight = 10},
+    {uid = obj_vehicle_license_plate, weight = 10}
   }
 }
 
 g_crap_pools["radio_station_walkway"] = {
   weight = 0,
   draws = {
-    {uid = obj_consumable_gas, weight = 10},
-    {uid = obj_consumable_component, weight = 10},
+    {uid = obj_interactive_propanetank_small, weight = 30}, 
+    {uid = obj_interactive_propanetank_large, weight = 15}, 
+    {uid = obj_scrap_gasengine, weight = 10}, 
+    {uid = obj_scrap_driverseat, weight = 10}, 
+    {uid = obj_scrap_seat, weight = 10}, 
+    {uid = obj_scrap_smallwheel, weight = 10}, 
+    {uid = obj_interactive_timer, weight = 10}, 
+    {uid = obj_interactive_logicgate, weight = 10}, 
+    {uid = obj_interactive_horn, weight = 10}, 
+    {uid = obj_interactive_radio, weight = 2}, 
+    {uid = obj_interactive_button, weight = 10}, 
+    {uid = obj_interactive_switch, weight = 10}, 
+    {uid = obj_interactive_seat_01, weight = 10}, 
+    {uid = obj_interactive_driversaddle_01, weight = 10},
+    {uid = obj_interactive_saddle_01, weight = 10},
+    {uid = obj_interactive_gasengine_01, weight = 10},
+    {uid = obj_interactive_thruster_01, weight = 2},
+    {uid = obj_interactive_controller_01, weight = 10},
+    {uid = obj_interactive_sensor_01, weight = 10},
+    {uid = obj_interactive_mountablespudgun, weight = 10},
+    {uid = obj_vehicle_smallwheel, weight = 10},
+    {uid = obj_vehicle_bigwheel, weight = 10},
+    {uid = obj_container_gas, weight = 10},
+    {uid = obj_powertools_drill, weight = 10},
+    {uid = obj_vehicle_license_plate, weight = 10}
   }
 }
 
@@ -134,11 +179,15 @@ g_crap_pools["pothole"] = {
   }
 }
 
+-- IDK what to give the player at this point lol
 g_crap_pools["observation_top"] = {
   weight = 0,
   draws = {
     {uid = obj_consumable_water, weight = 10},
     {uid = obj_consumable_longsandwich, weight = 10},
+    {uid = obj_industrial_windowglass01, weight = 10},
+    {uid = obj_industrial_windowglass02, weight = 10},
+    {uid = obj_industrial_windowglass03, weight = 10},
   }
 }
 
@@ -147,6 +196,7 @@ g_crap_pools["petrol_station"] = {
   draws = {
     {uid = obj_consumable_sunshake, weight = 10},
     {uid = obj_consumable_gas, weight = 10},
+    {uid = obj_consumable_gas, weight = 10},
   }
 }
 
@@ -154,7 +204,7 @@ g_crap_pools["petrol_station"] = {
 g_crap_pools["radio_tower"] = {
   weight = 0,
   draws = {
-    {uid = obj_consumable_component, weight = 5},
+    {uid = obj_consumable_component, weight = 10},
     {uid = obj_tool_frier, weight = 1},
     {uid = obj_tool_spudling, weight = 1},
     {uid = obj_tool_paint, weight = 1},
@@ -168,7 +218,14 @@ g_crap_pools["radio_tower"] = {
 g_crap_pools["parking_lot"] = {
   weight = 0,
   draws = {
-    {uid = obj_consumable_component, weight = 5},
+    {uid = obj_consumable_component, weight = 10},
+    {uid = obj_vehicle_smallwheel, weight = 10},
+    {uid = obj_vehicle_bigwheel, weight = 10},
+    {uid = obj_vehicle_license_plate, weight = 10},
+    {uid = obj_scrap_smallwheel, weight = 10},
+    {uid = obj_scrap_seat, weight = 10},
+    {uid = obj_scrap_driverseat, weight = 10},
+    {uid = obj_scrap_gasengine, weight = 10},
   }
 }
 
@@ -176,7 +233,28 @@ g_crap_pools["parking_lot"] = {
 g_crap_pools["shop_roof"] = {
   weight = 0,
   draws = {
-    {uid = obj_consumable_component, weight = 5},
+    {uid = obj_scrap_gasengine, weight = 10}, 
+    {uid = obj_scrap_driverseat, weight = 10}, 
+    {uid = obj_scrap_seat, weight = 10}, 
+    {uid = obj_scrap_smallwheel, weight = 10}, 
+    {uid = obj_interactive_timer, weight = 10}, 
+    {uid = obj_interactive_logicgate, weight = 10}, 
+    {uid = obj_interactive_horn, weight = 10}, 
+    {uid = obj_interactive_radio, weight = 2}, 
+    {uid = obj_interactive_button, weight = 10}, 
+    {uid = obj_interactive_switch, weight = 10}, 
+    {uid = obj_interactive_seat_01, weight = 10}, 
+    {uid = obj_interactive_driversaddle_01, weight = 10},
+    {uid = obj_interactive_saddle_01, weight = 10},
+    {uid = obj_interactive_gasengine_01, weight = 10},
+    {uid = obj_interactive_controller_01, weight = 10},
+    {uid = obj_interactive_sensor_01, weight = 10},
+    {uid = obj_interactive_mountablespudgun, weight = 10},
+    {uid = obj_vehicle_smallwheel, weight = 10},
+    {uid = obj_vehicle_bigwheel, weight = 10},
+    {uid = obj_container_gas, weight = 10},
+    {uid = obj_powertools_drill, weight = 10},
+    {uid = obj_vehicle_license_plate, weight = 10}
   }
 }
 
