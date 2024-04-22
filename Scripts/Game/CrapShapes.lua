@@ -204,13 +204,13 @@ g_crap_pools["petrol_station"] = {
 g_crap_pools["radio_tower"] = {
   weight = 0,
   draws = {
-    {uid = obj_consumable_component, weight = 10},
-    {uid = obj_tool_frier, weight = 1},
-    {uid = obj_tool_spudling, weight = 1},
-    {uid = obj_tool_paint, weight = 1},
-    {uid = obj_tool_connect, weight = 1},
-    {uid = obj_tool_weld, weight = 1},
-    {uid = obj_tool_spudgun, weight = 1},
+    {uid = obj_consumable_component, weight = 5},
+    {uid = tool_spudgun, weight = 1},
+    {uid = tool_shotgun, weight = 1},
+    {uid = tool_gatling, weight = 1},
+    {uid = tool_weld, weight = 1},
+    {uid = tool_paint, weight = 1},
+    {uid = tool_connect, weight = 1},
   }
 }
 
@@ -219,10 +219,10 @@ g_crap_pools["parking_lot"] = {
   weight = 0,
   draws = {
     {uid = obj_consumable_component, weight = 10},
-    {uid = obj_vehicle_smallwheel, weight = 10},
-    {uid = obj_vehicle_bigwheel, weight = 10},
+    {uid = obj_vehicle_smallwheel, weight = 6},
+    {uid = obj_vehicle_bigwheel, weight = 6},
     {uid = obj_vehicle_license_plate, weight = 10},
-    {uid = obj_scrap_smallwheel, weight = 10},
+    {uid = obj_scrap_smallwheel, weight = 6},
     {uid = obj_scrap_seat, weight = 10},
     {uid = obj_scrap_driverseat, weight = 10},
     {uid = obj_scrap_gasengine, weight = 10},
@@ -236,7 +236,7 @@ g_crap_pools["shop_roof"] = {
     {uid = obj_scrap_gasengine, weight = 10}, 
     {uid = obj_scrap_driverseat, weight = 10}, 
     {uid = obj_scrap_seat, weight = 10}, 
-    {uid = obj_scrap_smallwheel, weight = 10}, 
+    {uid = obj_scrap_smallwheel, weight = 6}, 
     {uid = obj_interactive_timer, weight = 10}, 
     {uid = obj_interactive_logicgate, weight = 10}, 
     {uid = obj_interactive_horn, weight = 10}, 
@@ -250,8 +250,8 @@ g_crap_pools["shop_roof"] = {
     {uid = obj_interactive_controller_01, weight = 10},
     {uid = obj_interactive_sensor_01, weight = 10},
     {uid = obj_interactive_mountablespudgun, weight = 10},
-    {uid = obj_vehicle_smallwheel, weight = 10},
-    {uid = obj_vehicle_bigwheel, weight = 10},
+    {uid = obj_vehicle_smallwheel, weight = 6},
+    {uid = obj_vehicle_bigwheel, weight = 6},
     {uid = obj_container_gas, weight = 10},
     {uid = obj_powertools_drill, weight = 10},
     {uid = obj_vehicle_license_plate, weight = 10}
