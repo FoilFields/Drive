@@ -75,6 +75,30 @@ g_crap_pools["bus_roof"] = {
   }
 }
 
+g_crap_pools["radio_station_secret"] = {
+  weight = 0,
+  draws = {
+    {uid = obj_consumable_gas, weight = 10},
+    {uid = obj_consumable_component, weight = 10},
+  }
+}
+
+g_crap_pools["radio_station_roof"] = {
+  weight = 0,
+  draws = {
+    {uid = obj_consumable_gas, weight = 10},
+    {uid = obj_consumable_component, weight = 10},
+  }
+}
+
+g_crap_pools["radio_station_walkway"] = {
+  weight = 0,
+  draws = {
+    {uid = obj_consumable_gas, weight = 10},
+    {uid = obj_consumable_component, weight = 10},
+  }
+}
+
 g_crap_pools["pothole"] = {
   weight = 0,
   draws = {
