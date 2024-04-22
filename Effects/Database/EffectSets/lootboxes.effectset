@@ -1,0 +1,35 @@
+{
+	"Lootbox - Break" : {
+		"effectList" : [
+			{
+				"attached" : true,
+				"delay" : 0.0,
+				"name" : "p_destruct_metal_big",
+				"offset" : [ 0.0, 0.0, 0.0 ],
+				"type" : "particle"
+			},
+			{
+				"delay" : 0.0,
+				"duration" : 0.01,
+				"name" : "",
+				"offset" : [ 0.0, 0.0, 0.0 ],
+				"parameters" : [ "shakeStrength", "shakeRadius" ],
+				"type" : "cameraShake"
+			},
+			{
+				"type": "audio",
+				"name": "event:/props/lootcrate_smash",
+				"delay": 0.0
+			},
+			{
+				"type": "audio",
+				"name": "event:/ui/item_spawn",
+				"delay": 0.0
+			}
+		],
+		"parameterList" : {
+			"shakeRadius" : 7.0,
+			"shakeStrength" : 0.15
+		}
+	}
+}

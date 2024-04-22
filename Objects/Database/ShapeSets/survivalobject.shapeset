@@ -20,6 +20,46 @@
   ],
   "partList": [
     {
+      "uuid": "8caea17a-39f3-4750-8012-a8e82b0b061b",
+      "name": "Crap Loot Box",
+      "renderable": {
+        "lodList": [
+          {
+            "subMeshList": [
+              {
+                "textureList": [
+                  "$GAME_DATA/Objects/Textures/containers/obj_containers_woodbox_dif.tga",
+                  "$GAME_DATA/Objects/Textures/containers/obj_containers_woodbox_asg.tga",
+                  "$GAME_DATA/Objects/Textures/containers/obj_containers_woodbox_nor.tga"
+                ],
+                "material": "DifAsgNor"
+              }
+            ],
+            "mesh": "$CONTENT_DATA/Objects/Mesh/CrapCrate.fbx"
+          }
+        ]
+      },
+      "color": "cb8d43",
+      "box": {
+        "x": 2,
+        "y": 2,
+        "z": 2
+      },
+      "rotationSet": "StaticYmZmXm",
+      "scripted": {
+        "classname": "CrapCrate",
+        "filename": "$CONTENT_DATA/Scripts/Game/Interactables/CrapCrate.lua"
+      },
+      "physicsMaterial": "Wood",
+      "ratings": {
+        "density": 4,
+        "durability": 2,
+        "friction": 6,
+        "buoyancy": 5
+      },
+      "flammable": true
+    },
+    {
       "box": {
         "x": 2,
         "y": 2,
