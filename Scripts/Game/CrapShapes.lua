@@ -64,6 +64,30 @@ g_crap_pools["robot_bits"] = {
   }
 }
 
+g_crap_pools["garage"] = {
+  weight = 0,
+  draws = {
+    {uid = obj_interactive_robotbasshead, weight = 10},
+    {uid = obj_interactive_robotdrumhead, weight = 10},
+    {uid = obj_interactive_robotsynthhead, weight = 10},
+    {uid = obj_interactive_robotbliphead01, weight = 10},
+    {uid = obj_decor_screw01, weight = 5},
+    {uid = obj_decor_screw02, weight = 5}
+  }
+}
+
+g_crap_pools["garage_back"] = {
+  weight = 0,
+  draws = {
+    {uid = obj_interactive_robotbasshead, weight = 10},
+    {uid = obj_interactive_robotdrumhead, weight = 10},
+    {uid = obj_interactive_robotsynthhead, weight = 10},
+    {uid = obj_interactive_robotbliphead01, weight = 10},
+    {uid = obj_decor_screw01, weight = 5},
+    {uid = obj_decor_screw02, weight = 5}
+  }
+}
+
 g_crap_pools["bus_roof"] = {
   weight = 0,
   draws = {
@@ -143,9 +167,10 @@ g_crap_pools["radio_tower"] = {
 g_crap_pools["petrol_station_roof"] = {
   weight = 0,
   draws = {
-    {uid = obj_containers_cowcrate, weight = 2},
-    {uid = obj_decor_cone, weight = 8},
+    {uid = obj_containers_cowcrate, weight = 3},
+    {uid = obj_decor_cone, weight = 10},
     {uid = obj_container_chest, weight = 3},
+    {uid = obj_container_smallchest, weight = 6},
     {uid = obj_consumable_component, weight = 10},
   }
 }
