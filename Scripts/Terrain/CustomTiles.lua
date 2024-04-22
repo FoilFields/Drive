@@ -40,8 +40,13 @@ function initCustomTiles()
 			AddTile( 1128014, "$CONTENT_DATA/Terrain/Tiles/Road/14.tile" ), 
 			AddTile( 1128015, "$CONTENT_DATA/Terrain/Tiles/Road/15.tile" ), 
 			AddTile( 1128016, "$CONTENT_DATA/Terrain/Tiles/Road/16.tile" ),
+			AddTile( 1128017, "$CONTENT_DATA/Terrain/Tiles/Road/17.tile" ),
+			AddTile( 1128018, "$CONTENT_DATA/Terrain/Tiles/Road/18.tile" ),
+			AddTile( 1128019, "$CONTENT_DATA/Terrain/Tiles/Road/19.tile" ),
+			AddTile( 1128020, "$CONTENT_DATA/Terrain/Tiles/Road/20.tile" ),
+			AddTile( 1128021, "$CONTENT_DATA/Terrain/Tiles/Road/21.tile" ),
 		},
-		rotation = 3 
+		rotation = 3
 	}
 
   g_road_ends = { 

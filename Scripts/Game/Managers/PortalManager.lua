@@ -47,7 +47,7 @@ function PortalManager:sv_transfer()
   loading = true
   oldWorld = self.portal:getWorldA()
   self.portal:transferAToB()
-  sm.event.sendToGame("sv_save") -- Sometimes a crash can happen so we do another save now that the players are in the correct world
+  sm.event.sendToGame("sv_save") -- Sometimes a crash can happen in destroy so we do another save now that the players are in the correct world (idk if this even prevents corruption but its hard to recreate issues so we'll find out i guess)
   -- Cleanup
 
   -- yeah we have to wait otherwise it'll teleport like half the players and kill itself, crashing everyones games lmao. I cba to write good code so its kind of arbitrarily 30 seconds

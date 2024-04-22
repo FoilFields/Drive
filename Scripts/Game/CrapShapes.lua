@@ -75,6 +75,17 @@ g_crap_pools["bus_roof"] = {
   }
 }
 
+g_crap_pools["pothole"] = {
+  weight = 0,
+  draws = {
+    {uid = obj_decor_cone, weight = 10},
+    {uid = obj_decor_babyduck, weight = 10},
+    {uid = obj_decor_mannequinhand, weight = 10},
+    {uid = obj_decor_boot, weight = 10},
+    {uid = obj_consumable_component, weight = 10}
+  }
+}
+
 g_crap_pools["observation_top"] = {
   weight = 0,
   draws = {
