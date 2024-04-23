@@ -126,6 +126,11 @@ function SurvivalGame:sv_loadDestination()
 		return
 	end
 
+	if not g_portalManager:sv_getPortal() then
+		print("Cannot load new destination as there is not portal, please leave the area and come back")
+		return
+	end
+
 	print("Loading portal destination")
 	
 	local players = sm.player.getAllPlayers();
