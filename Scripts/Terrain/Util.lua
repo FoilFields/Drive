@@ -23,7 +23,7 @@ function getElevation(x, y, seed, startTile)
   elevation = elevation + (sm.noise.perlinNoise2d( x / 2, y / 2, seed + 5442 ) + 0.25) * 0.125
 
   if startTile then
-    local fixedElevation = getElevation(x, y, 852772513)
+    local fixedElevation = getElevation(x, y, 353672611)
     local proportion = math.min(math.max(y / (CELL_MAX_Y - PADDING - 1), 0), 1)
     elevation = (elevation * proportion) + (fixedElevation * (1 - proportion))
 end
