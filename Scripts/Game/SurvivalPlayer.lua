@@ -381,10 +381,12 @@ function SurvivalPlayer:sv_crapItems(container)
 	
 				local params = { lootUid = item.uuid, lootQuantity = item.quantity or 1, epic = false }
 				local character = self.player:getCharacter()
-				local worldPosition = character.worldPosition
-				local vel = sm.vec3.new(0, 0, 1) + character.direction * 3
-				sm.projectile.customProjectileAttack( params, projectile_loot, 0, worldPosition, vel, self.player, worldPosition, worldPosition, 0 )
-				container:setItem(i, sm.uuid.getNil(), 0, -1)
+				if character then
+					local worldPosition = character.worldPosition
+					local vel = sm.vec3.new(0, 0, 1) + character.direction * 3
+					sm.projectile.customProjectileAttack( params, projectile_loot, 0, worldPosition, vel, self.player, worldPosition, worldPosition, 0 )
+					container:setItem(i, sm.uuid.getNil(), 0, -1)
+				end
 			end
 
 			sm.container.endTransaction()
