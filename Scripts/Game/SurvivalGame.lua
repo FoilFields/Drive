@@ -32,7 +32,7 @@ local IntroFadeDuration = 1.1
 local IntroEndFadeDuration = 1.1
 local IntroFadeTimeout = 5.0
 
-START_AREA_SPAWN_POINT = sm.vec3.new(79.3985, 39.7089, 136.696)
+START_AREA_SPAWN_POINT = sm.vec3.new(79.3593, 27.5039, 136.696)
 
 function SurvivalGame.server_onCreate(self)
 	

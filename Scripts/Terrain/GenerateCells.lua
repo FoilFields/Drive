@@ -136,6 +136,7 @@ function generateOverworldCelldata(xMin, xMax, yMin, yMax, seed, data, padding, 
     -- Starter house
     if progress == 0 then
         writePoi(getHouseTileID(sm.noise.intNoise2d( 1, 0, g_cellData.seed + 1032 )), 1, 0, 1, 0)
+        writePoi(getStarterConnector(sm.noise.intNoise2d( 0, 0, g_cellData.seed + 1032 )), 0, 0, 1, 3)
 
         -- Flattern starter house
         for x = -1, 2, 1 do

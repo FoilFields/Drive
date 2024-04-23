@@ -52,6 +52,10 @@ function initCustomTiles()
   g_road_ends = { 
 		AddTile( 1293000, "$CONTENT_DATA/Terrain/Tiles/Road/road_end.tile" ), 
 	}
+	
+  g_starter_connectors = { 
+		AddTile( 5323001, "$CONTENT_DATA/Terrain/Tiles/Road/StarterConnectionRoad.tile" ), 
+	}
 
   g_elevators = { 
 		AddTile( 9423000, "$CONTENT_DATA/Terrain/Tiles/Elevator/elevator.tile" ), 
@@ -156,6 +160,16 @@ function getRoadPoi( variationNoise )
 	end
 
 	return g_road_pois[variationNoise % tileCount + 1]
+end
+
+function getStarterConnector( variationNoise )
+	local tileCount = #g_starter_connectors
+
+	if tileCount == 0 then
+		return ERROR_TILE_UUID, 0
+	end
+
+	return g_starter_connectors[variationNoise % tileCount + 1]
 end
 
 function getFenceCornerTileId( variationNoise )

@@ -648,32 +648,36 @@ function Overworld:sv_loadCrapOnCell(x, y)
 	for _, node in ipairs( nodes ) do
 		local pool = g_crap_pools[node.params.level]
 
-		for i = 1, math.floor(node.params.count), 1 do
-			local weight = pool.weight
-
-			for i = 1, #pool.draws, 1 do
-				local crap = pool.draws[i]
-
-				if math.random(weight) <= crap.weight then
-					local offset = sm.vec3.new(
-						(math.random() * 2 - 1) * node.scale.x / 2, 
-						(math.random() * 2 - 1) * node.scale.y / 2, 
-						(math.random() * 2 - 1) * node.scale.z / 2
-					)
-
-					offset = node.rotation * offset
-		
-					sm.shape.createPart(
-						crap.uid, 
-						node.position + offset,
-						node.rotation, true, true
-					)
-
-					break
+		if (pool) then
+			for i = 1, math.floor(node.params.count), 1 do
+				local weight = pool.weight
+	
+				for i = 1, #pool.draws, 1 do
+					local crap = pool.draws[i]
+	
+					if math.random(weight) <= crap.weight then
+						local offset = sm.vec3.new(
+							(math.random() * 2 - 1) * node.scale.x / 2, 
+							(math.random() * 2 - 1) * node.scale.y / 2, 
+							(math.random() * 2 - 1) * node.scale.z / 2
+						)
+	
+						offset = node.rotation * offset
+			
+						sm.shape.createPart(
+							crap.uid, 
+							node.position + offset,
+							node.rotation, true, true
+						)
+	
+						break
+					end
+	
+					weight = weight - crap.weight
 				end
-
-				weight = weight - crap.weight
 			end
+		else
+			print("Pool "..node.params.level.." not found!")
 		end
 	end
 end

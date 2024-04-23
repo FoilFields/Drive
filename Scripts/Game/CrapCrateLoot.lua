@@ -3,6 +3,12 @@ dofile("$SURVIVAL_DATA/Scripts/game/survival_items.lua")
 g_crap_pools = {
   weight = 0,
   draws = {
+    {uid = obj_consumable_gas, stackSize = 2, weight = 25}, 
+    {uid = obj_consumable_gas, stackSize = 3, weight = 25}, 
+    {uid = obj_consumable_gas, stackSize = 4, weight = 15}, 
+    {uid = obj_consumable_component, stackSize = 2, weight = 25}, 
+    {uid = obj_consumable_component, stackSize = 3, weight = 25}, 
+    {uid = obj_consumable_component, stackSize = 4, weight = 15}, 
     {uid = tool_connect, stackSize = 1, weight = 10}, 
     {uid = tool_paint, stackSize = 1, weight = 10}, 
     {uid = tool_weld, stackSize = 1, weight = 10}, 
