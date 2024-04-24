@@ -1,7 +1,7 @@
 dofile("$SURVIVAL_DATA/Scripts/game/managers/BeaconManager.lua")
 dofile("$SURVIVAL_DATA/Scripts/game/managers/EffectManager.lua")
 dofile("$SURVIVAL_DATA/Scripts/game/managers/ElevatorManager.lua")
-dofile("$SURVIVAL_DATA/Scripts/game/managers/RespawnManager.lua")
+dofile("$CONTENT_DATA/Scripts/Game/Managers/RespawnManager.lua")
 dofile("$SURVIVAL_DATA/Scripts/game/managers/UnitManager.lua")
 dofile("$SURVIVAL_DATA/Scripts/game/survival_constants.lua")
 dofile("$SURVIVAL_DATA/Scripts/game/survival_harvestable.lua")
@@ -668,7 +668,7 @@ end
 function SurvivalGame.sv_teleportplayer(self, data)
 	local progressionOffset = (CELL_MAX_Y - CELL_MIN_Y) * self.sv.progress
 
-	local elevation = getElevation(data.x, data.y + progressionOffset, self.sv.saved.data.seed, self.sv.progress == 0) * 83.0 + 1
+	local elevation = getElevation(data.x, data.y + progressionOffset, self.sv.saved.data.seed, self.sv.progress == 0) * 83.0 + data.player:getCharacter():getHeight() * 0.5 
 
 	local params = { pos = sm.vec3.new(data.x * 64, data.y * 64, elevation), dir = data.player:getCharacter():getDirection() }
 	self.sv.saved.overworld:loadCell(data.x, data.y, data.player, "sv_recreatePlayerCharacter", params)
@@ -785,6 +785,12 @@ function SurvivalGame.server_onPlayerJoined(self, player, newPlayer)
 
 	local inventory = player:getInventory()
 	
+	if sm.isHost then
+		-- TODO: Spawn in at last position, if new, spawn at START_AREA_SPAWN_POINT
+	else
+		-- TODO: Spawn near host
+	end
+
 	sm.container.beginTransaction()
 
 	sm.container.setItem(inventory, 0, tool_lift, 1)
