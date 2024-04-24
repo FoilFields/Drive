@@ -26,6 +26,7 @@ SurvivalGame.enableRestrictions = true
 SurvivalGame.enableFuelConsumption = true
 SurvivalGame.enableAmmoConsumption = true
 SurvivalGame.enableUpgrade = true
+SurvivalGame.defaultInventorySize = 10 -- I can't believe I found this AFTER I ADD MY OWN INVENTORY LIMIT   ┻━┻ ︵ ＼( °□° )／ ︵ ┻━┻
 
 local SyncInterval = 400 -- 400 ticks | 10 seconds
 local IntroFadeDuration = 1.1
@@ -782,57 +783,24 @@ end
 function SurvivalGame.server_onPlayerJoined(self, player, newPlayer)
 	print(player.name, "joined the game")
 
-	if newPlayer then --Player is first time joiners
-		local inventory = player:getInventory()
+	local inventory = player:getInventory()
+	
+	sm.container.beginTransaction()
 
-		sm.container.beginTransaction()
+	sm.container.setItem(inventory, 0, tool_lift, 1)
+	sm.container.setItem(inventory, 1, tool_sledgehammer, 1)
+	sm.container.setItem(inventory, 2, tool_connect, 1)
 
-		sm.container.setItem(inventory, 0, tool_lift, 1)
-		sm.container.setItem(inventory, 1, tool_sledgehammer, 1)
-		sm.container.setItem(inventory, 2, tool_connect, 1)
+	sm.container.endTransaction()
 
-		sm.container.endTransaction()
-
-		local spawnPoint = START_AREA_SPAWN_POINT
-		if not sm.exists(self.sv.saved.overworld) then
-			sm.world.loadWorld(self.sv.saved.overworld)
-		end
-		self.sv.saved.overworld:loadCell(math.floor(spawnPoint.x / 64), math.floor(spawnPoint.y / 64), player,
-			"sv_createNewPlayer")
-		self.network:sendToClient(player, "cl_n_onJoined", { newPlayer = newPlayer })
-	else
-		local inventory = player:getInventory()
-
-		local sledgehammerCount = sm.container.totalQuantity(inventory, tool_sledgehammer)
-		if sledgehammerCount == 0 then
-			sm.container.beginTransaction()
-			sm.container.collect(inventory, tool_sledgehammer, 1)
-			sm.container.endTransaction()
-		elseif sledgehammerCount > 1 then
-			sm.container.beginTransaction()
-			sm.container.spend(inventory, tool_sledgehammer, sledgehammerCount - 1)
-			sm.container.endTransaction()
-		end
-
-		local tool_lift_creative = sm.uuid.new("5cc12f03-275e-4c8e-b013-79fc0f913e1b")
-		local creativeLiftCount = sm.container.totalQuantity(inventory, tool_lift_creative)
-		if creativeLiftCount > 0 then
-			sm.container.beginTransaction()
-			sm.container.spend(inventory, tool_lift_creative, creativeLiftCount)
-			sm.container.endTransaction()
-		end
-
-		local liftCount = sm.container.totalQuantity(inventory, tool_lift)
-		if liftCount == 0 then
-			sm.container.beginTransaction()
-			sm.container.collect(inventory, tool_lift, 1)
-			sm.container.endTransaction()
-		elseif liftCount > 1 then
-			sm.container.beginTransaction()
-			sm.container.spend(inventory, tool_lift, liftCount - 1)
-			sm.container.endTransaction()
-		end
+	local spawnPoint = START_AREA_SPAWN_POINT
+	if not sm.exists(self.sv.saved.overworld) then
+		sm.world.loadWorld(self.sv.saved.overworld)
 	end
+	self.sv.saved.overworld:loadCell(math.floor(spawnPoint.x / 64), math.floor(spawnPoint.y / 64), player,
+		"sv_createNewPlayer")
+	self.network:sendToClient(player, "cl_n_onJoined", { newPlayer = newPlayer })
+
 	g_unitManager:sv_onPlayerJoined(player)
 end
 
@@ -902,7 +870,7 @@ function SurvivalGame.sv_e_respawn(self, params)
 	if params.player.character and sm.exists(params.player.character) then
 		g_respawnManager:sv_requestRespawnCharacter(params.player)
 	else
-		local spawnPoint = g_survivalDev and SURVIVAL_DEV_SPAWN_POINT or START_AREA_SPAWN_POINT
+		local spawnPoint = START_AREA_SPAWN_POINT
 		if not sm.exists(self.sv.saved.overworld) then
 			sm.world.loadWorld(self.sv.saved.overworld)
 		end
