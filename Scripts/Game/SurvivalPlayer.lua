@@ -434,9 +434,6 @@ function SurvivalPlayer.sv_takeDamage(self, damage, source)
 
 				self.storage:save(self.sv.saved)
 				self.network:setClientData(self.sv.saved)
-
-				print("Saved 'self.sv.saved' (player) (take damage): ")
-				print(self.sv.saved)
 			end
 		else
 			print("'SurvivalPlayer' resisted", damage, "damage")
@@ -476,10 +473,35 @@ function SurvivalPlayer.sv_e_respawn(self)
 		end
 		return
 	end
+
 	if not self.sv.saved.isConscious then
 		self.sv.spawnparams.respawn = true
 
-		-- TODO: Drop items everywhere
+		local container = self.player:getInventory()
+
+		-- Drop hotbar items
+		for i = 0, 10, 1 do
+			local item = container:getItem(i)
+			
+			if item.quantity > 0 then
+				sm.container.beginTransaction()
+	
+				if not (item.uuid == tool_lift or item.uuid == tool_sledgehammer or item.uuid == tool_connect) then
+					local params = { lootUid = item.uuid, lootQuantity = item.quantity or 1, epic = false }
+					local character = self.player:getCharacter()
+					if character then
+						local worldPosition = character.worldPosition
+						local angle = math.random() * math.pi * 2
+						local vel = sm.vec3.new( 1, 4.0, 0.0 )
+						vel = vel:rotateY(angle)
+						sm.projectile.customProjectileAttack( params, projectile_loot, 0, worldPosition, vel, self.player, worldPosition, worldPosition, 0 )
+						container:setItem(i, sm.uuid.getNil(), 0, -1)
+					end
+				end
+	
+				sm.container.endTransaction()
+			end
+		end
 
 		sm.event.sendToGame("sv_e_respawn", { player = self.player })
 	else
