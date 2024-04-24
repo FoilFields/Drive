@@ -302,17 +302,6 @@ function Overworld.sv_reloadPathNodesOnCell(self, x, y)
 	end
 end
 
-function Overworld.sv_loadSpawnersOnCell(self, x, y)
-	local nodes = sm.cell.getNodesByTag(x, y, "PLAYER_SPAWN")
-	g_respawnManager:sv_addSpawners(nodes)
-	g_respawnManager:sv_setLatestSpawners(nodes)
-end
-
-function Overworld.sv_reloadSpawnersOnCell(self, x, y)
-	local nodes = sm.cell.getNodesByTag(x, y, "PLAYER_SPAWN")
-	g_respawnManager:sv_setLatestSpawners(nodes)
-end
-
 function Overworld.sv_spawnNewCharacter(self, params)
 	--local spawnPosition = g_survivalDev and SURVIVAL_DEV_SPAWN_POINT or START_AREA_SPAWN_POINT
 	local spawnPosition = START_AREA_SPAWN_POINT
@@ -362,8 +351,6 @@ function Overworld.server_onCellCreated(self, x, y)
 	--	print( "\t"..i, tag )
 	--end
 
-	self:sv_loadSpawnersOnCell(x, y)
-
 	self:sv_loadCrapOnCell(x, y)
 
 	g_unitManager:sv_onWorldCellLoaded(self, x, y)
@@ -397,8 +384,6 @@ function Overworld.server_onCellLoaded(self, x, y)
 	}
 
 	g_unitManager:sv_onWorldCellReloaded(self, x, y)
-
-	self:sv_reloadSpawnersOnCell(x, y)
 
 	if not cell.isStartArea then
 		RespawnFromNodeOnCellReloaded(cell, "TAPEBOT")

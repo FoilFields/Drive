@@ -19,7 +19,6 @@ dofile("$CONTENT_DATA/Scripts/Terrain/Util.lua")
 ---@class SurvivalGame : GameClass
 ---@field sv table
 ---@field cl table
----@field warehouses table
 SurvivalGame = class(nil)
 SurvivalGame.enableLimitedInventory = true
 SurvivalGame.enableRestrictions = true
@@ -88,16 +87,6 @@ function SurvivalGame.server_onCreate(self)
 	g_unitManager:sv_onCreate(self.sv.saved.overworld)
 
 	g_switchingWorld = false
-
-	-- Game script managed global warehouse table
-	self.sv.warehouses = sm.storage.load(STORAGE_CHANNEL_WAREHOUSES)
-	if self.sv.warehouses then
-		print("Loaded warehouses:")
-		print(self.sv.warehouses)
-	else
-		self.sv.warehouses = {}
-		sm.storage.save(STORAGE_CHANNEL_WAREHOUSES, self.sv.warehouses)
-	end
 
 	self.sv.time = sm.storage.load(STORAGE_CHANNEL_TIME)
 	if self.sv.time then
@@ -250,8 +239,6 @@ function SurvivalGame.bindChatCommands(self)
 		sm.game.bindChatCommand("/tumble", { { "bool", "enable", true } }, "cl_onChatCommand", "Set tumble state")
 		sm.game.bindChatCommand("/god", {}, "cl_onChatCommand", "Mechanic characters will take no damage")
 		sm.game.bindChatCommand("/respawn", {}, "cl_onChatCommand", "Respawn at last bed (or at the crash site)")
-		sm.game.bindChatCommand("/encrypt", {}, "cl_onChatCommand", "Restrict interactions in all warehouses")
-		sm.game.bindChatCommand("/decrypt", {}, "cl_onChatCommand", "Unrestrict interactions in all warehouses")
 		sm.game.bindChatCommand("/limited", {}, "cl_onChatCommand", "Use the limited inventory")
 		sm.game.bindChatCommand("/unlimited", {}, "cl_onChatCommand", "Use the unlimited inventory")
 		sm.game.bindChatCommand("/ambush", { { "number", "magnitude", true }, { "int", "wave", true } },
@@ -609,21 +596,6 @@ function SurvivalGame.cl_n_onJoined(self, params)
 	--self.cl.playIntroCinematic = params.newPlayer
 end
 
-function SurvivalGame.client_onLoadingScreenLifted(self)
-	g_effectManager:cl_onLoadingScreenLifted()
-	self.network:sendToServer("sv_n_loadingScreenLifted")
-	if self.cl.playIntroCinematic then
-		local callbacks = {}
-		callbacks[#callbacks + 1] = { fn = "cl_onCinematicEvent", params = { cinematicName = "cinematic.survivalstart01" }, ref =
-		self }
-		g_effectManager:cl_playNamedCinematic("cinematic.survivalstart01", callbacks)
-	end
-end
-
-function SurvivalGame.sv_n_loadingScreenLifted(self, _, player)
-	-- Ignore (used to activate tutorial quest)
-end
-
 function SurvivalGame.cl_onCinematicEvent(self, eventName, params)
 	local myPlayer = sm.localPlayer.getPlayer()
 	local myCharacter = myPlayer and myPlayer.character or nil
@@ -811,49 +783,8 @@ function SurvivalGame.server_onPlayerJoined(self, player, newPlayer)
 end
 
 function SurvivalGame.server_onPlayerLeft(self, player)
+	
 	print(player.name, "left the game")
-end
-
-function SurvivalGame.sv_e_requestWarehouseRestrictions(self, params)
-	-- Send the warehouse restrictions to the world that asked
-	print("SurvivalGame.sv_e_requestWarehouseRestrictions")
-
-	-- Warehouse get
-	local warehouse = nil
-	if params.warehouseIndex then
-		warehouse = self.sv.warehouses[params.warehouseIndex]
-	end
-	if warehouse then
-		sm.event.sendToWorld(params.world, "server_updateRestrictions", warehouse.restrictions)
-	end
-end
-
-function SurvivalGame.sv_e_setWarehouseRestrictions(self, params)
-	-- Set the restrictions for this warehouse and propagate the restrictions to all floors
-
-	-- Warehouse get
-	local warehouse = nil
-	if params.warehouseIndex then
-		warehouse = self.sv.warehouses[params.warehouseIndex]
-	end
-
-	if warehouse then
-		for _, newRestrictionSetting in pairs(params.restrictions) do
-			if warehouse.restrictions[newRestrictionSetting.name] then
-				warehouse.restrictions[newRestrictionSetting.name].state = newRestrictionSetting.state
-			else
-				warehouse.restrictions[newRestrictionSetting.name] = newRestrictionSetting
-			end
-		end
-		self.sv.warehouses[params.warehouseIndex] = warehouse
-		sm.storage.save(STORAGE_CHANNEL_WAREHOUSES, self.sv.warehouses)
-
-		for i, world in ipairs(warehouse.worlds) do
-			if sm.exists(world) then
-				sm.event.sendToWorld(world, "server_updateRestrictions", warehouse.restrictions)
-			end
-		end
-	end
 end
 
 function SurvivalGame.sv_createNewPlayer(self, world, x, y, player)

@@ -47,8 +47,7 @@ function SurvivalPlayer.server_onCreate(self)
 	}
 	if self.sv.saved.isConscious == nil then self.sv.saved.isConscious = true end
 	if self.sv.saved.hasRevivalItem == nil then self.sv.saved.hasRevivalItem = false end
-	self.sv.saved.isNewPlayer = true -- I know this sucks but we can't set a joining players world otherwise
-	-- if self.sv.saved.isNewPlayer == nil then self.sv.saved.isNewPlayer = true end
+	if self.sv.saved.isNewPlayer == nil then self.sv.saved.isNewPlayer = true end
 	if self.sv.saved.inChemical == nil then self.sv.saved.inChemical = false end
 	if self.sv.saved.inOil == nil then self.sv.saved.inOil = false end
 	if self.sv.saved.tutorialsWatched == nil then self.sv.saved.tutorialsWatched = {} end
@@ -478,8 +477,9 @@ function SurvivalPlayer.sv_e_respawn(self)
 		return
 	end
 	if not self.sv.saved.isConscious then
-		g_respawnManager:sv_performItemLoss(self.player)
 		self.sv.spawnparams.respawn = true
+
+		-- TODO: Drop items everywhere
 
 		sm.event.sendToGame("sv_e_respawn", { player = self.player })
 	else
@@ -502,12 +502,6 @@ end
 function SurvivalPlayer.sv_e_onSpawnCharacter(self)
 	print("SurvivalPlayer.sv_e_onSpawnCharacter")
 	if not self.sv.saved.isNewPlayer and self.sv.spawnparams.respawn then
-		local playerBed = g_respawnManager:sv_getPlayerBed(self.player)
-		if playerBed and playerBed.shape and sm.exists(playerBed.shape) and playerBed.shape.body:getWorld() == self.player.character:getWorld() then
-			-- Attempt to seat the respawned character in a bed
-			self.network:sendToClient(self.player, "cl_seatCharacter", { shape = playerBed.shape })
-		end
-
 		self.sv.respawnEndTimer = Timer()
 		self.sv.respawnEndTimer:start(RespawnEndDelay)
 	end
