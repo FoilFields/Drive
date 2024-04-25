@@ -338,59 +338,10 @@ function SurvivalPlayer.server_onFixedUpdate(self, dt)
 			print(self.sv.saved)
 		end
 	end
-
-	-- Crap items
-	self:sv_crapItems(self.player:getInventory())
 end
 
 function SurvivalPlayer.server_onInventoryChanges(self, container, changes)
-	self:sv_crapItems(container)
 	self.network:sendToClient(self.player, "cl_n_onInventoryChanges", { container = container, changes = changes })
-end
-
-function SurvivalPlayer:sv_crapItems(container)
-	if not sm.game.getLimitedInventory() then
-		return
-	end
-
-	for i = 10, container:getSize() - 1, 1 do
-		local item = container:getItem(i)
-		
-		if item.quantity > 0 then
-			sm.container.beginTransaction()
-
-			if item.uuid == tool_lift or item.uuid == tool_sledgehammer then
-				print("WE HATE CRAP MECHANIC, moving essential item back to hotbar")
-
-				-- move to the first empty slot. if there isnt then i dont like the player so ill fukcing do nothing how about htat haha get fucked nerd
-				for j = 0, 9, 1 do
-					local hotbarSlot = container:getItem(j)
-
-					if hotbarSlot.quantity == 0 then
-						container:setItem(i, sm.uuid.getNil(), 0, -1)
-						container:setItem(j, item.uuid, item.quantity, item.instance)
-						
-						goto balls -- I hate this stupid idiot coding language it is a rediculous fake language for primitive minds
-					end
-				end
-
-				::balls::
-			else
-				print("Crapping items...")
-	
-				local params = { lootUid = item.uuid, lootQuantity = item.quantity or 1, epic = false }
-				local character = self.player:getCharacter()
-				if character then
-					local worldPosition = character.worldPosition
-					local vel = sm.vec3.new(0, 0, 1) + character.direction * 3
-					sm.projectile.customProjectileAttack( params, projectile_loot, 0, worldPosition, vel, self.player, worldPosition, worldPosition, 0 )
-					container:setItem(i, sm.uuid.getNil(), 0, -1)
-				end
-			end
-
-			sm.container.endTransaction()
-		end
-	end
 end
 
 function SurvivalPlayer.sv_e_staminaSpend(self, stamina)
