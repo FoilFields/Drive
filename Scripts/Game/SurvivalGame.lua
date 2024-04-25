@@ -783,7 +783,33 @@ function SurvivalGame.server_onPlayerJoined(self, player, newPlayer)
 end
 
 function SurvivalGame.server_onPlayerLeft(self, player)
-	
+	local container = player:getInventory()
+
+	-- Drop hotbar items 
+	-- TODO: abstract to helper method (used in survival player)
+	for i = 0, 10, 1 do
+		local item = container:getItem(i)
+		
+		if item.quantity > 0 then
+			sm.container.beginTransaction()
+
+			if not (item.uuid == tool_lift or item.uuid == tool_sledgehammer or item.uuid == tool_connect) then
+				local params = { lootUid = item.uuid, lootQuantity = item.quantity or 1, epic = false }
+				local character = self.player:getCharacter()
+				if character then
+					local worldPosition = character.worldPosition
+					local angle = math.random() * math.pi * 2
+					local vel = sm.vec3.new( 1, 4.0, 0.0 )
+					vel = vel:rotateY(angle)
+					sm.projectile.customProjectileAttack( params, projectile_loot, 0, worldPosition, vel, self.player, worldPosition, worldPosition, 0 )
+					container:setItem(i, sm.uuid.getNil(), 0, -1)
+				end
+			end
+
+			sm.container.endTransaction()
+		end
+	end
+
 	print(player.name, "left the game")
 end
 
