@@ -821,7 +821,7 @@ function SurvivalGame:sv_spawnNearHost(world, x, y, player)
 
 	assert(host)
 
-	local character = sm.character.createCharacter(player, world, host.worldPosition, 0, 0)
+	local character = sm.character.createCharacter(player, world, host:getCharacter().worldPosition, 0, 0)
 	player:setCharacter(character)
 end
 

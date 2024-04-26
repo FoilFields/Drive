@@ -20,7 +20,7 @@ function RespawnManager.sv_onSpawnCharacter( self, player )
 end
 
 function RespawnManager.sv_requestRespawnCharacter( self, player )
-	local spawnPosition = START_AREA_SPAWN_POINT
+	local spawnPosition = player:getCharacter().worldPosition
 	local respawnWorld = self.sv.overworld
 
 	respawnWorld:loadCell( math.floor( spawnPosition.x / 64 ), math.floor( spawnPosition.y / 64 ), player, "sv_loadedRespawnCell" ) -- Callback received by the Game script
@@ -29,7 +29,7 @@ end
 -- Game environment helper function
 function RespawnManager.sv_respawnCharacter( self, player, world )
 	print("RespawnManager.sv_respawnCharacter")
-	local spawnPosition = START_AREA_SPAWN_POINT
+	local spawnPosition = player:getCharacter().worldPosition
 	local spawnRotation = sm.quat.identity()
 
 	spawnPosition = spawnPosition + sm.vec3.new( 0, 0, player.character:getHeight() * 0.5 )
