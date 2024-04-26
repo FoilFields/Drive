@@ -34,10 +34,12 @@ if you have any modelling skills and can add them to Scrap Mechanic, we can take
 
 ### Coding
 **If you are a modder** you could lend us a helping hand by documenting, fixing or even refactoring our code
-Anything in the TODO list, I accept github changes
+
+Or you can do anything in the TODO list, I accept github changes
 
 ### Misc
 You could also work on a wiki I guess but I'm pulling at straws here
+
 actually you probably wouldn't considering how much stuff changes
 
 ## TODO (code-wise)
