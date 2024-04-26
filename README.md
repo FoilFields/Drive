@@ -34,16 +34,16 @@ You could also work on a wiki I guess but I'm pulling at straws here
 
 ## TODO (code-wise)
 - ~Get rid of log book~
-- Custom respawning code (use seat as bed, respawn somewhere nearby, fall-back to last touched creation if needed, and fall-back to start of road if royally screwed)
-- Custom joining code (players to join around host)
-- Drop items on leave
-- Fix bug where players joing having left on a previous world can't re-connect
+- ~Move player a bit when respawning~
+- ~Custom joining code (players to join around host)~
+- Fix bug where players joing having left on a previous world can't re-connect (literally no simple solution for this. potentially keep worlds stored? delete player data on leave) **ALSO THIS IS GAME BREAKING!! ┻━┻ ︵ ＼( °□° )／ ︵ ┻━┻**
 - Add some enemies
 - Make the bed actually work (speed up night while sleeping)
 - Update food to actually heal the player
 - ~Limit inventory size to just hotbar~ **still need to hide ui, check line 100 of SurvivalPlayer for ideas**
 - Custom tunable radio with different stations at different frequencies
 - ~Better player movement (no floaty movement)~ No way to do this nicely yet :(
+- Add beautifull stars to the night sky
 
 ## Larger scope/experimental stuff
 (some pretty insane ideas here, don't take them too seriously)
