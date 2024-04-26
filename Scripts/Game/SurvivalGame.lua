@@ -757,6 +757,8 @@ function SurvivalGame.server_onPlayerJoined(self, player, newPlayer)
 
 	local inventory = player:getInventory()
 	
+	print(player)
+
 	-- Host: spawn in at last position. spawn at START_AREA_SPAWN_POINT if new
 	-- Clients: spawn near host
 	if sm.player.getAllPlayers()[1].id == player.id then
@@ -771,12 +773,11 @@ function SurvivalGame.server_onPlayerJoined(self, player, newPlayer)
 		end
 	else
 		-- Should be the host maybe idk they diddnt give us a way to get the host lol
-		local spawnPoint = sm.player.getAllPlayers()[1].getCharacter().worldPosition
+		local spawnPoint = sm.player.getAllPlayers()[1]:getCharacter().worldPosition
 
 		self.sv.saved.overworld:loadCell(math.floor(spawnPoint.x / 64), math.floor(spawnPoint.y / 64), player, "sv_spawnNearHost")
 	end
 
-	-- non-host players are always new players
 	if newPlayer then
 		sm.container.beginTransaction()
 	
@@ -792,43 +793,13 @@ function SurvivalGame.server_onPlayerJoined(self, player, newPlayer)
 	g_unitManager:sv_onPlayerJoined(player)
 end
 
--- Drop items if you're not the host
 function SurvivalGame.server_onPlayerLeft(self, player)
-	if not sm.isHost then
-		local container = player:getInventory()
-	
-		-- Drop hotbar items 
-		-- TODO: abstract (used in survival player)
-		for i = 0, 10, 1 do
-			local item = container:getItem(i)
-			
-			if item.quantity > 0 then
-				sm.container.beginTransaction()
-	
-				if not (item.uuid == tool_lift or item.uuid == tool_sledgehammer or item.uuid == tool_connect) then
-					local params = { lootUid = item.uuid, lootQuantity = item.quantity or 1, epic = false }
-					local character = self.player:getCharacter()
-					if character then
-						local worldPosition = character.worldPosition
-						local angle = math.random() * math.pi * 2
-						local vel = sm.vec3.new( 1, 4.0, 0.0 )
-						vel = vel:rotateY(angle)
-						sm.projectile.customProjectileAttack( params, projectile_loot, 0, worldPosition, vel, self.player, worldPosition, worldPosition, 0 )
-						container:setItem(i, sm.uuid.getNil(), 0, -1)
-					end
-				end
-	
-				sm.container.endTransaction()
-			end
-		end
-	end
-
 	print(player.name, "left the game")
 end
 
 function SurvivalGame:sv_spawnNearHost(world, x, y, player)
 	print("SurvivalGame.sv_spawnNearHost")
-	local host = sm.player.getAllPlayers()[0].getCharacter()
+	local host = sm.player.getAllPlayers()[1]:getCharacter()
 
 	local character = sm.character.createCharacter(player, world, host.worldPosition, 0, 0)
 	player:setCharacter(character)
