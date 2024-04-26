@@ -761,6 +761,10 @@ function SurvivalGame.server_onPlayerJoined(self, player, newPlayer)
 
 	-- Host: spawn in at last position. spawn at START_AREA_SPAWN_POINT if new
 	-- Clients: spawn near host
+
+	print(player.publicData)
+	print(player.clientPublicData)
+
 	print(sm.player.getAllPlayers()[1])
 	if sm.player.getAllPlayers()[1] == player then
 		print("PLAYER IS HOST!!!!!!!")
