@@ -762,11 +762,16 @@ function SurvivalGame.server_onPlayerJoined(self, player, newPlayer)
 	-- Host: spawn in at last position. spawn at START_AREA_SPAWN_POINT if new
 	-- Clients: spawn near host
 
-	print(player.publicData)
-	print(player.clientPublicData)
+	local host
+	for _, player in ipairs(sm.player.getAllPlayers()) do
+		if player.id == 1 then
+			host = player
+		end
+	end
 
-	print(sm.player.getAllPlayers()[1])
-	if sm.player.getAllPlayers()[1] == player then
+	assert(host)
+
+	if player.id == 1 then
 		print("PLAYER IS HOST!!!!!!!")
 		if newPlayer then
 			print("PLAYER IS NEW AND HOST!!!")
@@ -781,7 +786,7 @@ function SurvivalGame.server_onPlayerJoined(self, player, newPlayer)
 	else
 		print("PLAYER IS CLIENT!!!!!")
 		-- Should be the host maybe idk they diddnt give us a way to get the host lol
-		local spawnPoint = sm.player.getAllPlayers()[1]:getCharacter().worldPosition
+		local spawnPoint = host:getCharacter().worldPosition
 
 		self.sv.saved.overworld:loadCell(math.floor(spawnPoint.x / 64), math.floor(spawnPoint.y / 64), player, "sv_spawnNearHost")
 	end
@@ -807,7 +812,14 @@ end
 
 function SurvivalGame:sv_spawnNearHost(world, x, y, player)
 	print("SurvivalGame.sv_spawnNearHost")
-	local host = sm.player.getAllPlayers()[1]:getCharacter()
+	local host
+	for _, player in ipairs(sm.player.getAllPlayers()) do
+		if player.id == 1 then
+			host = player
+		end
+	end
+
+	assert(host)
 
 	local character = sm.character.createCharacter(player, world, host.worldPosition, 0, 0)
 	player:setCharacter(character)
