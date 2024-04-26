@@ -21,6 +21,7 @@ Boring tiles:
 - 1x1 desert tiles matching mods style
 - 1x1 straight road tiles matching mods style
 - These can have small obstacles but no loot, enemies or other POI-type stuff
+
 POIs:
 - Any-size desert tiles with buildings or other cool things that spawn far away from the road
 - Any-size tiles that spawn relative to the road. If they are 1x1, they can also be flipped. Could be like a giant pit in the road, shops by the road, or something another tile away from the road like a watch tower
