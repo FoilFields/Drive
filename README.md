@@ -45,6 +45,7 @@ You could also work on a wiki I guess but I'm pulling at straws here
 actually you probably wouldn't considering how much stuff changes
 
 ## TODO (code-wise)
+- It is of UTMOST importance that we add CIGARETTES and SMOKING to the game
 - ~Get rid of log book~
 - ~Move player a bit when respawning~
 - ~Custom joining code (players to join around host)~
