@@ -22,7 +22,7 @@ end
 -- Function to modify the tick rate
 local function modifyTickRate()
     if isInBathtub(sm.localPlayer) then
-        sm.game.setTickRate(TICK_RATE_MULTIPLIER)
+        sm.game.setTickRate(4)
     else
         sm.game.resetTickRate()
     end
