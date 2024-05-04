@@ -584,6 +584,7 @@ end
 
 function SurvivalPlayer.sv_restoreFood(self, food)
 	print("Something tried to update this players food. what a BOZO")
+	self.sv.saved.stats.hp = self.sv.saved.stats.hp + 15
 end
 
 function SurvivalPlayer.sv_restoreWater(self, water)
