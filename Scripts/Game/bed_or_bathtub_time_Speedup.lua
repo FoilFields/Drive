@@ -1,7 +1,7 @@
 -- This script doubles the game's tick rate when inside a bathtub
 
 -- Define the tick rate multiplier when inside a bathtub
-local TICK_RATE_MULTIPLIER = 2
+
 
 -- Function to check if a player is inside a bathtub
 local function isInBathtub(player)
