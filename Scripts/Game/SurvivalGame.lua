@@ -424,7 +424,7 @@ function SurvivalGame.cl_onChatCommand(self, params)
 
 
 
-	}function Game:client_onCreate()
+	}function client_onCreate()
     SurvivalGame.client_onCreate(self)
     self.cl.tfpCrosshair = sm.gui.createWorldIconGui(30, 30, "$GAME_DATA/Gui/Layouts/Hud/Hud_BeaconIcon.layout", false)
 	self.cl.tfpCrosshair:setImage("Icon", "$CONTENT_DATA/Gui/hud_tfp_crosshair.png")
