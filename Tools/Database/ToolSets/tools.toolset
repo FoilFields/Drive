@@ -15,7 +15,7 @@
 			"uuid": "8f190ce2-3a59-423e-8483-a7aa67bd5bc0",
 			"previewRenderable": "$GAME_DATA/Character/Char_Tools/char_lift_preview.rend",
 			"previewRotation": [ 1, 0, 0, 0, 0, -1, 0, 1, 0 ],
-			"script": { "file": "$SURVIVAL_DATA/Scripts/game/tools/LogBook.lua", "class": "SurvivalLift" }
+			"script": { "file": "$CONTENT_DATA/Scripts/game/tools/LogBook.lua", "class": "LogBook" }
 		}
    ]
 }

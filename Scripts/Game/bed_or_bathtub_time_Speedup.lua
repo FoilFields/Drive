@@ -1,7 +1,7 @@
 -- This script doubles the game's tick rate when inside a bathtub
 
 -- Define the tick rate multiplier when inside a bathtub
-local TICK_RATE_MULTIPLIER = 2
+
 
 -- Function to check if a player is inside a bathtub
 local function isInBathtub(player)
@@ -22,7 +22,7 @@ end
 -- Function to modify the tick rate
 local function modifyTickRate()
     if isInBathtub(sm.localPlayer) then
-        sm.game.setTickRate(TICK_RATE_MULTIPLIER)
+        sm.game.setTickRate(4)
     else
         sm.game.resetTickRate()
     end
