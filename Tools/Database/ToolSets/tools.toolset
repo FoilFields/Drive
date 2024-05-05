@@ -16,11 +16,6 @@
 			"previewRenderable": "$GAME_DATA/Character/Char_Tools/char_lift_preview.rend",
 			"previewRotation": [ 1, 0, 0, 0, 0, -1, 0, 1, 0 ],
 			"script": { "file": "$CONTENT_DATA/Scripts/game/tools/LogBook.lua", "class": "LogBook" }
-		},		{
-			"uuid": "256a0c2f-185b-48d6-b4df-45c386a575cc",
-			"previewRenderable": "$SURVIVAL_DATA/Objects/Rednerable/robotparts/tapebotshooter.rend",
-			"previewRotation": [ 1, 0, 0, 0, 0, -1, 0, 1, 0 ],
-			"script": { "file": "$CONTENT_DATA/Scripts/game/tools/PotatoRifle.lua", "class": "PotatoRifle" }
-		},
+		}
    ]
 }
