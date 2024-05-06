@@ -279,7 +279,7 @@
             "mesh": "$CONTENT_DATA/Objects/Mesh/dial.dae"
           }
         ]
-      },,
+      },
       "color": "131313",
       "box": {
         "x": 1,
@@ -312,3 +312,4 @@
     }
   ]
 }
+
