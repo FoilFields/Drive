@@ -263,7 +263,7 @@
         "paintable": false
       },{
       "uuid": "256ea17a-39f3-4750-8012-a8e82b0b061b",
-      "name": "Fuel Gauge",
+      "name": "obj_fuel_guage",
       "renderable": {
         "lodList": [
           {
