@@ -261,6 +261,52 @@
         "liftable": false,
         "convertibleToDynamic": false,
         "paintable": false
+      },{
+      "uuid": "256ea17a-39f3-4750-8012-a8e82b0b061b",
+      "name": "Fuel Gauge",
+      "renderable": {
+        "lodList": [
+          {
+            "subMeshList": [
+              {
+                "textureList": [
+                  "$GAME_DATA/Objects/Mesh/texture.png"
+                ],
+                "material": ""
+              }
+            ],
+            "mesh": "$CONTENT_DATA/Objects/Mesh/dial.dae"
+          }
+        ]
+      },,
+      "color": "131313",
+      "box": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      },
+      "scripted": {
+        "filename": "$CONTENT_DATA/Scripts/Game/gas_fuel_guage.lua",
+        "classname": "FuelGuage"
+      },
+      "rotationSet": "PropY",
+      "physicsMaterial": "Metal",
+      "ratings": {
+        "density": 5,
+        "durability": 5,
+        "friction": 5,
+        "buoyancy": 5
+      },
+      "flammable": false,
+      "restrictions": {
+        "destructable": true,
+        "erasable": true,
+        "buildable": true,
+        "usable": false,
+        "connectable": true,
+        "liftable": true,
+        "convertibleToDynamic": false,
+        "paintable": true
       }
     }
   ]
