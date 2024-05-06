@@ -1,6 +1,6 @@
--- This script displays the amount of fuel left in a gas engine when connected to the engine
+-
+FuelGuage = class()
 
--- Function to round numbers to a certain decimal place
 local function round(num, numDecimalPlaces)
   local mult = 10^(numDecimalPlaces or 0)
   return math.floor(num * mult + 0.5) / mult
