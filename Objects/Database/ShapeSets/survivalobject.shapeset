@@ -308,7 +308,27 @@
         "liftable": true,
         "convertibleToDynamic": false,
         "paintable": true
-      }
+      },		{
+			"uuid": "0c07dba0-be79-40fd-9ed8-5a1c34e2d196",
+			"name": "obj_manmade_scraproof03",
+			"renderable": "$SURVIVAL_DATA/Objects/Renderable/manmade/obj_manmade_scraproof03.rend",
+			"color": "3a5964",
+			"box": {
+				"x": 8,
+				"y": 1,
+				"z": 8
+			},
+			"rotationSet": "PropYmNegYmZX",
+			"destroyTime": 2.0,
+			"physicsMaterial": "Metal",
+			"ratings": {
+				"density": 3,
+				"durability": 3,
+				"friction": 8,
+				"buoyancy": 2
+			},
+			"flammable": false
+		}
     }
   ]
 }
