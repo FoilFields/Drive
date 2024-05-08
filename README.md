@@ -66,4 +66,3 @@ actually you probably wouldn't considering how much stuff changes
 - Give engines a fuel meter that can be checked with a fuel gauge (connected with connector tool), and add a system where fuel canisters can be filled/emptied (will probably have to just use stack size as fill amount)
 - Show players body and lock the game to first person (as god intended)
 - Separate steering wheel from seat (connected to seat with connector tool) to put more focus on making visually interesting and usable cars
-- Disable lift for more punishing experience

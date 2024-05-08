@@ -85,7 +85,8 @@ function initCustomTiles()
 		{tile = AddTile( 3210300, "$CONTENT_DATA/Terrain/Tiles/DesertPois/poi_01.tile", 5 ), size = 4},
 		{tile = AddTile( 3210301, "$CONTENT_DATA/Terrain/Tiles/DesertPois/poi_02.tile", 5 ), size = 2},
 		{tile = AddTile( 3210302, "$CONTENT_DATA/Terrain/Tiles/DesertPois/ship_01.tile", 5 ), size = 1},
-		{tile = AddTile( 3210303, "$CONTENT_DATA/Terrain/Tiles/DesertPois/RadioTower01.tile", 5 ), size = 1}
+		{tile = AddTile( 3210303, "$CONTENT_DATA/Terrain/Tiles/DesertPois/RadioTower01.tile", 5 ), size = 1},
+		{tile = AddTile( 3210256, "$CONTENT_DATA/Terrain/Tiles/DesertPois/random_rock_desert_poi01.tile", 5 ), size = 1}
 	}
 
 	-- Commented tiles are desert-ified kiosk tiles from survival

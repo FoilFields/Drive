@@ -16,7 +16,6 @@ dofile("$GAME_DATA/Scripts/game/managers/EventManager.lua")
 dofile("$CONTENT_DATA/Scripts/Game/Managers/PortalManager.lua")
 dofile("$CONTENT_DATA/Scripts/Terrain/Util.lua")
 
-
 ---@class SurvivalGame : GameClass
 ---@field sv table
 ---@field cl table
@@ -426,7 +425,6 @@ function SurvivalGame.cl_onChatCommand(self, params)
 
 
 	}
-end
 
 	if params[1] == "/ammo" then
 		self.network:sendToServer("sv_giveItem",
