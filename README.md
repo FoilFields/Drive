@@ -47,6 +47,7 @@ actually you probably wouldn't considering how much stuff changes
 ## TODO (code-wise)
 - It is of UTMOST importance that we add CIGARETTES and SMOKING to the game
 - ~Get rid of log book~
+- Add the experimental/settings menu for toggling hunger/enmemy agro
 - ~Move player a bit when respawning~
 - ~Custom joining code (players to join around host)~
 - Fix bug where players joing having left on a previous world can't re-connect (literally no simple solution for this. potentially keep worlds stored? delete player data on leave? literally modify the save file to erase the player?) **ALSO THIS IS GAME BREAKING!! ┻━┻ ︵ ＼( °□° )／ ︵ ┻━┻**
