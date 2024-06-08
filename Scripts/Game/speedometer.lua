@@ -1,3 +1,7 @@
+-- Declare lastPosition and lastTime outside the function to retain values between calls
+local lastPosition = nil
+local lastTime = nil
+
 -- Function to calculate speed in km/h
 local function calculateSpeed()
     -- Get the current position of the creation's root part
@@ -13,12 +17,12 @@ local function calculateSpeed()
     -- Calculate the distance traveled
     local distanceTraveled = (currentPosition - lastPosition):length()
     
-    -- Calculate the time difference
+    -- Calculate the time difference in seconds (assuming 40 ticks per second)
     local currentTime = sm.game.getCurrentTick()
-    local timeDifference = currentTime - lastTime
+    local timeDifferenceInSeconds = (currentTime - lastTime) / 40
     
     -- Calculate speed in meters per second
-    local speedInMetersPerSecond = distanceTraveled / timeDifference
+    local speedInMetersPerSecond = distanceTraveled / timeDifferenceInSeconds
     
     -- Convert speed to km/h (1 m/s = 3.6 km/h)
     local speedInKmPerHour = speedInMetersPerSecond * 3.6
